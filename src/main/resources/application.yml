@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/poolcreborn
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        #        show_sql: true
+        format_sql: true
+        default_batch_fetch_size: 1000 #최적화 옵션
+    defer-datasource-initialization: true
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.springframework.security: debug
+#  org.hibernate.type: trace
+
+poolcreborn:
+  app:
+    jwtSecret: a2PXV9VMa2JLWbjzOmhw8Q/Ci4hXJmY+i7U/f1SmL2dFC67n4FaXK7Y9qoc3ihPQkU5aPNNKiPONedmfvf4aY7csfPP00CN5jYq/vfm7b+v8mz3gpi0EkCd6eIvaXVYiqKfyjSIYJ14BRz1cQVyQVoTWkBs10pA2zMJB5G5b+ox3QrxyHUEWvbIPFysfVndzjOnsa1yZrTP3/wvyaZoJ30nOiP7PLHf+scForg==%
+    jwtExpirationMs: 89100000
