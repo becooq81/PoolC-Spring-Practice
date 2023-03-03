@@ -1,5 +1,7 @@
 package com.poolc.springproject.poolcreborn.security;
 
+import com.poolc.springproject.poolcreborn.security.jwt.AuthTokenFilter;
+import com.poolc.springproject.poolcreborn.security.jwt.JwtAuthEntryPoint;
 import com.poolc.springproject.poolcreborn.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +26,9 @@ public class SecurityConfig {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    private JwtAuthEntryPoint unauthorizedHandler;
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -46,7 +51,33 @@ public class SecurityConfig {
     }
 
     @Bean
+    public AuthTokenFilter authenticationJwtTokenFilter() {
+        return new AuthTokenFilter();
+    }
+
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        http.cors().and()
+                .csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests().antMatchers("/login", "/signup", "/").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .securityContext((securityContext) -> securityContext
+                        .securityContextRepository(new DelegatingSecurityContextRepository(
+                                new RequestAttributeSecurityContextRepository(),
+                                new HttpSessionSecurityContextRepository()
+                        ))
+                );
+
+
+        http.authenticationProvider(authenticationProvider());
+
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
 
         return http.build();
