@@ -52,6 +52,35 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles));
     }
 
+    @PostMapping("/signup")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
 
+        if (userRepository.existsByUsername(signupRequest.getUsername())) {
+            return new ResponseEntity<>("Username is already taken.", HttpStatus.BAD_REQUEST);
+        }
+
+        if (userRepository.existsByEmail(signupRequest.getEmail())) {
+            return new ResponseEntity<>("Email is already taken.", HttpStatus.BAD_REQUEST);
+        }
+
+        User user = new User(signupRequest.getUsername(),
+                passwordEncoder.encode(signupRequest.getPassword()),
+                signupRequest.getName(),
+                signupRequest.getEmail(),
+                signupRequest.getMobileNumber(),
+                signupRequest.getMajor(),
+                signupRequest.getStudentId(),
+                signupRequest.getDescription());
+
+        Role role = new Role();
+        role.setRole(ERole.USER);
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoles(roles);
+
+        userRepository.save(user);
+
+        return ResponseEntity.ok("User registered successfully!");
+    }
 
 }
