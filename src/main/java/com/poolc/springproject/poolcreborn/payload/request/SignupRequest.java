@@ -1,6 +1,7 @@
 package com.poolc.springproject.poolcreborn.payload.request;
 
 import com.poolc.springproject.poolcreborn.validator.IncludeCharInt;
+import com.poolc.springproject.poolcreborn.validator.PasswordMatches;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -8,6 +9,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.*;
 
 @Data
+@PasswordMatches
 public class SignupRequest {
 
     @IncludeCharInt
