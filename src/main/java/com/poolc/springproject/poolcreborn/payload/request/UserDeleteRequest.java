@@ -8,4 +8,10 @@ public class UserDeleteRequest {
 
     @CorrectDeleteMessage
     private String message;
+
+    public UserDeleteRequest() {}
+
+    public UserDeleteRequest(String message) {
+        this.message = message;
+    }
 }

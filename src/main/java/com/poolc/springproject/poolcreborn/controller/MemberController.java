@@ -23,19 +23,15 @@ public class MemberController {
     private final UserMapper userMapper;
 
     @PatchMapping("/my-info")
-    @ResponseBody
     public ResponseEntity<User> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest) {
         String username = getLoginUsername();
-
         Optional<User> optionalUser =  userRepository.findByUsername(username);
+        System.out.println(optionalUser.toString());
         User user = optionalUser.get();
-        System.out.println(userUpdateRequest.getDescription());
+
 
         userMapper.updateUserInfoFromRequest(userUpdateRequest, user);
-        System.out.println("맵핑 후: "+user.getDescription());
-
         userRepository.save(user);
-        System.out.println("저장 후: " + user.getDescription());
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

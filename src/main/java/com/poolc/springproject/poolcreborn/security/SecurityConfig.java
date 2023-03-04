@@ -22,7 +22,6 @@ import org.springframework.security.web.context.RequestAttributeSecurityContextR
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
-
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
@@ -76,6 +75,8 @@ public class SecurityConfig {
 
 
         http.authenticationProvider(authenticationProvider());
+
+        http.userDetailsService(userDetailsService);
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 

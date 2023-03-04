@@ -4,6 +4,8 @@ import com.poolc.springproject.poolcreborn.model.User;
 import com.poolc.springproject.poolcreborn.payload.request.UserUpdateRequest;
 import org.mapstruct.*;
 
+import java.util.Optional;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
