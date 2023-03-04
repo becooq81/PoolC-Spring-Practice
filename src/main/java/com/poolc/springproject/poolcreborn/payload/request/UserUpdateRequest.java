@@ -32,6 +32,7 @@ public class UserUpdateRequest {
     @Enumerated(EnumType.STRING)
     private ActivityStatus activityStatus;
 
+    public UserUpdateRequest() {}
     public boolean passwordChanged() {
         return this.password != null && this.confirmPassword != null;
     }

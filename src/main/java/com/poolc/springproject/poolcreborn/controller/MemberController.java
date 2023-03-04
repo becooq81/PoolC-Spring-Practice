@@ -23,6 +23,7 @@ public class MemberController {
     private final UserMapper userMapper;
 
     @PatchMapping("/my-info")
+    @ResponseBody
     public ResponseEntity<User> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest) {
         String username = getLoginUsername();
 
