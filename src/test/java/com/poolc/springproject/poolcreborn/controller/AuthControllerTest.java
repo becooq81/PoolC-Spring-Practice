@@ -1,35 +1,60 @@
 package com.poolc.springproject.poolcreborn.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.poolc.springproject.poolcreborn.payload.request.SignupRequest;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 public class AuthControllerTest {
 
-    MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    private static SignupRequest createSignupRequest() {
+        SignupRequest signupRequest = new SignupRequest(
+                "becooq81",
+                "hello12345",
+                "hello12345",
+                "지니",
+                "jinny8748@gmail.com",
+                "010-2341-5243",
+                "computer science",
+                2015232333,
+                "hello"
+        );
+                return signupRequest;
+    }
 
     @Test
     @DisplayName("회원가입 테스트")
     public void signup_test() throws Exception {
 
-        String username;
-        String password;
-        String confirmpassword;
-        String name;
-        String email;
-        String mobileNumber;
-        String major;
-        int studentId;
-        String description;
+        SignupRequest param = createSignupRequest();
 
-
+        String content = objectMapper.writeValueAsString(createSignupRequest());
+        mockMvc.perform(post("/signup")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
 
     }
 
