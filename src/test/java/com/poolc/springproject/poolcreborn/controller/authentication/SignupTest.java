@@ -15,12 +15,13 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
-public class AuthControllerTest {
+public class SignupTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,25 +41,28 @@ public class AuthControllerTest {
                 2015232333,
                 "hello"
         );
-                return signupRequest;
+        return signupRequest;
     }
 
     @Test
     @DisplayName("회원가입 테스트")
     public void signup_test() throws Exception {
 
-        SignupRequest param = createSignupRequest();
-
         String content = objectMapper.writeValueAsString(createSignupRequest());
         mockMvc.perform(post("/signup")
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andDo(print());
 
     }
 
-    // @DisplayName("회원가입 예외: 아이디 조건 불만족")
+    @Test
+    @DisplayName("회원가입 예외: 아이디 조건 불만족")
+    public void login_test() throws Exception {
+
+    }
 
     // @DisplayName("회원가입 예외: 비밀번호 일치 X")
 
