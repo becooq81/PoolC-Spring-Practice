@@ -1,4 +1,4 @@
-package com.poolc.springproject.poolcreborn.controller;
+package com.poolc.springproject.poolcreborn.controller.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poolc.springproject.poolcreborn.payload.request.SignupRequest;
