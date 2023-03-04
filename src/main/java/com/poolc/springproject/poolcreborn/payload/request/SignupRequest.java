@@ -39,8 +39,9 @@ public class SignupRequest {
     @NotEmpty
     private String major;
 
+
     @NotNull
-    private int studentId;
+    private String studentId;
 
     @NotEmpty
     private String description;
