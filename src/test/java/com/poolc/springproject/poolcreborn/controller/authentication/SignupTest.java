@@ -103,10 +103,37 @@ public class SignupTest {
                 .andDo(print());
     }
 
-    // @DisplayName("회원가입 예외: 전화번호 포맷 X")
+    @Test
+    @DisplayName("회원가입 예외: 전화번호 포맷 X")
+    public void signup_test_wrong_mobileNumber_format() throws Exception {
+        SignupRequest signupRequest = createSignupRequest();
+        signupRequest.setMobileNumber("302-5321-5323");
+        String content = objectMapper.writeValueAsString(signupRequest);
 
-    // @DisplayName("회원가입 예외: 학번 포맷 X")
+        mockMvc.perform(post("/signup")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andDo(print());
+    }
 
-    // @DisplayName("회원가입 예외: 자기소개 X")
+    @Test
+    @DisplayName("회원가입 예외: 빈 항목")
+    public void signup_test_empty() throws Exception {
+        SignupRequest signupRequest = new SignupRequest(
+                "", "", "", "", "", "", "", 0, ""
+        );
+
+        String content = objectMapper.writeValueAsString(signupRequest);
+
+        mockMvc.perform(post("/signup")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andDo(print());
+    }
+
 
 }
