@@ -1,13 +1,24 @@
 package com.poolc.springproject.poolcreborn.controller.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.poolc.springproject.poolcreborn.payload.request.LoginRequest;
 import com.poolc.springproject.poolcreborn.payload.request.SignupRequest;
+import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -20,7 +31,10 @@ public class LoginTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    private static SignupRequest createSignupRequest() {
+
+    @BeforeEach
+    @Test
+    public void signupUser() throws Exception {
         SignupRequest signupRequest = new SignupRequest(
                 "becooq81",
                 "hello12345",
@@ -32,10 +46,30 @@ public class LoginTest {
                 2015232333,
                 "hello"
         );
-        return signupRequest;
+        String content = objectMapper.writeValueAsString(signupRequest);
+        mockMvc.perform(post("/signup")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
     }
 
-    // @DisplayName("")
+    @Test
+    @DisplayName("로그인 성공")
+    public void login() throws Exception {
+        LoginRequest loginRequest = new LoginRequest(
+                "becooq81",
+                "hello12345"
+        );
+        String content = objectMapper.writeValueAsString(loginRequest);
+        mockMvc.perform(post("/login")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 
 
 }
