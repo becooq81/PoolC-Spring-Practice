@@ -47,7 +47,7 @@ public class SignupRequest {
     private String description;
 
 
-    public SignupRequest(String username, String password, String confirmPassword, String name, String email, String mobileNumber, String major, int studentId, String description) {
+    public SignupRequest(String username, String password, String confirmPassword, String name, String email, String mobileNumber, String major, String studentId, String description) {
         this.username = username;
         this.password = password;
         this.confirmPassword = confirmPassword;
