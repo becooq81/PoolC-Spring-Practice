@@ -59,9 +59,25 @@ public class SignupTest {
     }
 
     @Test
-    @DisplayName("회원가입 예외: 아이디 조건 불만족")
-    public void login_test() throws Exception {
+    @DisplayName("회원가입 예외: 아이디 조건 불만족 (숫자 없음)")
+    public void sign_up_test_wrong_username1() throws Exception {
+        SignupRequest signupRequest = createSignupRequest();
+        signupRequest.setUsername("hello");
+        String content = objectMapper.writeValueAsString(signupRequest);
 
+        mockMvc.perform(post("/signup")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("회원가입 예외: 아이디 조건 불만족 (영어 없음)")
+    public void sign_up_test_wrong_username2() throws Exception {
+        SignupRequest signupRequest = createSignupRequest();
+        signupRequest.setUsername("12345");
     }
 
     // @DisplayName("회원가입 예외: 비밀번호 일치 X")
