@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 public @interface CorrectDeleteMessage {
 
     //error message
-    public String message() default "The message is incorrect";
+    public String message() default "잘못 입력하셨습니다.";
     //represents group of constraints
     public Class<?>[] groups() default {};
     //represents additional information about annotation
