@@ -31,6 +31,14 @@ public class LoginTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    private static LoginRequest createLoginRequest() {
+        LoginRequest loginRequest = new LoginRequest(
+                "becooq81",
+                "hello12345"
+        );
+        return loginRequest;
+    }
+
 
     @BeforeEach
     @Test
@@ -58,16 +66,44 @@ public class LoginTest {
     @Test
     @DisplayName("로그인 성공")
     public void login() throws Exception {
-        LoginRequest loginRequest = new LoginRequest(
-                "becooq81",
-                "hello12345"
-        );
-        String content = objectMapper.writeValueAsString(loginRequest);
+        String content = objectMapper.writeValueAsString(createLoginRequest());
         mockMvc.perform(post("/login")
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("로그인 실패 (틀린 사용자 이름)")
+    public void login_wrong_username() throws Exception {
+        LoginRequest loginRequest = createLoginRequest();
+        loginRequest.setUsername("wrongusername");
+
+        String content = objectMapper.writeValueAsString(loginRequest);
+
+        mockMvc.perform(post("/login")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("로그인 실패 (틀린 비밀번호)")
+    public void login_wrong_password() throws Exception {
+        LoginRequest loginRequest = createLoginRequest();
+        loginRequest.setPassword("wrongpassword");
+
+        String content = objectMapper.writeValueAsString(loginRequest);
+
+        mockMvc.perform(post("/login")
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
                 .andDo(print());
     }
 
