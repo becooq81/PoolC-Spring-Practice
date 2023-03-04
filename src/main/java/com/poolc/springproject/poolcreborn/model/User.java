@@ -18,33 +18,33 @@ public class User {
     @Id
     @GeneratedValue
     private Long id;
-    @NotBlank
+    @NotBlank(message = "사용자 이름은 필수 입력 항목입니다.")
     @Size(min = 4, max = 12)
-    @IncludeCharInt
+    @IncludeCharInt()
     private String username;
 
-    @NotEmpty
+    @NotEmpty(message = "암호는 필수 입력 항목입니다.")
     @Size(min = 8)
     private String password;
 
-    @NotBlank
+    @NotBlank(message = "이름은 필수 입력 항목입니다.")
     private String name;
 
     @Email
-    @NotEmpty
+    @NotEmpty(message = "이메일은 필수 입력 항목입니다.")
     private String email;
 
-    @NotEmpty
-    @Pattern(regexp = "^01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$")
+    @NotEmpty(message = "전화번호 필수 입력 항목입니다.")
+    @Pattern(regexp = "^01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$", message = "전화번호는 01X-XXXX-XXXX 포맷에 맞춰 입력해 주시기 바랍니다.")
     private String mobileNumber;
 
-    @NotEmpty
+    @NotEmpty(message = "전공은 필수 입력 항목입니다.")
     private String major;
 
-    @NotNull
+    @NotNull(message = "학번은 필수 입력 항목입니다.")
     private int studentId;
 
-    @NotEmpty
+    @NotEmpty(message = "자기소개는 필수 입력 항목입니다.")
     private String description;
 
     @Enumerated(EnumType.STRING)
