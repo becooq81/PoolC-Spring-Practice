@@ -5,6 +5,9 @@
 # Log file
 *.log
 
+# Generated file
+generated/
+
 # BlueJ files
 *.ctxt
 
