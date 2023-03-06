@@ -5,8 +5,10 @@
 # Log file
 *.log
 
-# Generated file
-generated/
+# Custom delete file
+build/
+out/
+gradle/
 
 # BlueJ files
 *.ctxt
