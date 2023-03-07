@@ -52,19 +52,9 @@ public class UserService {
     }
 
     public void saveUser(SignupRequest signupRequest) {
-
-        /*User user = new User(signupRequest.getUsername(),
-                passwordEncoder.encode(signupRequest.getPassword()),
-                signupRequest.getName(),
-                signupRequest.getEmail(),
-                signupRequest.getMobileNumber(),
-                signupRequest.getMajor(),
-                signupRequest.getStudentId(),
-                signupRequest.getDescription());*/
-
         User user = new User();
-        signupRequest.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
         userMapper.buildUserFromRequest(signupRequest, user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
