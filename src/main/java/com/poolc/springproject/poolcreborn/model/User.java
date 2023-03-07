@@ -10,6 +10,10 @@ import javax.validation.constraints.*;
 
 @Entity
 @Getter @Setter
+@Table(indexes = {
+                @Index(name = "username", columnList = "username"),
+                @Index(name = "email", columnList = "email")
+        })
 public class User {
 
     @Id
