@@ -1,7 +1,5 @@
 package com.poolc.springproject.poolcreborn.service;
 
-import com.poolc.springproject.poolcreborn.model.ERole;
-import com.poolc.springproject.poolcreborn.model.Role;
 import com.poolc.springproject.poolcreborn.model.User;
 import com.poolc.springproject.poolcreborn.payload.request.LoginRequest;
 import com.poolc.springproject.poolcreborn.payload.request.SignupRequest;

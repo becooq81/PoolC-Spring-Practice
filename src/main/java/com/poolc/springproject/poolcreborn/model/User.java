@@ -48,9 +48,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private ActivityStatus activityStatus;
 
-    private boolean isPreMember = true;
-    private boolean isMember = false;
-    private boolean isAdmin = false;
+    private boolean isTemporaryMember;
+    private boolean isMember;
+    private boolean isAdmin;
 
     public User(String username, String password, String name, String email, String mobileNumber, String major, int studentId, String description) {
         this.username = username;
@@ -62,6 +62,8 @@ public class User {
         this.studentId = studentId;
         this.description = description;
         this.activityStatus = ActivityStatus.DEFAULT;
+        this.isTemporaryMember = true;
     }
+
 
 }
