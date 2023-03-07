@@ -34,13 +34,14 @@ public class UserDetailsImpl implements UserDetails {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.authorities = authorities;
     }
 
     public static UserDetailsImpl build(User user) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if (user.isTemporaryMember()) authorities.add(new SimpleGrantedAuthority(ERole.ROLE_TEMPORARY_USER.getValue()));
-        if (user.isMember()) authorities.add(new SimpleGrantedAuthority(ERole.ROLE_USER.getValue()));
-        if (user.isAdmin()) authorities.add(new SimpleGrantedAuthority(ERole.ROLE_ADMIN.getValue()));
+        authorities.add(new SimpleGrantedAuthority(ERole.ROLE_TEMPORARY_USER.name()));
+        if (user.isMember()) authorities.add(new SimpleGrantedAuthority(ERole.ROLE_USER.name()));
+        if (user.isAdmin()) authorities.add(new SimpleGrantedAuthority(ERole.ROLE_ADMIN.name()));
 
         return new UserDetailsImpl(
                 user.getId(),
