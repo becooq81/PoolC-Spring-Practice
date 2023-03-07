@@ -9,10 +9,10 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @BeanMapping(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateUserInfoFromRequest(UserUpdateRequest userUpdateRequest, @MappingTarget User user);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @BeanMapping(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void buildUserFromRequest(SignupRequest signupRequest, @MappingTarget User user);
 
 }
