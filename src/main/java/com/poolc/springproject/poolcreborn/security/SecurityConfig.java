@@ -1,5 +1,6 @@
 package com.poolc.springproject.poolcreborn.security;
 
+import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.security.jwt.AuthTokenFilter;
 import com.poolc.springproject.poolcreborn.security.jwt.JwtAuthEntryPoint;
 import com.poolc.springproject.poolcreborn.security.service.UserDetailsServiceImpl;
@@ -25,10 +26,13 @@ import org.springframework.security.web.context.RequestAttributeSecurityContextR
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final UserDetailsServiceImpl userDetailsService;
-
     private final JwtAuthEntryPoint unauthorizedHandler;
+    private final UserRepository userRepository;
 
+    @Bean
+    public  UserDetailsServiceImpl userDetailsService() {
+        return new UserDetailsServiceImpl(userRepository);
+    };
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -39,7 +43,7 @@ public class SecurityConfig {
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
-        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
 
         return authProvider;
@@ -77,7 +81,7 @@ public class SecurityConfig {
 
         http.authenticationProvider(authenticationProvider());
 
-        http.userDetailsService(userDetailsService);
+        http.userDetailsService(userDetailsService());
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
