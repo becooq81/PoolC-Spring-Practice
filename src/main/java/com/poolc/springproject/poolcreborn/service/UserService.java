@@ -5,10 +5,12 @@ import com.poolc.springproject.poolcreborn.model.Role;
 import com.poolc.springproject.poolcreborn.model.User;
 import com.poolc.springproject.poolcreborn.payload.request.LoginRequest;
 import com.poolc.springproject.poolcreborn.payload.request.SignupRequest;
+import com.poolc.springproject.poolcreborn.payload.request.UserUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.response.JwtResponse;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.security.jwt.JwtUtils;
 import com.poolc.springproject.poolcreborn.security.service.UserDetailsImpl;
+import com.poolc.springproject.poolcreborn.util.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,6 +36,8 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final UserMapper userMapper;
 
     public JwtResponse authenticateUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -67,5 +72,13 @@ public class UserService {
         user.setRoles(roles);
 
         userRepository.save(user);
+    }
+
+    public User updateUserInfo(UserUpdateRequest userUpdateRequest, String currentUsername) {
+        Optional<User> optionalUser =  userRepository.findByUsername(currentUsername);
+        User user = optionalUser.get();
+        userMapper.updateUserInfoFromRequest(userUpdateRequest, user);
+        userRepository.save(user);
+        return user;
     }
 }

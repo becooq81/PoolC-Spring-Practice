@@ -4,6 +4,7 @@ import com.poolc.springproject.poolcreborn.model.User;
 import com.poolc.springproject.poolcreborn.payload.request.UserUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.request.UserDeleteRequest;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
+import com.poolc.springproject.poolcreborn.service.UserService;
 import com.poolc.springproject.poolcreborn.util.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,17 +22,12 @@ public class MemberController {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final UserService userService;
 
     @PatchMapping("/my-info")
     public ResponseEntity<User> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest) {
         String username = getLoginUsername();
-        Optional<User> optionalUser =  userRepository.findByUsername(username);
-        System.out.println(optionalUser.toString());
-        User user = optionalUser.get();
-
-
-        userMapper.updateUserInfoFromRequest(userUpdateRequest, user);
-        userRepository.save(user);
+        User user = userService.updateUserInfo(userUpdateRequest, username);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
