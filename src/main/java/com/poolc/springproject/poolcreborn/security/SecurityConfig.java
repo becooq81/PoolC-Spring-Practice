@@ -25,7 +25,7 @@ import org.springframework.security.web.context.RequestAttributeSecurityContextR
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
 
     private final JwtAuthEntryPoint unauthorizedHandler;
 
