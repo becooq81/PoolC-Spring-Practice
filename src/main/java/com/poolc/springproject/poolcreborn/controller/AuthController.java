@@ -29,7 +29,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(HttpServletRequest request, @Valid @RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(userService.authenticateMember(loginRequest));
+        return ResponseEntity.ok(userService.authenticateUser(loginRequest));
     }
 
     @PostMapping("/signup")
@@ -43,22 +43,7 @@ public class AuthController {
             return new ResponseEntity<>("Email is already taken.", HttpStatus.BAD_REQUEST);
         }
 
-        User user = new User(signupRequest.getUsername(),
-                passwordEncoder.encode(signupRequest.getPassword()),
-                signupRequest.getName(),
-                signupRequest.getEmail(),
-                signupRequest.getMobileNumber(),
-                signupRequest.getMajor(),
-                signupRequest.getStudentId(),
-                signupRequest.getDescription());
-
-        Role role = new Role();
-        role.setRole(ERole.USER);
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        user.setRoles(roles);
-
-        userRepository.save(user);
+        userService.saveUser(signupRequest);
 
         return ResponseEntity.ok("User registered successfully!");
     }

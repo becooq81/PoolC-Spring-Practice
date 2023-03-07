@@ -1,17 +1,27 @@
 package com.poolc.springproject.poolcreborn.service;
 
+import com.poolc.springproject.poolcreborn.model.ERole;
+import com.poolc.springproject.poolcreborn.model.Role;
+import com.poolc.springproject.poolcreborn.model.User;
 import com.poolc.springproject.poolcreborn.payload.request.LoginRequest;
+import com.poolc.springproject.poolcreborn.payload.request.SignupRequest;
 import com.poolc.springproject.poolcreborn.payload.response.JwtResponse;
+import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.security.jwt.JwtUtils;
 import com.poolc.springproject.poolcreborn.security.service.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,8 +30,11 @@ public class UserService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
+    private final UserRepository userRepository;
 
-    public JwtResponse authenticateMember(LoginRequest loginRequest) {
+    private final PasswordEncoder passwordEncoder;
+
+    public JwtResponse authenticateUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
@@ -36,5 +49,23 @@ public class UserService {
         return new JwtResponse(token, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles);
     }
 
+    public void saveUser(SignupRequest signupRequest) {
 
+        User user = new User(signupRequest.getUsername(),
+                passwordEncoder.encode(signupRequest.getPassword()),
+                signupRequest.getName(),
+                signupRequest.getEmail(),
+                signupRequest.getMobileNumber(),
+                signupRequest.getMajor(),
+                signupRequest.getStudentId(),
+                signupRequest.getDescription());
+
+        Role role = new Role();
+        role.setRole(ERole.USER);
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoles(roles);
+
+        userRepository.save(user);
+    }
 }
