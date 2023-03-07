@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
