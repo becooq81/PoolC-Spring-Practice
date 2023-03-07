@@ -10,7 +10,6 @@ import javax.validation.constraints.*;
 
 @Entity
 @Getter @Setter
-@RequiredArgsConstructor
 public class User {
 
     @Id
@@ -18,7 +17,7 @@ public class User {
     private Long id;
     @NotBlank(message = "사용자 이름은 필수 입력 항목입니다.")
     @Size(min = 4, max = 12)
-    @IncludeCharInt()
+    @IncludeCharInt
     private String username;
 
     @NotEmpty(message = "암호는 필수 입력 항목입니다.")
@@ -62,6 +61,10 @@ public class User {
         this.studentId = studentId;
         this.description = description;
         this.activityStatus = ActivityStatus.DEFAULT;
+        this.isTemporaryMember = true;
+    }
+
+    public User() {
         this.isTemporaryMember = true;
     }
 
