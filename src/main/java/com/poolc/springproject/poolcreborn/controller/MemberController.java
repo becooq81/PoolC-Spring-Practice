@@ -21,7 +21,6 @@ import static com.poolc.springproject.poolcreborn.security.SecurityUtil.getLogin
 public class MemberController {
 
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
     private final UserService userService;
 
     @PatchMapping("/my-info")
@@ -35,8 +34,7 @@ public class MemberController {
     @DeleteMapping("/my-info")
     public ResponseEntity<?> deleteUser(@Valid @RequestBody UserDeleteRequest userDeleteRequest) {
         String username = getLoginUsername();
-        Optional<User> user = userRepository.findByUsername(username);
-        userRepository.deleteById(user.get().getId());
+        userService.deleteUser(username);
         return ResponseEntity.ok("The user is successfully deleted.");
     }
 

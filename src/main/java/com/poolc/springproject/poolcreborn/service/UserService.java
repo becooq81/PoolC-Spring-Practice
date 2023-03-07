@@ -5,6 +5,7 @@ import com.poolc.springproject.poolcreborn.model.Role;
 import com.poolc.springproject.poolcreborn.model.User;
 import com.poolc.springproject.poolcreborn.payload.request.LoginRequest;
 import com.poolc.springproject.poolcreborn.payload.request.SignupRequest;
+import com.poolc.springproject.poolcreborn.payload.request.UserDeleteRequest;
 import com.poolc.springproject.poolcreborn.payload.request.UserUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.response.JwtResponse;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
@@ -80,5 +81,10 @@ public class UserService {
         userMapper.updateUserInfoFromRequest(userUpdateRequest, user);
         userRepository.save(user);
         return user;
+    }
+
+    public void deleteUser(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        userRepository.deleteById(user.get().getId());
     }
 }
