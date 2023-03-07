@@ -2,16 +2,13 @@ package com.poolc.springproject.poolcreborn.payload.request;
 
 import com.poolc.springproject.poolcreborn.validator.IncludeCharInt;
 import com.poolc.springproject.poolcreborn.validator.PasswordMatches;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Transient;
 import javax.validation.constraints.*;
 
-@Setter
+@Getter
 @ToString
 @PasswordMatches
 public class SignupRequest {

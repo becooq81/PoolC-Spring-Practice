@@ -3,6 +3,7 @@ package com.poolc.springproject.poolcreborn.payload.request;
 import com.poolc.springproject.poolcreborn.model.ActivityStatus;
 import com.poolc.springproject.poolcreborn.validator.PasswordMatches;
 import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -13,7 +14,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-@Setter
+@Getter
 @ToString
 @PasswordMatches
 public class UserUpdateRequest {
