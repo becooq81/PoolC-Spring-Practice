@@ -54,7 +54,7 @@ public class UserService {
     public void saveUser(SignupRequest signupRequest) {
         User user = new User();
         userMapper.buildUserFromRequest(signupRequest, user);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
         userRepository.save(user);
     }
 
