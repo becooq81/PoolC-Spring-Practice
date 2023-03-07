@@ -7,8 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter @Setter
@@ -50,8 +48,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private ActivityStatus activityStatus;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<UserRole> roles = new HashSet<>();
+    private boolean isPreMember = true;
+    private boolean isMember = false;
+    private boolean isAdmin = false;
 
     public User(String username, String password, String name, String email, String mobileNumber, String major, int studentId, String description) {
         this.username = username;

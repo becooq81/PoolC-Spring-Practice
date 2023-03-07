@@ -5,7 +5,6 @@ import com.poolc.springproject.poolcreborn.model.Role;
 import com.poolc.springproject.poolcreborn.model.User;
 import com.poolc.springproject.poolcreborn.payload.request.LoginRequest;
 import com.poolc.springproject.poolcreborn.payload.request.SignupRequest;
-import com.poolc.springproject.poolcreborn.payload.request.UserDeleteRequest;
 import com.poolc.springproject.poolcreborn.payload.request.UserUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.response.JwtResponse;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
@@ -64,11 +63,7 @@ public class UserService {
                 signupRequest.getStudentId(),
                 signupRequest.getDescription());
 
-        Role role = new Role();
-        role.setRole(ERole.USER);
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        user.setRoles(roles);
+
 
         userRepository.save(user);
     }
