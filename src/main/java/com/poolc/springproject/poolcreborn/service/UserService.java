@@ -44,6 +44,7 @@ public class UserService {
         String token = jwtUtils.generateJwtToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
@@ -52,17 +53,18 @@ public class UserService {
 
     public void saveUser(SignupRequest signupRequest) {
 
-        User user = new User(signupRequest.getUsername(),
+        /*User user = new User(signupRequest.getUsername(),
                 passwordEncoder.encode(signupRequest.getPassword()),
                 signupRequest.getName(),
                 signupRequest.getEmail(),
                 signupRequest.getMobileNumber(),
                 signupRequest.getMajor(),
                 signupRequest.getStudentId(),
-                signupRequest.getDescription());
+                signupRequest.getDescription());*/
 
-
-
+        User user = new User();
+        signupRequest.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
+        userMapper.buildUserFromRequest(signupRequest, user);
         userRepository.save(user);
     }
 
