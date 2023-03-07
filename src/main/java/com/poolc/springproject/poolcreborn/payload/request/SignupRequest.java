@@ -4,12 +4,15 @@ import com.poolc.springproject.poolcreborn.validator.IncludeCharInt;
 import com.poolc.springproject.poolcreborn.validator.PasswordMatches;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Transient;
 import javax.validation.constraints.*;
 
-@Data
+@Setter
+@ToString
 @PasswordMatches
 public class SignupRequest {
 

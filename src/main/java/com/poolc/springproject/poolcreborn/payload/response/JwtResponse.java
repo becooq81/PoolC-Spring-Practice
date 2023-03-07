@@ -1,10 +1,13 @@
 package com.poolc.springproject.poolcreborn.payload.response;
 
 import lombok.Data;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
-@Data
+@Setter
+@ToString
 public class JwtResponse {
 
     private final static String BEARER = "Bearer";

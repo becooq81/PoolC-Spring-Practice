@@ -1,10 +1,13 @@
 package com.poolc.springproject.poolcreborn.payload.request;
 
 import lombok.Data;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotEmpty;
 
-@Data
+@Setter
+@ToString
 public class LoginRequest {
 
     @NotEmpty

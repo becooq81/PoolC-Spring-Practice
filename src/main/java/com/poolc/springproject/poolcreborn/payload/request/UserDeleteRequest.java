@@ -2,8 +2,11 @@ package com.poolc.springproject.poolcreborn.payload.request;
 
 import com.poolc.springproject.poolcreborn.validator.CorrectDeleteMessage;
 import lombok.Data;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Setter
+@ToString
 public class UserDeleteRequest {
 
     @CorrectDeleteMessage
