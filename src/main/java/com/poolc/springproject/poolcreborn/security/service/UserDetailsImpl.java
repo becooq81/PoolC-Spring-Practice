@@ -1,16 +1,17 @@
 package com.poolc.springproject.poolcreborn.security.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.poolc.springproject.poolcreborn.model.ERole;
 import com.poolc.springproject.poolcreborn.model.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Getter
 public class UserDetailsImpl implements UserDetails {
@@ -28,18 +29,18 @@ public class UserDetailsImpl implements UserDetails {
         return authorities;
     }
 
-    public UserDetailsImpl(Long id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserDetailsImpl(Long id, String username, String email, String password, List<GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.authorities = authorities;
     }
 
     public static UserDetailsImpl build(User user) {
-        List<GrantedAuthority> authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRole().name()))
-                .collect(Collectors.toList());
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        if (user.isTemporaryMember()) authorities.add(new SimpleGrantedAuthority(ERole.ROLE_TEMPORARY_USER.getValue()));
+        if (user.isMember()) authorities.add(new SimpleGrantedAuthority(ERole.ROLE_USER.getValue()));
+        if (user.isAdmin()) authorities.add(new SimpleGrantedAuthority(ERole.ROLE_ADMIN.getValue()));
 
         return new UserDetailsImpl(
                 user.getId(),
