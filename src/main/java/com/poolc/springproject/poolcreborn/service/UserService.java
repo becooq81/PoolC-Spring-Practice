@@ -13,8 +13,6 @@ import com.poolc.springproject.poolcreborn.security.jwt.JwtUtils;
 import com.poolc.springproject.poolcreborn.security.service.UserDetailsImpl;
 import com.poolc.springproject.poolcreborn.util.UserMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
