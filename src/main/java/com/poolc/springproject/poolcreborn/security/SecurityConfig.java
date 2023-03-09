@@ -68,7 +68,11 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .csrf().disable()
-                .authorizeRequests().antMatchers("/login", "/signup", "/").permitAll()
+                .authorizeRequests()
+                    .antMatchers("/login", "/signup", "/").permitAll()
+                    .antMatchers("/interview-time").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN", "ROLE_TEMPORARY_USER")
+                    .antMatchers("/**/new", "/my-info").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                    .antMatchers("/admin", "/admin/**").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .securityContext((securityContext) -> securityContext
