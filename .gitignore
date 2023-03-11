@@ -13,6 +13,10 @@ gradle/
 generated/
 resources/
 build.gradle
+build
+.idea
+.gitignore
+gradlew.bat
 
 # BlueJ files
 *.ctxt
