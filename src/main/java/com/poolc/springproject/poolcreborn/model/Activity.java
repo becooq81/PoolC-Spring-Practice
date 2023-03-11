@@ -27,6 +27,8 @@ public class Activity {
     @NotEmpty
     private LocalDate startDate;
 
+    private String semester;
+
     @Enumerated(EnumType.STRING)
     private ActivityType activityType;
 
