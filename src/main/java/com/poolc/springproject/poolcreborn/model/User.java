@@ -49,7 +49,7 @@ public class User {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private ActivityStatus activityStatus;
+    private SchoolStatus schoolStatus;
 
     private boolean isTemporaryMember;
     private boolean isMember;
@@ -64,7 +64,7 @@ public class User {
         this.major = major;
         this.studentId = studentId;
         this.description = description;
-        this.activityStatus = ActivityStatus.DEFAULT;
+        this.schoolStatus = SchoolStatus.DEFAULT;
         this.isTemporaryMember = true;
     }
 

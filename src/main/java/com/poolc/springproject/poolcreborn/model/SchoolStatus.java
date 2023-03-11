@@ -1,6 +1,6 @@
 package com.poolc.springproject.poolcreborn.model;
 
-public enum ActivityStatus {
+public enum SchoolStatus {
 
     DEFAULT("일반 회원"),
     STOP("한 학기 비활동"),
@@ -9,7 +9,7 @@ public enum ActivityStatus {
 
     private final String value;
 
-    ActivityStatus(String value) {
+    SchoolStatus(String value) {
         this.value = value;
     }
 

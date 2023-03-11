@@ -1,7 +1,7 @@
 package com.poolc.springproject.poolcreborn.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.poolc.springproject.poolcreborn.model.ActivityStatus;
+import com.poolc.springproject.poolcreborn.model.SchoolStatus;
 import com.poolc.springproject.poolcreborn.model.User;
 import com.poolc.springproject.poolcreborn.payload.request.UserDeleteRequest;
 import com.poolc.springproject.poolcreborn.payload.request.UserUpdateRequest;
@@ -82,7 +82,7 @@ public class MemberControllerTest extends TestCase {
         UserUpdateRequest updateRequest = UserUpdateRequest.builder()
                 .password("newpassword")
                 .confirmPassword("newpassword")
-                .activityStatus(ActivityStatus.GRADUATED)
+                .schoolStatus(SchoolStatus.GRADUATED)
                 .email("new@email.com")
                 .description("new description")
                 .mobileNumber("010-3727-5858")

@@ -1,6 +1,6 @@
 package com.poolc.springproject.poolcreborn.payload.request;
 
-import com.poolc.springproject.poolcreborn.model.ActivityStatus;
+import com.poolc.springproject.poolcreborn.model.SchoolStatus;
 import com.poolc.springproject.poolcreborn.validator.PasswordMatches;
 import lombok.*;
 
@@ -32,19 +32,19 @@ public class UserUpdateRequest {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private ActivityStatus activityStatus;
+    private SchoolStatus schoolStatus;
 
     public boolean passwordChanged() {
         return this.password != null && this.confirmPassword != null;
     }
 
-    public UserUpdateRequest(String password, String confirmPassword, String email, String mobileNumber, String description, ActivityStatus activityStatus) {
+    public UserUpdateRequest(String password, String confirmPassword, String email, String mobileNumber, String description, SchoolStatus schoolStatus) {
         this.password = password;
         this.confirmPassword = confirmPassword;
         this.email = email;
         this.mobileNumber = mobileNumber;
         this.description = description;
-        this.activityStatus = activityStatus;
+        this.schoolStatus = schoolStatus;
     }
 
     public UserUpdateRequest() {}
