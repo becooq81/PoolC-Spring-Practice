@@ -1,5 +1,6 @@
 package com.poolc.springproject.poolcreborn.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poolc.springproject.poolcreborn.validator.IncludeCharInt;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -54,6 +57,10 @@ public class User {
     private boolean isTemporaryMember;
     private boolean isMember;
     private boolean isAdmin;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Activity> activities = new ArrayList<>();
 
     public User(String username, String password, String name, String email, String mobileNumber, String major, int studentId, String description) {
         this.username = username;

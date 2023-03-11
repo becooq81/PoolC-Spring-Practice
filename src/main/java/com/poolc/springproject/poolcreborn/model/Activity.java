@@ -20,6 +20,10 @@ public class Activity {
     @NotBlank
     private String title;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @NotEmpty
     private LocalDate startDate;
 
@@ -37,8 +41,7 @@ public class Activity {
 
     private List<String> tags;
 
-    public Activity(Long id, String title, LocalDate startDate, ActivityType activityType, int capacity, String schedule, int hours, List<String> tags) {
-        this.id = id;
+    public Activity(String title, LocalDate startDate, ActivityType activityType, int capacity, String schedule, int hours, List<String> tags) {
         this.title = title;
         this.startDate = startDate;
         this.activityType = activityType;
