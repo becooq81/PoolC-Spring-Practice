@@ -22,7 +22,7 @@ public class AdminController {
     private final UserService userService;
 
     @PatchMapping("/add")
-    public ResponseEntity<?> addAdmins(@Valid @RequestBody List<UserVo> userVos) {
+    public ResponseEntity<?> addRoles(@Valid @RequestBody List<UserVo> userVos) {
         for (UserVo userVo : userVos) {
             String username = userVo.getUsername();
             if (userVo.isAdmin()) {
