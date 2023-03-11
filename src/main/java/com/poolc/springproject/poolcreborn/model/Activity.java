@@ -41,6 +41,9 @@ public class Activity {
 
     private List<String> tags;
 
+    @NotBlank
+    private String plan;
+
     public Activity(String title, LocalDate startDate, ActivityType activityType, int capacity, String schedule, int hours, List<String> tags) {
         this.title = title;
         this.startDate = startDate;
