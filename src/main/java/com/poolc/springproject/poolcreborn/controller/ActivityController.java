@@ -26,4 +26,8 @@ public class ActivityController {
         return ResponseEntity.ok("Activity registered successfully!");
     }
 
+    @PatchMapping("/edit")
+    public ResponseEntity<?> updateActivity(@RequestBody @Valid ActivityUpdateRequest activityUpdateRequest) {
+
+    }
 }
