@@ -1,16 +1,17 @@
 package com.poolc.springproject.poolcreborn.payload.request;
 
 import com.poolc.springproject.poolcreborn.validator.CorrectDeleteMessage;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
+import javax.validation.constraints.NotEmpty;
 
 @Getter
 @ToString
+@Builder(toBuilder = true)
 public class UserDeleteRequest {
 
     @CorrectDeleteMessage
+    @NotEmpty
     private String message;
 
     public UserDeleteRequest() {}

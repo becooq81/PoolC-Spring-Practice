@@ -7,7 +7,6 @@ import com.poolc.springproject.poolcreborn.payload.request.UserDeleteRequest;
 import com.poolc.springproject.poolcreborn.payload.request.UserUpdateRequest;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import junit.framework.TestCase;
-
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Transient;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -23,7 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -62,7 +61,8 @@ public class MemberControllerTest extends TestCase {
     @WithAnonymousUser
     @DisplayName("수정 권한 없음")
     public void access_denied_to_update_test() throws Exception {
-        String content = objectMapper.writeValueAsString(new UserUpdateRequest());
+        UserUpdateRequest updateRequest = UserUpdateRequest.builder().build();
+        String content = objectMapper.writeValueAsString(updateRequest);
 
         mockMvc.perform(patch("/my-info")
                         .content(content)
@@ -79,13 +79,14 @@ public class MemberControllerTest extends TestCase {
     public void update_test() throws Exception {
         createUser();
 
-        UserUpdateRequest updateRequest = new UserUpdateRequest();
-        updateRequest.setPassword("newpassword");
-        updateRequest.setConfirmPassword("newpassword");
-        updateRequest.setActivityStatus(ActivityStatus.GRADUATED);
-        updateRequest.setEmail("new@gmail.com");
-        updateRequest.setDescription("new description");
-        updateRequest.setMobileNumber("010-3727-5742");
+        UserUpdateRequest updateRequest = UserUpdateRequest.builder()
+                .password("newpassword")
+                .confirmPassword("newpassword")
+                .activityStatus(ActivityStatus.GRADUATED)
+                .email("new@email.com")
+                .description("new description")
+                .mobileNumber("010-3727-5858")
+                .build();
 
         String content = objectMapper.writeValueAsString(updateRequest);
 
@@ -104,9 +105,10 @@ public class MemberControllerTest extends TestCase {
 
         createUser();
 
-        UserUpdateRequest updateRequest = new UserUpdateRequest();
-        updateRequest.setPassword("newpassword");
-        updateRequest.setConfirmPassword("wrongpassword");
+        UserUpdateRequest updateRequest = UserUpdateRequest.builder()
+                .password("newpassword")
+                .confirmPassword("wrongpassword")
+                .build();
 
         String content = objectMapper.writeValueAsString(updateRequest);
 
@@ -126,8 +128,9 @@ public class MemberControllerTest extends TestCase {
     public void update_test_wrong_mobileNumber() throws Exception {
         createUser();
 
-        UserUpdateRequest updateRequest = new UserUpdateRequest();
-        updateRequest.setMobileNumber("382-58583838");
+        UserUpdateRequest updateRequest = UserUpdateRequest.builder()
+                .mobileNumber("372-38812")
+                .build();
 
         String content = objectMapper.writeValueAsString(updateRequest);
 
@@ -144,8 +147,9 @@ public class MemberControllerTest extends TestCase {
     @WithAnonymousUser
     @DisplayName("삭제 권한 없음")
     public void access_denied_to_delete_test() throws Exception {
-
-        String content = objectMapper.writeValueAsString(new UserDeleteRequest());
+        UserDeleteRequest deleteRequest = UserDeleteRequest.builder()
+                .message("탈퇴를 확인합니다.").build();
+        String content = objectMapper.writeValueAsString(deleteRequest);
 
         mockMvc.perform(patch("/my-info")
                         .content(content)
@@ -162,7 +166,8 @@ public class MemberControllerTest extends TestCase {
     public void delete_test() throws Exception {
         createUser();
 
-        UserDeleteRequest deleteRequest = new UserDeleteRequest("탈퇴를 확인합니다.");
+        UserDeleteRequest deleteRequest = UserDeleteRequest.builder()
+                .message("탈퇴를 확인합니다.").build();
 
         String content = objectMapper.writeValueAsString(deleteRequest);
 
@@ -173,6 +178,8 @@ public class MemberControllerTest extends TestCase {
                 .andExpect(status().isOk())
                 .andDo(print()
                 );
+
+
     }
 
     @Test
@@ -181,7 +188,8 @@ public class MemberControllerTest extends TestCase {
     public void delete_test_wrong_message() throws Exception {
         createUser();
 
-        UserDeleteRequest deleteRequest = new UserDeleteRequest("틀린 문구.");
+        UserDeleteRequest deleteRequest = UserDeleteRequest.builder()
+                .message("틀린 문구").build();
 
         String content = objectMapper.writeValueAsString(deleteRequest);
 

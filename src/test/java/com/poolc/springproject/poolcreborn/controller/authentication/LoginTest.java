@@ -32,10 +32,10 @@ public class LoginTest {
     ObjectMapper objectMapper;
 
     private static LoginRequest createLoginRequest() {
-        LoginRequest loginRequest = new LoginRequest(
-                "becooq81",
-                "hello12345"
-        );
+        LoginRequest loginRequest = LoginRequest.builder()
+                .username("becooq81")
+                .password("hello12345")
+                .build();
         return loginRequest;
     }
 
@@ -43,17 +43,17 @@ public class LoginTest {
     @BeforeEach
     @Test
     public void signupUser() throws Exception {
-        SignupRequest signupRequest = new SignupRequest(
-                "becooq81",
-                "hello12345",
-                "hello12345",
-                "지니",
-                "jinny8748@gmail.com",
-                "010-2341-5243",
-                "computer science",
-                2015232333,
-                "hello"
-        );
+        SignupRequest signupRequest = SignupRequest.builder()
+                .username("becooq81")
+                .password("hello12345")
+                .confirmPassword("hello12345")
+                .name("지니")
+                .email("jinny8748@gmail.com")
+                .mobileNumber("010-2341-5243")
+                .major("computer science")
+                .studentId(2015232333)
+                .description("hello")
+                .build();
         String content = objectMapper.writeValueAsString(signupRequest);
         mockMvc.perform(post("/signup")
                         .content(content)
@@ -79,7 +79,7 @@ public class LoginTest {
     @DisplayName("로그인 실패 (틀린 사용자 이름)")
     public void login_wrong_username() throws Exception {
         LoginRequest loginRequest = createLoginRequest();
-        loginRequest.setUsername("wrongusername");
+        loginRequest.toBuilder().username("wrongusername").build();
 
         String content = objectMapper.writeValueAsString(loginRequest);
 
@@ -95,7 +95,7 @@ public class LoginTest {
     @DisplayName("로그인 실패 (틀린 비밀번호)")
     public void login_wrong_password() throws Exception {
         LoginRequest loginRequest = createLoginRequest();
-        loginRequest.setPassword("wrongpassword");
+        loginRequest.toBuilder().password("wrongpassword").build();
 
         String content = objectMapper.writeValueAsString(loginRequest);
 

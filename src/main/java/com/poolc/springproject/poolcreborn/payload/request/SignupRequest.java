@@ -11,6 +11,7 @@ import javax.validation.constraints.*;
 @Getter
 @ToString
 @PasswordMatches
+@Builder(toBuilder = true)
 public class SignupRequest {
 
     @IncludeCharInt

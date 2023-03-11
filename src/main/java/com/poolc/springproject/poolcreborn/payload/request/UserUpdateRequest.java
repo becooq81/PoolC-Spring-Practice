@@ -2,10 +2,7 @@ package com.poolc.springproject.poolcreborn.payload.request;
 
 import com.poolc.springproject.poolcreborn.model.ActivityStatus;
 import com.poolc.springproject.poolcreborn.validator.PasswordMatches;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,6 +14,7 @@ import javax.validation.constraints.Size;
 @Getter
 @ToString
 @PasswordMatches
+@Builder(toBuilder = true)
 public class UserUpdateRequest {
     @Size(min = 8)
     private String password;
@@ -36,8 +34,18 @@ public class UserUpdateRequest {
     @Enumerated(EnumType.STRING)
     private ActivityStatus activityStatus;
 
-    public UserUpdateRequest() {}
     public boolean passwordChanged() {
         return this.password != null && this.confirmPassword != null;
     }
+
+    public UserUpdateRequest(String password, String confirmPassword, String email, String mobileNumber, String description, ActivityStatus activityStatus) {
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+        this.email = email;
+        this.mobileNumber = mobileNumber;
+        this.description = description;
+        this.activityStatus = activityStatus;
+    }
+
+    public UserUpdateRequest() {}
 }
