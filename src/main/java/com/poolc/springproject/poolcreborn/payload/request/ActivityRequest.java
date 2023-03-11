@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -35,7 +36,7 @@ public class ActivityRequest {
     @NotEmpty
     private int hours;
 
-    private List<String> tags;
+    private List<String> tags = new ArrayList<>();
 
     @NotBlank
     private String plan;
@@ -47,7 +48,7 @@ public class ActivityRequest {
         this.capacity = capacity;
         this.schedule = schedule;
         this.hours = hours;
-        this.tags = tags;
+        this.tags.addAll(tags);
         this.plan = plan;
     }
 
