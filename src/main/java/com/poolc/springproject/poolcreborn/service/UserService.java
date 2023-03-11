@@ -71,10 +71,14 @@ public class UserService {
         userRepository.deleteById(user.get().getId());
     }
 
-    public void makeAdmin(String username) {
+    public void addAdminRole(String username) {
         User user = userRepository.findByUsername(username).get();
         user.setAdmin(true);
     }
 
+    public void addMemberRole(String username) {
+        User user = userRepository.findByUsername(username).get();
+        user.setMember(true);
+    }
 
 }
