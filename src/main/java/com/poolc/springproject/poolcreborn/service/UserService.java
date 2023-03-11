@@ -70,4 +70,11 @@ public class UserService {
         Optional<User> user = userRepository.findByUsername(username);
         userRepository.deleteById(user.get().getId());
     }
+
+    public void makeAdmin(String username) {
+        User user = userRepository.findByUsername(username).get();
+        user.setAdmin(true);
+    }
+
+
 }
