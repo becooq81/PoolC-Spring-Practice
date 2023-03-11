@@ -1,18 +1,16 @@
 package com.poolc.springproject.poolcreborn.controller;
 
 import com.poolc.springproject.poolcreborn.model.User;
-import com.poolc.springproject.poolcreborn.payload.request.UserUpdateRequest;
-import com.poolc.springproject.poolcreborn.payload.request.UserDeleteRequest;
+import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
+import com.poolc.springproject.poolcreborn.payload.request.user.UserDeleteRequest;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.UserService;
-import com.poolc.springproject.poolcreborn.util.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 import static com.poolc.springproject.poolcreborn.security.SecurityUtil.getLoginUsername;
 

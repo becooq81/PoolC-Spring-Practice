@@ -1,13 +1,12 @@
 package com.poolc.springproject.poolcreborn.controller;
 
 import com.poolc.springproject.poolcreborn.model.Activity;
-import com.poolc.springproject.poolcreborn.payload.request.ActivityRequest;
-import com.poolc.springproject.poolcreborn.payload.request.ActivityUpdateRequest;
+import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
+import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityUpdateRequest;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
 import com.poolc.springproject.poolcreborn.service.ActivityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

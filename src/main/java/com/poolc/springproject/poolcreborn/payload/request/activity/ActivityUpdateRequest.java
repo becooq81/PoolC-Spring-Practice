@@ -1,4 +1,4 @@
-package com.poolc.springproject.poolcreborn.payload.request;
+package com.poolc.springproject.poolcreborn.payload.request.activity;
 
 import com.poolc.springproject.poolcreborn.model.ActivityType;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.poolc.springproject.poolcreborn.payload.request;
+package com.poolc.springproject.poolcreborn.payload.request.user;
 
 import com.poolc.springproject.poolcreborn.validator.IncludeCharInt;
 import com.poolc.springproject.poolcreborn.validator.PasswordMatches;

@@ -1,11 +1,8 @@
 package com.poolc.springproject.poolcreborn.util;
 
 import com.poolc.springproject.poolcreborn.model.Activity;
-import com.poolc.springproject.poolcreborn.model.User;
-import com.poolc.springproject.poolcreborn.payload.request.ActivityRequest;
-import com.poolc.springproject.poolcreborn.payload.request.ActivityUpdateRequest;
-import com.poolc.springproject.poolcreborn.payload.request.SignupRequest;
-import com.poolc.springproject.poolcreborn.payload.request.UserUpdateRequest;
+import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
+import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityUpdateRequest;
 import org.mapstruct.*;
 
 

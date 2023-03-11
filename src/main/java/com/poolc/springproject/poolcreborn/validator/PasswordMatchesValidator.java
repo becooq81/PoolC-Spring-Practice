@@ -1,7 +1,7 @@
 package com.poolc.springproject.poolcreborn.validator;
 
-import com.poolc.springproject.poolcreborn.payload.request.SignupRequest;
-import com.poolc.springproject.poolcreborn.payload.request.UserUpdateRequest;
+import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
+import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

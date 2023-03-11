@@ -2,8 +2,8 @@ package com.poolc.springproject.poolcreborn.service;
 
 import com.poolc.springproject.poolcreborn.model.Activity;
 import com.poolc.springproject.poolcreborn.model.User;
-import com.poolc.springproject.poolcreborn.payload.request.ActivityRequest;
-import com.poolc.springproject.poolcreborn.payload.request.ActivityUpdateRequest;
+import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
+import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityUpdateRequest;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.util.ActivityMapper;

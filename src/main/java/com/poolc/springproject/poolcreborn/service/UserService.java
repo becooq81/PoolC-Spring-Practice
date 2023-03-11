@@ -1,9 +1,9 @@
 package com.poolc.springproject.poolcreborn.service;
 
 import com.poolc.springproject.poolcreborn.model.User;
-import com.poolc.springproject.poolcreborn.payload.request.LoginRequest;
-import com.poolc.springproject.poolcreborn.payload.request.SignupRequest;
-import com.poolc.springproject.poolcreborn.payload.request.UserUpdateRequest;
+import com.poolc.springproject.poolcreborn.payload.request.user.LoginRequest;
+import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
+import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.response.JwtResponse;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.security.jwt.JwtUtils;
@@ -17,10 +17,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service

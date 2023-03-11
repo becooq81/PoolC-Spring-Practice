@@ -1,8 +1,8 @@
 package com.poolc.springproject.poolcreborn.controller.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.poolc.springproject.poolcreborn.payload.request.LoginRequest;
-import com.poolc.springproject.poolcreborn.payload.request.SignupRequest;
+import com.poolc.springproject.poolcreborn.payload.request.user.LoginRequest;
+import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,8 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

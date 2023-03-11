@@ -1,8 +1,8 @@
 package com.poolc.springproject.poolcreborn.util;
 
 import com.poolc.springproject.poolcreborn.model.User;
-import com.poolc.springproject.poolcreborn.payload.request.SignupRequest;
-import com.poolc.springproject.poolcreborn.payload.request.UserUpdateRequest;
+import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
+import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
 import org.mapstruct.*;
 
 
