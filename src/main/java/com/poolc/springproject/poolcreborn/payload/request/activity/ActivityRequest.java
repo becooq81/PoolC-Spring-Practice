@@ -1,5 +1,6 @@
 package com.poolc.springproject.poolcreborn.payload.request.activity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.poolc.springproject.poolcreborn.model.ActivityType;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +23,19 @@ public class ActivityRequest {
     @NotEmpty
     private String title;
 
-    @NotEmpty
+    @NotNull
     private LocalDate startDate;
 
     @Enumerated(EnumType.STRING)
     private ActivityType activityType;
 
-    @NotEmpty
+    @NotNull
     private int capacity;
 
     @NotBlank
     private String schedule;
 
-    @NotEmpty
+    @NotNull
     private int hours;
 
     private List<String> tags = new ArrayList<>();

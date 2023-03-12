@@ -1,13 +1,18 @@
 package com.poolc.springproject.poolcreborn.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -24,7 +29,7 @@ public class Activity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @NotEmpty
+    @NotNull
     private LocalDate startDate;
 
     private String semester;
@@ -32,15 +37,15 @@ public class Activity {
     @Enumerated(EnumType.STRING)
     private ActivityType activityType;
 
-    @NotEmpty
+    @NotNull
     private int capacity;
 
     @NotBlank
     private String schedule;
 
-    @NotEmpty
+    @NotNull
     private int hours;
-
+    @ElementCollection(targetClass=String.class, fetch = FetchType.EAGER)
     private List<String> tags;
 
     @NotBlank
