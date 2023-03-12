@@ -2,9 +2,7 @@ package com.poolc.springproject.poolcreborn.controller.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poolc.springproject.poolcreborn.payload.request.user.LoginRequest;
-import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,29 +36,6 @@ public class LoginTest {
     }
 
 
-    @BeforeEach
-    @Test
-    public void signupUser() throws Exception {
-        SignupRequest signupRequest = SignupRequest.builder()
-                .username("becooq81")
-                .password("hello12345")
-                .confirmPassword("hello12345")
-                .name("지니")
-                .email("jinny8748@gmail.com")
-                .mobileNumber("010-2341-5243")
-                .major("computer science")
-                .studentId(2015232333)
-                .description("hello")
-                .build();
-        String content = objectMapper.writeValueAsString(signupRequest);
-        mockMvc.perform(post("/signup")
-                        .content(content)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-    }
-
     @Test
     @DisplayName("로그인 성공")
     public void login() throws Exception {
@@ -76,9 +51,7 @@ public class LoginTest {
     @Test
     @DisplayName("로그인 실패 (틀린 사용자 이름)")
     public void login_wrong_username() throws Exception {
-        LoginRequest loginRequest = createLoginRequest();
-        loginRequest.toBuilder().username("wrongusername").build();
-
+        LoginRequest loginRequest = LoginRequest.builder().username("wrongusername").password("wrongpassword").build();
         String content = objectMapper.writeValueAsString(loginRequest);
 
         mockMvc.perform(post("/login")
@@ -92,8 +65,7 @@ public class LoginTest {
     @Test
     @DisplayName("로그인 실패 (틀린 비밀번호)")
     public void login_wrong_password() throws Exception {
-        LoginRequest loginRequest = createLoginRequest();
-        loginRequest.toBuilder().password("wrongpassword").build();
+        LoginRequest loginRequest = LoginRequest.builder().username("becooq81").password("wrongpassword").build();
 
         String content = objectMapper.writeValueAsString(loginRequest);
 
