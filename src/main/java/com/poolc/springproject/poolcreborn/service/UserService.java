@@ -6,6 +6,7 @@ import com.poolc.springproject.poolcreborn.payload.request.user.LoginRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.response.JwtResponse;
+import com.poolc.springproject.poolcreborn.payload.response.UserDto;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.security.jwt.JwtUtils;
 import com.poolc.springproject.poolcreborn.security.service.UserDetailsImpl;
@@ -18,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -80,6 +82,20 @@ public class UserService {
         User user = userRepository.findByUsername(username).get();
         user.setClubMember(true);
         userRepository.save(user);
+    }
+
+    public List<UserDto> findAllUsers() {
+        List<UserDto> userDtos = new ArrayList<>();
+        List<User> users = userRepository.findAll();
+        if (users.size() == 0) {
+            return null;
+        }
+        for (User user : users) {
+            UserDto userDto = new UserDto();
+            userMapper.buildUserDtoFromUser(user, userDto);
+            userDtos.add(userDto);
+        }
+        return userDtos;
     }
 
 
