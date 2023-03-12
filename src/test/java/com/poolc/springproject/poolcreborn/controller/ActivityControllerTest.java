@@ -3,10 +3,8 @@ package com.poolc.springproject.poolcreborn.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.poolc.springproject.poolcreborn.model.ActivityType;
-import com.poolc.springproject.poolcreborn.model.ERole;
 import com.poolc.springproject.poolcreborn.model.User;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
-import com.poolc.springproject.poolcreborn.payload.request.user.LoginRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.UserService;
@@ -26,11 +24,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -56,28 +51,7 @@ public class ActivityControllerTest extends TestCase {
     public void setObjectMapper() {
         objectMapper.registerModule(new JavaTimeModule());
     }
-    private User createRestrictedMember() {
-        User user = new User(
-                "becooq81",
-                "hello12345",
-                "지니",
-                "jinny8748@gmail.com",
-                "010-2341-5243",
-                "computer science",
-                2015232333,
-                "hello"
-        );
-        userRepository.save(user);
-        return user;
-    }
 
-    private static LoginRequest createLoginRequest() {
-        LoginRequest loginRequest = LoginRequest.builder()
-                .username("becooq81")
-                .password("hello12345")
-                .build();
-        return loginRequest;
-    }
     private User createClubMember() {
         SignupRequest signupRequest = SignupRequest.builder()
                 .username("becooq81")
@@ -127,7 +101,6 @@ public class ActivityControllerTest extends TestCase {
     @Test
     @DisplayName("준회원으로 활동 개설 페이지 접근")
     public void 준회원_활동개설_불가() throws Exception {
-        createRestrictedMember();
         String content = objectMapper.writeValueAsString(createActivityRequest());
         mockMvc.perform(post("/activity/new")
                         .content(content)
@@ -140,7 +113,7 @@ public class ActivityControllerTest extends TestCase {
 
     @Test
     @DisplayName("정회원 활동 개설 페이지 접근")
-    @WithMockUser(username="admin",roles={"USER","ADMIN"})
+    @WithMockUser(username="admin1234",roles={"USER","ADMIN"})
     public void 회원_활동개설_성공() throws Exception {
         String content = objectMapper.writeValueAsString(createActivityRequest());
         mockMvc.perform(post("/activity/new")
