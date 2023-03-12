@@ -26,8 +26,8 @@ public class AdminController {
             if (userVo.isAdmin()) {
                 userService.addAdminRole(username);
             }
-            if (userVo.isMember()) {
-                userService.addMemberRole(username);
+            if (userVo.isClubMember()) {
+                userService.addClubMemberRole(username);
             }
         }
         return ResponseEntity.ok("Roles have been modified successfully.");

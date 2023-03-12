@@ -1,9 +1,9 @@
 package com.poolc.springproject.poolcreborn.model;
 
 public enum ERole {
-    ROLE_USER("정회원"),
+    ROLE_USER("준회원"),
     ROLE_ADMIN("임원진"),
-    ROLE_TEMPORARY_USER("준회원");
+    ROLE_CLUB_MEMBER("정회원");
 
     private final String value;
 

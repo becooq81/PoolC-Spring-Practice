@@ -14,8 +14,8 @@ public class UserVo {
     @NotEmpty
     private String username;
 
-    private boolean isTemporaryMember;
     private boolean isMember;
+    private boolean isClubMember;
     private boolean isAdmin;
 
 }

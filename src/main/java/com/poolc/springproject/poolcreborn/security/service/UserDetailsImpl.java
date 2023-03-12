@@ -39,8 +39,8 @@ public class UserDetailsImpl implements UserDetails {
 
     public static UserDetailsImpl build(User user) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(ERole.ROLE_TEMPORARY_USER.name()));
-        if (user.isMember()) authorities.add(new SimpleGrantedAuthority(ERole.ROLE_USER.name()));
+        authorities.add(new SimpleGrantedAuthority(ERole.ROLE_USER.name()));
+        if (user.isClubMember()) authorities.add(new SimpleGrantedAuthority(ERole.ROLE_CLUB_MEMBER.name()));
         if (user.isAdmin()) authorities.add(new SimpleGrantedAuthority(ERole.ROLE_ADMIN.name()));
 
         return new UserDetailsImpl(

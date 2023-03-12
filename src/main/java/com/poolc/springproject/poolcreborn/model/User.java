@@ -2,8 +2,8 @@ package com.poolc.springproject.poolcreborn.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poolc.springproject.poolcreborn.validator.IncludeCharInt;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -13,7 +13,8 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
-@Table(indexes = {
+@Table(name = "USER",
+        indexes = {
                 @Index(name = "username", columnList = "username"),
                 @Index(name = "email", columnList = "email")
         })
@@ -54,8 +55,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private SchoolStatus schoolStatus;
 
-    private boolean isTemporaryMember;
     private boolean isMember;
+    private boolean isClubMember;
     private boolean isAdmin;
 
     @JsonIgnore
@@ -72,11 +73,15 @@ public class User {
         this.studentId = studentId;
         this.description = description;
         this.schoolStatus = SchoolStatus.DEFAULT;
-        this.isTemporaryMember = true;
+        this.isMember = true;
+        this.isClubMember = false;
+        this.isAdmin = false;
     }
 
     public User() {
-        this.isTemporaryMember = true;
+        this.isMember = true;
+        this.isAdmin = false;
+        this.isClubMember = false;
     }
 
 

@@ -1,5 +1,6 @@
 package com.poolc.springproject.poolcreborn.service;
 
+import com.poolc.springproject.poolcreborn.model.ERole;
 import com.poolc.springproject.poolcreborn.model.User;
 import com.poolc.springproject.poolcreborn.payload.request.user.LoginRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
@@ -72,11 +73,14 @@ public class UserService {
     public void addAdminRole(String username) {
         User user = userRepository.findByUsername(username).get();
         user.setAdmin(true);
+        userRepository.save(user);
     }
 
-    public void addMemberRole(String username) {
+    public void addClubMemberRole(String username) {
         User user = userRepository.findByUsername(username).get();
-        user.setMember(true);
+        user.setClubMember(true);
+        userRepository.save(user);
     }
+
 
 }
