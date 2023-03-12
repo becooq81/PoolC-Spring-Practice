@@ -51,7 +51,6 @@ public class UserDetailsImpl implements UserDetails {
                 authorities);
     }
 
-
     @Override
     public String getPassword() {
         return this.password;
@@ -94,4 +93,6 @@ public class UserDetailsImpl implements UserDetails {
         return Objects.equals(id, user.id);
     }
 }
+
+
 
