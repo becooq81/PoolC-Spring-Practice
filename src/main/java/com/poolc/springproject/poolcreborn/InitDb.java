@@ -65,6 +65,7 @@ public class InitDb {
                     "welcome"
             );
             member.setPassword(passwordEncoder.encode(member.getPassword()));
+            member.setClubMember(true);
             em.persist(member);
         }
     }
