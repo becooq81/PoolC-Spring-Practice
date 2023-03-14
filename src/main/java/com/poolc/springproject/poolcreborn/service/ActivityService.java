@@ -19,11 +19,6 @@ public class ActivityService {
 
     private final UserRepository userRepository;
 
-    public void saveActivity(ActivityRequest activityRequest) {
-        Activity activity = new Activity();
-        activityMapper.buildActivityFromRequest(activityRequest, activity);
-        activityRepository.save(activity);
-    }
 
     public void saveActivity(ActivityRequest activityRequest, String username) {
         Activity activity = new Activity();
