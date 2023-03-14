@@ -113,7 +113,7 @@ public class ActivityControllerTest extends TestCase {
 
     @Test
     @DisplayName("정회원 활동 개설 페이지 접근")
-    @WithMockUser(username="admin1234",roles={"USER","CLUB_MEMBER"})
+    @WithMockUser(username="member1234",roles={"CLUB_MEMBER"})
     public void 회원_활동개설_성공() throws Exception {
         String content = objectMapper.writeValueAsString(createActivityRequest());
         mockMvc.perform(post("/activity/new")
