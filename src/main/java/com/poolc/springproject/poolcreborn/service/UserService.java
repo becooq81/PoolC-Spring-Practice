@@ -63,7 +63,6 @@ public class UserService {
         Optional<User> optionalUser =  userRepository.findByUsername(currentUsername);
         User user = optionalUser.get();
         userMapper.updateUserInfoFromRequest(userUpdateRequest, user);
-        userRepository.save(user);
         return user;
     }
 
@@ -75,13 +74,11 @@ public class UserService {
     public void addAdminRole(String username) {
         User user = userRepository.findByUsername(username).get();
         user.setAdmin(true);
-        userRepository.save(user);
     }
 
     public void addClubMemberRole(String username) {
         User user = userRepository.findByUsername(username).get();
         user.setClubMember(true);
-        userRepository.save(user);
     }
 
     public List<UserDto> findAllUsers() {
