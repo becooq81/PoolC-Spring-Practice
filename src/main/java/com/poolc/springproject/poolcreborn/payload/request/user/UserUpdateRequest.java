@@ -31,7 +31,6 @@ public class UserUpdateRequest {
 
     private String description;
 
-    @Enumerated(EnumType.STRING)
     private SchoolStatus schoolStatus;
 
     public boolean passwordChanged() {

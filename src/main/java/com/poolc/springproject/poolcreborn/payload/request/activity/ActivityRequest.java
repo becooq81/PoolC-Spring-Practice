@@ -26,7 +26,7 @@ public class ActivityRequest {
     @NotNull
     private LocalDate startDate;
 
-    @Enumerated(EnumType.STRING)
+    @NotNull
     private ActivityType activityType;
 
     @NotNull
