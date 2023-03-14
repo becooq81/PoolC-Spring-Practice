@@ -98,5 +98,12 @@ public class UserService {
         return userDtos;
     }
 
+    public UserDto findUser(String username) {
+        User user = userRepository.findByUsername(username).get();
+        UserDto userDto = new UserDto();
+        userMapper.buildUserDtoFromUser(user, userDto);
+        return userDto;
+    }
+
 
 }
