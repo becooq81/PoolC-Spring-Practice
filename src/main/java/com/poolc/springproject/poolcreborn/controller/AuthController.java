@@ -36,7 +36,7 @@ public class AuthController {
 
         userService.saveUser(signupRequest);
 
-        return ResponseEntity.ok("User registered successfully!");
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 }
