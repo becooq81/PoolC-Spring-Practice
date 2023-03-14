@@ -18,7 +18,7 @@ public class AdminController {
 
     private final UserService userService;
 
-    @GetMapping("")
+    @GetMapping()
     public ResponseEntity<List<UserDto>> admin() {
         List<UserDto> userDtos = userService.findAllUsers();
         return new ResponseEntity<>(userDtos, HttpStatus.OK);
