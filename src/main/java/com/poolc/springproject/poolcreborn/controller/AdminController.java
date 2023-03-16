@@ -2,6 +2,7 @@ package com.poolc.springproject.poolcreborn.controller;
 
 import com.poolc.springproject.poolcreborn.payload.request.user.UserVo;
 import com.poolc.springproject.poolcreborn.payload.response.UserDto;
+import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @GetMapping()
     public ResponseEntity<List<UserDto>> admin() {
@@ -28,6 +30,9 @@ public class AdminController {
     public ResponseEntity<?> addRoles(@Valid @RequestBody List<UserVo> userVos) {
         for (UserVo userVo : userVos) {
             String username = userVo.getUsername();
+            if (!userRepository.existsByUsername(username)) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
             if (userVo.isAdmin()) {
                 userService.addAdminRole(username);
             }
