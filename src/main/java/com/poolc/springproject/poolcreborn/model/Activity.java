@@ -41,7 +41,8 @@ public class Activity {
     private int capacity;
 
     @NotBlank
-    private String schedule;
+    @Enumerated
+    private Day day;
 
     @NotNull
     private int hours;
@@ -51,12 +52,12 @@ public class Activity {
     @NotBlank
     private String plan;
 
-    public Activity(String title, LocalDate startDate, ActivityType activityType, int capacity, String schedule, int hours, List<String> tags) {
+    public Activity(String title, LocalDate startDate, ActivityType activityType, int capacity, Day day, int hours, List<String> tags) {
         this.title = title;
         this.startDate = startDate;
         this.activityType = activityType;
         this.capacity = capacity;
-        this.schedule = schedule;
+        this.day = day;
         this.hours = hours;
         this.tags = tags;
     }
