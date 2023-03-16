@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -38,6 +39,7 @@ public class Activity {
     private ActivityType activityType;
 
     @NotNull
+    @Max(100)
     private int capacity;
 
     @NotBlank
@@ -45,6 +47,7 @@ public class Activity {
     private Day day;
 
     @NotNull
+    @Max(10)
     private int hours;
     @ElementCollection(targetClass=String.class, fetch = FetchType.EAGER)
     private List<String> tags;

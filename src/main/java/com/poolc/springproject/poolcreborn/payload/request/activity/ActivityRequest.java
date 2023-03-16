@@ -9,6 +9,7 @@ import lombok.ToString;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -31,12 +32,14 @@ public class ActivityRequest {
     private ActivityType activityType;
 
     @NotNull
+    @Max(100)
     private int capacity;
 
     @NotBlank
     private Day day;
 
     @NotNull
+    @Max(10)
     private int hours;
 
     private List<String> tags = new ArrayList<>();
