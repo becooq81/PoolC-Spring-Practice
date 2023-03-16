@@ -1,6 +1,7 @@
 package com.poolc.springproject.poolcreborn.payload.request.activity;
 
 import com.poolc.springproject.poolcreborn.model.ActivityType;
+import com.poolc.springproject.poolcreborn.model.Day;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -20,7 +21,7 @@ public class ActivityUpdateRequest {
     @Max(100)
     private int capacity;
 
-    private String schedule;
+    private Day day;
 
     @Max(12)
     private int hours;
@@ -29,10 +30,10 @@ public class ActivityUpdateRequest {
 
     private String plan;
 
-    public ActivityUpdateRequest(ActivityType activityType, int capacity, String schedule, int hours, List<String> tags, String plan) {
+    public ActivityUpdateRequest(ActivityType activityType, int capacity, Day day, int hours, List<String> tags, String plan) {
         this.activityType = activityType;
         this.capacity = capacity;
-        this.schedule = schedule;
+        this.day = day;
         this.hours = hours;
         this.tags.addAll(tags);
         this.plan = plan;
