@@ -2,6 +2,7 @@ package com.poolc.springproject.poolcreborn.payload.request.activity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.poolc.springproject.poolcreborn.model.ActivityType;
+import com.poolc.springproject.poolcreborn.model.Day;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -33,7 +34,7 @@ public class ActivityRequest {
     private int capacity;
 
     @NotBlank
-    private String schedule;
+    private Day day;
 
     @NotNull
     private int hours;
@@ -43,12 +44,12 @@ public class ActivityRequest {
     @NotBlank
     private String plan;
 
-    public ActivityRequest(String title, LocalDate startDate, ActivityType activityType, int capacity, String schedule, int hours, List<String> tags, String plan) {
+    public ActivityRequest(String title, LocalDate startDate, ActivityType activityType, int capacity, Day day, int hours, List<String> tags, String plan) {
         this.title = title;
         this.startDate = startDate;
         this.activityType = activityType;
         this.capacity = capacity;
-        this.schedule = schedule;
+        this.day = day;
         this.hours = hours;
         this.tags.addAll(tags);
         this.plan = plan;
