@@ -5,8 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.validation.constraints.Max;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,26 +15,21 @@ import java.util.List;
 @Builder(toBuilder = true)
 public class ActivityUpdateRequest {
 
-    private String title;
-
-    private LocalDate startDate;
-
-    @Enumerated(EnumType.STRING)
     private ActivityType activityType;
 
+    @Max(100)
     private int capacity;
 
     private String schedule;
 
+    @Max(12)
     private int hours;
 
     private List<String> tags = new ArrayList<>();
 
     private String plan;
 
-    public ActivityUpdateRequest(String title, LocalDate startDate, ActivityType activityType, int capacity, String schedule, int hours, List<String> tags, String plan) {
-        this.title = title;
-        this.startDate = startDate;
+    public ActivityUpdateRequest(ActivityType activityType, int capacity, String schedule, int hours, List<String> tags, String plan) {
         this.activityType = activityType;
         this.capacity = capacity;
         this.schedule = schedule;
