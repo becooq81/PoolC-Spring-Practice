@@ -3,6 +3,7 @@ package com.poolc.springproject.poolcreborn.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.poolc.springproject.poolcreborn.model.ActivityType;
+import com.poolc.springproject.poolcreborn.model.Day;
 import com.poolc.springproject.poolcreborn.model.User;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
@@ -76,7 +77,7 @@ public class ActivityControllerTest extends TestCase {
                 .startDate(LocalDate.parse("2023-01-08"))
                 .activityType(ActivityType.SEMINAR)
                 .capacity(10)
-                .schedule("매주 월요일")
+                .day(Day.FRIDAY)
                 .hours(2)
                 .tags(List.of("Java", "algorithms"))
                 .plan("매주 열심히 공부합시다!")
