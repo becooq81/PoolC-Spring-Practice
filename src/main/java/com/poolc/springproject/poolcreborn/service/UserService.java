@@ -12,6 +12,8 @@ import com.poolc.springproject.poolcreborn.security.jwt.JwtUtils;
 import com.poolc.springproject.poolcreborn.security.service.UserDetailsImpl;
 import com.poolc.springproject.poolcreborn.util.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -81,10 +83,11 @@ public class UserService {
         user.setClubMember(true);
     }
 
-    public List<UserDto> findAllUsers() {
+    public List<UserDto> findAllUsers(int page, int size) {
+        PageRequest pr = PageRequest.of(page, size);
         List<UserDto> userDtos = new ArrayList<>();
-        List<User> users = userRepository.findAll();
-        if (users.size() == 0) {
+        Page<User> users = userRepository.findAll(pr);
+        if (users.getNumberOfElements() == 0) {
             return null;
         }
         for (User user : users) {
