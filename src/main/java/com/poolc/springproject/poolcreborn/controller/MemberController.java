@@ -3,6 +3,7 @@ package com.poolc.springproject.poolcreborn.controller;
 import com.poolc.springproject.poolcreborn.model.User;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserDeleteRequest;
+import com.poolc.springproject.poolcreborn.payload.response.SimpleUserDto;
 import com.poolc.springproject.poolcreborn.payload.response.UserDto;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.UserService;
@@ -13,14 +14,21 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.util.List;
+
 import static com.poolc.springproject.poolcreborn.security.SecurityUtil.getLoginUsername;
 
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final UserRepository userRepository;
     private final UserService userService;
+
+    @GetMapping("/members")
+    public ResponseEntity<List<SimpleUserDto>> findAllUsers(@RequestParam int page, @RequestParam int size) {
+        List<SimpleUserDto> userDtos = userService.findAllUsersByClubMember(page, size);
+        return new ResponseEntity<>(userDtos, HttpStatus.OK);
+    }
 
     @GetMapping("/member/{username}")
     public ResponseEntity<UserDto> viewUser(@PathVariable("username") String username) {
