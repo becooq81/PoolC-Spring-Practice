@@ -6,6 +6,7 @@ import com.poolc.springproject.poolcreborn.payload.request.user.LoginRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.response.JwtResponse;
+import com.poolc.springproject.poolcreborn.payload.response.SimpleUserDto;
 import com.poolc.springproject.poolcreborn.payload.response.UserDto;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.security.jwt.JwtUtils;
@@ -94,6 +95,23 @@ public class UserService {
             UserDto userDto = new UserDto();
             userMapper.buildUserDtoFromUser(user, userDto);
             userDtos.add(userDto);
+        }
+        return userDtos;
+    }
+
+    public List<SimpleUserDto> findAllUsersByClubMember(int page, int size) {
+        PageRequest pr = PageRequest.of(page, size);
+        List<SimpleUserDto> userDtos = new ArrayList<>();
+        Page<User> users = userRepository.findAll(pr);
+        if (users.getNumberOfElements() == 0) {
+            return null;
+        }
+        for (User user : users) {
+            if (user.isClubMember()) {
+                SimpleUserDto userDto = new SimpleUserDto();
+                userMapper.buildSimpleUserDtoFromUser(user, userDto);
+                userDtos.add(userDto);
+            }
         }
         return userDtos;
     }
