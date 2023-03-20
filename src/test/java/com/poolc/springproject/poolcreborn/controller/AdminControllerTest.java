@@ -56,7 +56,9 @@ public class AdminControllerTest {
     @DisplayName("관리자가 관리페이지 접근")
     @WithMockUser(username = "admin1234", password = "admin1234", roles={"ADMIN", "USER"})
     public void 관리자_관리자페이지() throws Exception {
-        mockMvc.perform(get("/admin"))
+        mockMvc.perform(get("/admin")
+                        .param("page", "1")
+                        .param("size", "100"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
