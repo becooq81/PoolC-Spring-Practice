@@ -24,7 +24,7 @@ public class AdminController {
 
     @GetMapping()
     public ResponseEntity<List<UserDto>> admin(@RequestParam int page, @RequestParam int size) {
-        List<UserDto> userDtos = userService.findAllUsers(page, size);
+        List<UserDto> userDtos = userService.findAllUsersByAdmin(page, size);
         return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
 

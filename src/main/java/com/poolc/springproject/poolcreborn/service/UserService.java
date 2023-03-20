@@ -83,7 +83,7 @@ public class UserService {
         user.setClubMember(true);
     }
 
-    public List<UserDto> findAllUsers(int page, int size) {
+    public List<UserDto> findAllUsersByAdmin(int page, int size) {
         PageRequest pr = PageRequest.of(page, size);
         List<UserDto> userDtos = new ArrayList<>();
         Page<User> users = userRepository.findAll(pr);
