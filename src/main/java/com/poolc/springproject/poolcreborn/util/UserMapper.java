@@ -3,6 +3,7 @@ package com.poolc.springproject.poolcreborn.util;
 import com.poolc.springproject.poolcreborn.model.User;
 import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
+import com.poolc.springproject.poolcreborn.payload.response.SimpleUserDto;
 import com.poolc.springproject.poolcreborn.payload.response.UserDto;
 import org.mapstruct.*;
 
@@ -19,4 +20,6 @@ public interface UserMapper {
     @BeanMapping(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void buildUserDtoFromUser(User user, @MappingTarget UserDto userDto);
 
+    @BeanMapping(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void buildSimpleUserDtoFromUser(User user, @MappingTarget SimpleUserDto simpleUserDto);
 }
