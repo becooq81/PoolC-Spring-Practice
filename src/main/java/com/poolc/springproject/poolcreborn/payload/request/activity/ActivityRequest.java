@@ -1,14 +1,11 @@
 package com.poolc.springproject.poolcreborn.payload.request.activity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.poolc.springproject.poolcreborn.model.ActivityType;
-import com.poolc.springproject.poolcreborn.model.Day;
+import com.poolc.springproject.poolcreborn.model.activity.ActivityType;
+import com.poolc.springproject.poolcreborn.model.activity.Day;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;

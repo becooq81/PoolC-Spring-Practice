@@ -1,8 +1,8 @@
-package com.poolc.springproject.poolcreborn.model;
+package com.poolc.springproject.poolcreborn.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.poolc.springproject.poolcreborn.model.activity.Activity;
 import com.poolc.springproject.poolcreborn.validator.IncludeCharInt;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

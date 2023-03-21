@@ -1,8 +1,8 @@
 package com.poolc.springproject.poolcreborn.security.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.poolc.springproject.poolcreborn.model.ERole;
-import com.poolc.springproject.poolcreborn.model.User;
+import com.poolc.springproject.poolcreborn.model.user.ERole;
+import com.poolc.springproject.poolcreborn.model.user.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

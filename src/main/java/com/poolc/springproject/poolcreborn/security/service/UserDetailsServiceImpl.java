@@ -1,6 +1,6 @@
 package com.poolc.springproject.poolcreborn.security.service;
 
-import com.poolc.springproject.poolcreborn.model.User;
+import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

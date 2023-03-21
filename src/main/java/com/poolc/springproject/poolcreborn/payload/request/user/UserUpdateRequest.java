@@ -1,11 +1,9 @@
 package com.poolc.springproject.poolcreborn.payload.request.user;
 
-import com.poolc.springproject.poolcreborn.model.SchoolStatus;
+import com.poolc.springproject.poolcreborn.model.user.SchoolStatus;
 import com.poolc.springproject.poolcreborn.validator.PasswordMatches;
 import lombok.*;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;

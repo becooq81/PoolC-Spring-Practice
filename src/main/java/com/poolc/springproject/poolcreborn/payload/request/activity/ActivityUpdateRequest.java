@@ -1,13 +1,12 @@
 package com.poolc.springproject.poolcreborn.payload.request.activity;
 
-import com.poolc.springproject.poolcreborn.model.ActivityType;
-import com.poolc.springproject.poolcreborn.model.Day;
+import com.poolc.springproject.poolcreborn.model.activity.ActivityType;
+import com.poolc.springproject.poolcreborn.model.activity.Day;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
 import javax.validation.constraints.Max;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

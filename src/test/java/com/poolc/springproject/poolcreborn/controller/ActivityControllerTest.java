@@ -2,9 +2,9 @@ package com.poolc.springproject.poolcreborn.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.poolc.springproject.poolcreborn.model.ActivityType;
-import com.poolc.springproject.poolcreborn.model.Day;
-import com.poolc.springproject.poolcreborn.model.User;
+import com.poolc.springproject.poolcreborn.model.activity.ActivityType;
+import com.poolc.springproject.poolcreborn.model.activity.Day;
+import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;

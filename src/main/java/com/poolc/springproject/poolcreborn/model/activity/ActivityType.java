@@ -1,4 +1,4 @@
-package com.poolc.springproject.poolcreborn.model;
+package com.poolc.springproject.poolcreborn.model.activity;
 
 public enum ActivityType {
     SEMINAR("세미나"),

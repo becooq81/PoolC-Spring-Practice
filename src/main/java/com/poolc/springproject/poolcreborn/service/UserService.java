@@ -1,16 +1,16 @@
 package com.poolc.springproject.poolcreborn.service;
 
-import com.poolc.springproject.poolcreborn.model.ERole;
-import com.poolc.springproject.poolcreborn.model.User;
+import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.user.LoginRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
+import com.poolc.springproject.poolcreborn.payload.response.DetailedUserDto;
 import com.poolc.springproject.poolcreborn.payload.response.JwtResponse;
 import com.poolc.springproject.poolcreborn.payload.response.SimpleUserDto;
-import com.poolc.springproject.poolcreborn.payload.response.UserDto;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.security.jwt.JwtUtils;
 import com.poolc.springproject.poolcreborn.security.service.UserDetailsImpl;
+import com.poolc.springproject.poolcreborn.util.DtoBuilder;
 import com.poolc.springproject.poolcreborn.util.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

@@ -1,6 +1,5 @@
 package com.poolc.springproject.poolcreborn.security.jwt;
 
-import com.poolc.springproject.poolcreborn.model.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Encoders;
 import org.slf4j.Logger;

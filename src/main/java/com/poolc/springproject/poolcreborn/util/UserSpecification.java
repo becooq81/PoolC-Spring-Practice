@@ -1,7 +1,7 @@
 package com.poolc.springproject.poolcreborn.util;
 
-import com.poolc.springproject.poolcreborn.model.SearchCriteria;
-import com.poolc.springproject.poolcreborn.model.User;
+import com.poolc.springproject.poolcreborn.model.search.SearchCriteria;
+import com.poolc.springproject.poolcreborn.model.user.User;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;

@@ -1,7 +1,7 @@
 package com.poolc.springproject.poolcreborn.service;
 
-import com.poolc.springproject.poolcreborn.model.Activity;
-import com.poolc.springproject.poolcreborn.model.User;
+import com.poolc.springproject.poolcreborn.model.activity.Activity;
+import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityUpdateRequest;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
