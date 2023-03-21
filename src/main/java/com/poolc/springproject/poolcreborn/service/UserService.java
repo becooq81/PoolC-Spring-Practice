@@ -10,7 +10,6 @@ import com.poolc.springproject.poolcreborn.payload.response.SimpleUserDto;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.security.jwt.JwtUtils;
 import com.poolc.springproject.poolcreborn.security.service.UserDetailsImpl;
-import com.poolc.springproject.poolcreborn.util.DtoBuilder;
 import com.poolc.springproject.poolcreborn.util.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,7 +37,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     private final UserMapper userMapper;
-    private final DtoBuilder dtoBuilder;
 
     public JwtResponse authenticateUser(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -93,7 +91,7 @@ public class UserService {
             return null;
         }
         for (User user : users) {
-            DetailedUserDto detailedUserDto = dtoBuilder.buildDetailedUserDtoFromUser(user);
+            DetailedUserDto detailedUserDto = userMapper.buildDetailedUserDtoFromUser(user);
             detailedUserDtos.add(detailedUserDto);
         }
         return detailedUserDtos;
@@ -108,7 +106,7 @@ public class UserService {
         }
         for (User user : users) {
             if (user.isClubMember()) {
-                SimpleUserDto userDto = dtoBuilder.buildSimpleUserDtoFromUser(user);
+                SimpleUserDto userDto = userMapper.buildSimpleUserDtoFromUser(user);
                 userDtos.add(userDto);
             }
         }
@@ -117,7 +115,7 @@ public class UserService {
 
     public DetailedUserDto findUser(String username) {
         User user = userRepository.findByUsername(username).get();
-        DetailedUserDto detailedUserDto = dtoBuilder.buildDetailedUserDtoFromUser(user);
+        DetailedUserDto detailedUserDto = userMapper.buildDetailedUserDtoFromUser(user);
         return detailedUserDto;
     }
 
