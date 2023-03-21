@@ -5,6 +5,7 @@ import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateReques
 import com.poolc.springproject.poolcreborn.payload.request.user.UserDeleteRequest;
 import com.poolc.springproject.poolcreborn.payload.response.DetailedUserDto;
 import com.poolc.springproject.poolcreborn.payload.response.SimpleUserDto;
+import com.poolc.springproject.poolcreborn.payload.response.UserDto;
 import com.poolc.springproject.poolcreborn.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,9 +31,9 @@ public class MemberController {
     }
 
     @GetMapping("/member/{username}")
-    public ResponseEntity<DetailedUserDto> viewUser(@PathVariable("username") String username) {
-        DetailedUserDto detailedUserDto = userService.findUser(username);
-        return new ResponseEntity<>(detailedUserDto, HttpStatus.OK);
+    public ResponseEntity<UserDto> viewUser(@PathVariable("username") String username) {
+        UserDto userDto = userService.findUserByClubMember(username);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
     @PatchMapping("/my-info")
     public ResponseEntity<User> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest) {
