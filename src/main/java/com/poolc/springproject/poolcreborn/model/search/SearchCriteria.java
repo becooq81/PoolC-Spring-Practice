@@ -8,14 +8,14 @@ import lombok.ToString;
 @Getter
 @ToString
 public class SearchCriteria {
-    private String filterKey;
+    private String key;
     private Object value;
     private String operation;
     private String dataOption;
 
-    public SearchCriteria(String filterKey, String operation, Object value){
+    public SearchCriteria(String key, String operation, Object value){
         super();
-        this.filterKey = filterKey;
+        this.key = key;
         this.operation = operation;
         this.value = value;
     }
