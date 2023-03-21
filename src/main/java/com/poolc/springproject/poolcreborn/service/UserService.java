@@ -7,6 +7,7 @@ import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateReques
 import com.poolc.springproject.poolcreborn.payload.response.DetailedUserDto;
 import com.poolc.springproject.poolcreborn.payload.response.JwtResponse;
 import com.poolc.springproject.poolcreborn.payload.response.SimpleUserDto;
+import com.poolc.springproject.poolcreborn.payload.response.UserDto;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.security.jwt.JwtUtils;
 import com.poolc.springproject.poolcreborn.security.service.UserDetailsImpl;
@@ -113,10 +114,10 @@ public class UserService {
         return userDtos;
     }
 
-    public DetailedUserDto findUser(String username) {
+    public UserDto findUserByClubMember(String username) {
         User user = userRepository.findByUsername(username).get();
-        DetailedUserDto detailedUserDto = userMapper.buildDetailedUserDtoFromUser(user);
-        return detailedUserDto;
+        UserDto userDto = userMapper.buildUserDtoFromUser(user);
+        return userDto;
     }
 
 
