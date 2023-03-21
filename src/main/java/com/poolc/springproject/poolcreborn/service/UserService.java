@@ -84,19 +84,18 @@ public class UserService {
         user.setClubMember(true);
     }
 
-    public List<UserDto> findAllUsersByAdmin(int page, int size) {
+    public List<DetailedUserDto> findAllUsersByAdmin(int page, int size) {
         PageRequest pr = PageRequest.of(page, size);
-        List<UserDto> userDtos = new ArrayList<>();
+        List<DetailedUserDto> detailedUserDtos = new ArrayList<>();
         Page<User> users = userRepository.findAll(pr);
         if (users.getNumberOfElements() == 0) {
             return null;
         }
         for (User user : users) {
-            UserDto userDto = new UserDto();
-            userMapper.buildUserDtoFromUser(user, userDto);
-            userDtos.add(userDto);
+            DetailedUserDto detailedUserDto = dtoBuilder.buildDetailedUserDtoFromUser(user);
+            detailedUserDtos.add(detailedUserDto);
         }
-        return userDtos;
+        return detailedUserDtos;
     }
 
     public List<SimpleUserDto> findAllUsersByClubMember(int page, int size) {
@@ -108,19 +107,17 @@ public class UserService {
         }
         for (User user : users) {
             if (user.isClubMember()) {
-                SimpleUserDto userDto = new SimpleUserDto();
-                userMapper.buildSimpleUserDtoFromUser(user, userDto);
+                SimpleUserDto userDto = dtoBuilder.buildSimpleUserDtoFromUser(user);
                 userDtos.add(userDto);
             }
         }
         return userDtos;
     }
 
-    public UserDto findUser(String username) {
+    public DetailedUserDto findUser(String username) {
         User user = userRepository.findByUsername(username).get();
-        UserDto userDto = new UserDto();
-        userMapper.buildUserDtoFromUser(user, userDto);
-        return userDto;
+        DetailedUserDto detailedUserDto = dtoBuilder.buildDetailedUserDtoFromUser(user);
+        return detailedUserDto;
     }
 
 

@@ -30,9 +30,9 @@ public class MemberController {
     }
 
     @GetMapping("/member/{username}")
-    public ResponseEntity<UserDto> viewUser(@PathVariable("username") String username) {
-        UserDto userDto = userService.findUser(username);
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    public ResponseEntity<DetailedUserDto> viewUser(@PathVariable("username") String username) {
+        DetailedUserDto detailedUserDto = userService.findUser(username);
+        return new ResponseEntity<>(detailedUserDto, HttpStatus.OK);
     }
     @PatchMapping("/my-info")
     public ResponseEntity<User> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest) {
