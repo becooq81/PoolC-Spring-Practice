@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 import static com.poolc.springproject.poolcreborn.security.SecurityUtil.getLoginUsername;
 
@@ -29,7 +30,7 @@ public class ActivityController {
     }
 
     @PatchMapping("/{id}/edit")
-    public ResponseEntity<?> updateActivity(@PathVariable("id") Long currentActivityId, @RequestBody @Valid ActivityUpdateRequest activityUpdateRequest) {
+    public ResponseEntity<?> updateActivity(@PathVariable("id") @Min(1) Long currentActivityId, @RequestBody @Valid ActivityUpdateRequest activityUpdateRequest) {
         String username = getLoginUsername();
         Activity activity = activityRepository.findById(currentActivityId).get();
         if (activity.getUser().getUsername().equals(username)) {

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class MemberController {
     private final UserService userService;
 
     @GetMapping("/members")
-    public ResponseEntity<List<SimpleUserDto>> findAllUsers(@RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<List<SimpleUserDto>> findAllUsers(@RequestParam @Positive int page, @RequestParam @Positive int size) {
         List<SimpleUserDto> userDtos = userService.findAllUsersByClubMember(page, size);
         return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
