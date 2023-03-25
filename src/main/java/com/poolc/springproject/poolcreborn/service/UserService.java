@@ -1,6 +1,8 @@
 package com.poolc.springproject.poolcreborn.service;
 
+import com.poolc.springproject.poolcreborn.model.search.SearchCategory;
 import com.poolc.springproject.poolcreborn.model.user.User;
+import com.poolc.springproject.poolcreborn.payload.request.search.SearchRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.LoginRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
@@ -106,5 +108,29 @@ public class UserService {
         return userMapper.buildUserDtoFromUser(user);
     }
 
+    public List<SimpleUserDto> searchUser(SearchRequest searchRequest, int page, int size) {
+        PageRequest pr = PageRequest.of(page, size);
+        Page<User> searchUsers;
+        String keyword = searchRequest.getKeyword();
+        switch (searchRequest.getSearchCategory()) {
+            case USERNAME:
+                searchUsers = userRepository.findByUsernameContaining(keyword, pr);
+            case NAME:
+                searchUsers = userRepository.findByNameContaining(keyword, pr);
+                break;
+            case MAJOR:
+                searchUsers = userRepository.findByMajorContaining(keyword, pr);
+                break;
+            case ISADMIN:
+                searchUsers = userRepository.findByIsAdminTrue(pr);
+                break;
+            case ISCLUBMEMBER:
+                searchUsers = userRepository.findByIsClubMemberTrue(pr);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + searchRequest.getSearchCategory());
+        }
+        return searchUsers.stream().map(u -> userMapper.buildSimpleUserDtoFromUser(u)).collect(Collectors.toList());
 
+    }
 }
