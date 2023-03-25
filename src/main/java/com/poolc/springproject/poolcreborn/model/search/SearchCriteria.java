@@ -14,7 +14,6 @@ public class SearchCriteria {
     private String dataOption;
 
     public SearchCriteria(String key, String operation, Object value){
-        super();
         this.key = key;
         this.operation = operation;
         this.value = value;
