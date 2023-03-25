@@ -34,9 +34,7 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
-
     private final UserMapper userMapper;
 
     public JwtResponse authenticateUser(LoginRequest loginRequest) {
@@ -91,11 +89,7 @@ public class UserService {
         if (users.getNumberOfElements() == 0) {
             return null;
         }
-        for (User user : users) {
-            DetailedUserDto detailedUserDto = userMapper.buildDetailedUserDtoFromUser(user);
-            detailedUserDtos.add(detailedUserDto);
-        }
-        return detailedUserDtos;
+        return users.stream().map(u -> userMapper.buildDetailedUserDtoFromUser(u)).collect(Collectors.toList());
     }
 
     public List<SimpleUserDto> findAllUsersByClubMember(int page, int size) {
