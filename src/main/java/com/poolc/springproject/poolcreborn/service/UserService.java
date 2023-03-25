@@ -84,7 +84,6 @@ public class UserService {
 
     public List<DetailedUserDto> findAllUsersByAdmin(int page, int size) {
         PageRequest pr = PageRequest.of(page, size);
-        List<DetailedUserDto> detailedUserDtos = new ArrayList<>();
         Page<User> users = userRepository.findAll(pr);
         if (users.getNumberOfElements() == 0) {
             return null;
@@ -94,24 +93,17 @@ public class UserService {
 
     public List<SimpleUserDto> findAllUsersByClubMember(int page, int size) {
         PageRequest pr = PageRequest.of(page, size);
-        List<SimpleUserDto> userDtos = new ArrayList<>();
         Page<User> users = userRepository.findAll(pr);
         if (users.getNumberOfElements() == 0) {
-            return null;
+            return new ArrayList<>();
         }
-        for (User user : users) {
-            if (user.isClubMember()) {
-                SimpleUserDto userDto = userMapper.buildSimpleUserDtoFromUser(user);
-                userDtos.add(userDto);
-            }
-        }
-        return userDtos;
+        List<User> clubMembers= users.stream().filter(u -> u.isClubMember()).collect(Collectors.toList());
+        return clubMembers.stream().map(u -> userMapper.buildSimpleUserDtoFromUser(u)).collect(Collectors.toList());
     }
 
     public UserDto findUserByClubMember(String username) {
         User user = userRepository.findByUsername(username).get();
-        UserDto userDto = userMapper.buildUserDtoFromUser(user);
-        return userDto;
+        return userMapper.buildUserDtoFromUser(user);
     }
 
 
