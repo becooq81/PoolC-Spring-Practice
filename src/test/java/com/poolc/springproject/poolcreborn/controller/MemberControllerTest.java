@@ -2,7 +2,6 @@ package com.poolc.springproject.poolcreborn.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poolc.springproject.poolcreborn.model.user.SchoolStatus;
-import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserDeleteRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
@@ -34,7 +33,6 @@ public class MemberControllerTest extends TestCase {
 
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
