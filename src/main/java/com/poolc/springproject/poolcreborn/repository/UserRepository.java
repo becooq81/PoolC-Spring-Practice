@@ -1,6 +1,8 @@
 package com.poolc.springproject.poolcreborn.repository;
 
 import com.poolc.springproject.poolcreborn.model.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -16,8 +18,9 @@ public interface UserRepository extends JpaRepository<User, Long>, PagingAndSort
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
     List<User> findAll();
-    List<User> findByNameContaining(String infix);
-    List<User> findByMajorContaining(String infix);
-    List<User> findByIsClubMemberTrue();
-    List<User> findByIsAdminTrue();
+    Page<User> findByUsernameContaining(String infix, Pageable pageable);
+    Page<User> findByNameContaining(String infix, Pageable pageable);
+    Page<User> findByMajorContaining(String infix, Pageable pageable);
+    Page<User> findByIsClubMemberTrue(Pageable pageable);
+    Page<User> findByIsAdminTrue(Pageable pageable);
 }
