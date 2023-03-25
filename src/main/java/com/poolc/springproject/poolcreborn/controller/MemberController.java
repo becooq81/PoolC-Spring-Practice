@@ -1,6 +1,7 @@
 package com.poolc.springproject.poolcreborn.controller;
 
 import com.poolc.springproject.poolcreborn.model.user.User;
+import com.poolc.springproject.poolcreborn.payload.request.search.SearchRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserDeleteRequest;
 import com.poolc.springproject.poolcreborn.payload.response.SimpleUserDto;
@@ -48,6 +49,14 @@ public class MemberController {
         String username = getLoginUsername();
         userService.deleteUser(username);
         return ResponseEntity.ok("The user is successfully deleted.");
+    }
+
+    @GetMapping("/members/search")
+    public ResponseEntity<List<SimpleUserDto>> searchUser(@Valid @RequestBody SearchRequest searchRequest,
+                                                 @RequestParam @Positive int page,
+                                                 @RequestParam @Positive int size) {
+        List<SimpleUserDto> users = userService.searchUser(searchRequest, page, size);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
 }
