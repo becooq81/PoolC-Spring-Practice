@@ -64,7 +64,7 @@ public class ActivityController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{id}/participants")
     public ResponseEntity<?> signupForActivity(@PathVariable("id") @Min(1) Long currentActivityId,
                                                 @RequestBody @Valid ParticipationRequest request) {
         String username = getLoginUsername();
