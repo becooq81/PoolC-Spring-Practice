@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -34,7 +35,8 @@ public class Activity {
     @NotNull
     private LocalDate startDate;
 
-    private String semester;
+    @Max(2) @Min(1)
+    private int semester;
 
     @Enumerated(EnumType.STRING)
     private ActivityType activityType;
@@ -70,6 +72,12 @@ public class Activity {
         this.day = day;
         this.hours = hours;
         this.tags = tags;
+        if (startDate.getMonthValue() >= 9) {
+            this.semester = 2;
+        }
+        else {
+            this.semester = 1;
+        }
     }
 
     public Activity() {}
