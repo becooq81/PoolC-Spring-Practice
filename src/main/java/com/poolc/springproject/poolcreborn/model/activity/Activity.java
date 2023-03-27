@@ -45,7 +45,7 @@ public class Activity {
     private int capacity;
 
     @NotNull
-    private int numParticipants;
+    private int numParticipants = getParticipants().size();
 
     @NotBlank
     @Enumerated
