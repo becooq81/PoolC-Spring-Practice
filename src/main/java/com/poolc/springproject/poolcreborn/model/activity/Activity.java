@@ -77,7 +77,7 @@ public class Activity {
         this.participationList.add(new Participation(user, this));
     }
     public Set<User> getParticipants() {
-        if (this.participationList.isEmpty()) {
+        if (this.participationList==null) {
             return new HashSet<>();
         }
         return this.participationList.stream()
