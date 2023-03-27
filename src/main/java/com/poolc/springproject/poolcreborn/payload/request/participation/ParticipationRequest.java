@@ -13,7 +13,13 @@ import javax.validation.constraints.NotNull;
 public class ParticipationRequest {
 
     @NotNull
-    private boolean isApproved;
+    private Boolean isApproved;
 
     private String reason;
+
+    public ParticipationRequest() {}
+    public ParticipationRequest(boolean isApproved, String reason) {
+        this.isApproved = isApproved;
+        this.reason = reason;
+    }
 }
