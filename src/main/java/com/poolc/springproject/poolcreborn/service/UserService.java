@@ -115,6 +115,7 @@ public class UserService {
         switch (searchRequest.getSearchCategory()) {
             case USERNAME:
                 searchUsers = userRepository.findByUsernameContaining(keyword, pr);
+                break;
             case NAME:
                 searchUsers = userRepository.findByNameContaining(keyword, pr);
                 break;
