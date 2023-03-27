@@ -1,7 +1,7 @@
 package com.poolc.springproject.poolcreborn.controller;
 
 import com.poolc.springproject.poolcreborn.payload.request.user.UserVo;
-import com.poolc.springproject.poolcreborn.payload.response.DetailedUserDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.DetailedUserDto;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.UserService;
 import lombok.RequiredArgsConstructor;

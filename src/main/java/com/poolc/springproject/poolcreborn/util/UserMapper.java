@@ -3,9 +3,9 @@ package com.poolc.springproject.poolcreborn.util;
 import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
-import com.poolc.springproject.poolcreborn.payload.response.DetailedUserDto;
-import com.poolc.springproject.poolcreborn.payload.response.SimpleUserDto;
-import com.poolc.springproject.poolcreborn.payload.response.UserDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.DetailedUserDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.UserDto;
 import org.mapstruct.*;
 
 
