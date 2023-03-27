@@ -16,6 +16,7 @@ import com.poolc.springproject.poolcreborn.service.ParticipationService;
 import com.poolc.springproject.poolcreborn.service.RequestedParticipationService;
 import com.poolc.springproject.poolcreborn.util.CustomMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,12 +35,13 @@ import static com.poolc.springproject.poolcreborn.security.SecurityUtil.getLogin
 public class ActivityController {
     private final ActivityRepository activityRepository;
     private final ActivityService activityService;
-    private final ParticipationRepository participationRepository;
-    private final CustomMapper customMapper;
     private final UserRepository userRepository;
     private final ParticipationService participationService;
-    private final RequestedParticipationRepository requestedParticipationRepository;
     private final RequestedParticipationService requestedParticipationService;
+    @Bean
+    private CustomMapper customMapper() {
+        return new CustomMapper(activityService, userRepository);
+    };
 
     @PostMapping("/new")
     public ResponseEntity<?> registerActivity(@RequestBody @Valid ActivityRequest activityRequest) {
@@ -52,7 +54,7 @@ public class ActivityController {
     public ResponseEntity<ActivityDto> viewActivity(@PathVariable("id") @Min(1) Long currentActivityId) {
         String username = getLoginUsername();
         Activity activity = activityRepository.findById(currentActivityId).get();
-        return new ResponseEntity<>(customMapper.buildActivityDtoFromActivity(activity), HttpStatus.OK);
+        return new ResponseEntity<>(customMapper().buildActivityDtoFromActivity(activity), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}/edit")
