@@ -24,4 +24,10 @@ public class Participation {
     private User user;
 
     private int participationCount;
+
+    public Participation() {}
+    public Participation(User user, Activity activity) {
+        this.user = user;
+        this.activity = activity;
+    }
 }
