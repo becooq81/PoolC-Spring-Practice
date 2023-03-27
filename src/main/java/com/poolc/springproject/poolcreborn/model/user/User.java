@@ -1,6 +1,7 @@
 package com.poolc.springproject.poolcreborn.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.poolc.springproject.poolcreborn.model.Participation;
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
 import com.poolc.springproject.poolcreborn.validator.IncludeCharInt;
 import lombok.Getter;
@@ -59,9 +60,8 @@ public class User {
     private boolean isClubMember;
     private boolean isAdmin;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<Activity> activities = new ArrayList<>();
+    private List<Participation> participationList = new ArrayList<>();
 
     public User(String username, String password, String name, String email, String mobileNumber, String major, int studentId, String description) {
         this.username = username;
