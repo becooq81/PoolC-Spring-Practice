@@ -13,5 +13,4 @@ public interface ActivityMapper {
 
     @BeanMapping(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateActivityInfoFromRequest(ActivityUpdateRequest activityUpdateRequest, @MappingTarget Activity activity);
-
 }

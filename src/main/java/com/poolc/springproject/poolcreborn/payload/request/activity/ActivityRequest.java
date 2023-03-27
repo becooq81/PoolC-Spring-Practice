@@ -31,9 +31,7 @@ public class ActivityRequest {
     @NotNull
     @Max(100)
     private int capacity;
-
-    @NotBlank
-    private Day day;
+    private Day day = Day.UNDECIDED;
 
     @NotNull
     @Max(10)

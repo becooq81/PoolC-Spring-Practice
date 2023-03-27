@@ -1,15 +1,15 @@
 package com.poolc.springproject.poolcreborn.model.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
+import com.poolc.springproject.poolcreborn.model.participation.Participation;
 import com.poolc.springproject.poolcreborn.validator.IncludeCharInt;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter @Setter
@@ -59,9 +59,8 @@ public class User {
     private boolean isClubMember;
     private boolean isAdmin;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<Activity> activities = new ArrayList<>();
+    private Set<Participation> participationList = new HashSet<>();
 
     public User(String username, String password, String name, String email, String mobileNumber, String major, int studentId, String description) {
         this.username = username;
@@ -84,5 +83,8 @@ public class User {
         this.isClubMember = false;
     }
 
+    public void addParticipating(Activity activity) {
+        this.participationList.add(new Participation(this, activity));
+    }
 
 }

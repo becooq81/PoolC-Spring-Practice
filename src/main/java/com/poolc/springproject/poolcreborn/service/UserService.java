@@ -5,10 +5,10 @@ import com.poolc.springproject.poolcreborn.payload.request.search.SearchRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.LoginRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
-import com.poolc.springproject.poolcreborn.payload.response.DetailedUserDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.DetailedUserDto;
 import com.poolc.springproject.poolcreborn.payload.response.JwtResponse;
-import com.poolc.springproject.poolcreborn.payload.response.SimpleUserDto;
-import com.poolc.springproject.poolcreborn.payload.response.UserDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserRoleDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.UserDto;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.security.jwt.JwtUtils;
 import com.poolc.springproject.poolcreborn.security.service.UserDetailsImpl;
@@ -94,7 +94,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<SimpleUserDto> findAllUsersByClubMember(int page, int size) {
+    public List<SimpleUserRoleDto> findAllUsersByClubMember(int page, int size) {
         PageRequest pr = PageRequest.of(page, size);
         Page<User> users = userRepository.findAll(pr);
         if (users.getNumberOfElements() == 0) {
@@ -102,7 +102,7 @@ public class UserService {
         }
         return users.stream()
                 .filter(User::isClubMember)
-                .map(u -> userMapper.buildSimpleUserDtoFromUser(u))
+                .map(u -> userMapper.buildSimpleUserRoleDtoFromUser(u))
                 .collect(Collectors.toList());
     }
 
@@ -110,11 +110,11 @@ public class UserService {
         User user = userRepository.findByUsername(username).get();
         return userMapper.buildUserDtoFromUser(user);
     }
-    public List<SimpleUserDto> searchUser(SearchRequest searchRequest, int page, int size) {
+    public List<SimpleUserRoleDto> searchUser(SearchRequest searchRequest, int page, int size) {
         PageRequest pr = PageRequest.of(page, size);
         return processSearchRequest(searchRequest, pr);
     }
-    private List<SimpleUserDto> processSearchRequest(SearchRequest searchRequest, PageRequest pr) {
+    private List<SimpleUserRoleDto> processSearchRequest(SearchRequest searchRequest, PageRequest pr) {
         Page<User> searchUsers;
         String keyword = searchRequest.getKeyword();
         switch (searchRequest.getSearchCategory()) {
@@ -136,7 +136,9 @@ public class UserService {
             default:
                 throw new IllegalStateException("Unexpected value: " + searchRequest.getSearchCategory());
         }
-        return searchUsers.stream().map(u -> userMapper.buildSimpleUserDtoFromUser(u)).collect(Collectors.toList());
+        return searchUsers.stream()
+                .map(u -> userMapper.buildSimpleUserRoleDtoFromUser(u))
+                .collect(Collectors.toList());
 
     }
 }

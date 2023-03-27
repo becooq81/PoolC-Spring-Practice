@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.poolc.springproject.poolcreborn.model.activity.ActivityType;
 import com.poolc.springproject.poolcreborn.model.activity.Day;
-import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
-import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.UserService;
 import junit.framework.TestCase;
@@ -51,24 +49,6 @@ public class ActivityControllerTest extends TestCase {
     @Before
     public void setObjectMapper() {
         objectMapper.registerModule(new JavaTimeModule());
-    }
-
-    private User createClubMember() {
-        SignupRequest signupRequest = SignupRequest.builder()
-                .username("becooq81")
-                .password("hello12345")
-                .confirmPassword("hello12345")
-                .name("지니")
-                .email("jinny8748@gmail.com")
-                .mobileNumber("010-2381-2381")
-                .description("hello")
-                .studentId(2020291232)
-                .major("computer science")
-                .build();
-        userService.saveUser(signupRequest);
-        User user = userRepository.findByUsername("becooq81").get();
-        userService.addClubMemberRole("becooq81");
-        return user;
     }
 
     private static ActivityRequest createActivityRequest() {

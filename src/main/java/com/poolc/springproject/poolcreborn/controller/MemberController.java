@@ -4,8 +4,8 @@ import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.search.SearchRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserDeleteRequest;
-import com.poolc.springproject.poolcreborn.payload.response.SimpleUserDto;
-import com.poolc.springproject.poolcreborn.payload.response.UserDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserRoleDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.UserDto;
 import com.poolc.springproject.poolcreborn.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,8 +26,8 @@ public class MemberController {
     private final UserService userService;
 
     @GetMapping("/members")
-    public ResponseEntity<List<SimpleUserDto>> findAllUsers(@RequestParam @Positive int page, @RequestParam @Positive int size) {
-        List<SimpleUserDto> userDtos = userService.findAllUsersByClubMember(page, size);
+    public ResponseEntity<List<SimpleUserRoleDto>> findAllUsers(@RequestParam @Positive int page, @RequestParam @Positive int size) {
+        List<SimpleUserRoleDto> userDtos = userService.findAllUsersByClubMember(page, size);
         return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
 
@@ -52,10 +52,10 @@ public class MemberController {
     }
 
     @GetMapping("/members/search")
-    public ResponseEntity<List<SimpleUserDto>> searchUser(@Valid @RequestBody SearchRequest searchRequest,
-                                                 @RequestParam @Positive int page,
-                                                 @RequestParam @Positive int size) {
-        List<SimpleUserDto> users = userService.searchUser(searchRequest, page, size);
+    public ResponseEntity<List<SimpleUserRoleDto>> searchUser(@Valid @RequestBody SearchRequest searchRequest,
+                                                              @RequestParam @Positive int page,
+                                                              @RequestParam @Positive int size) {
+        List<SimpleUserRoleDto> users = userService.searchUser(searchRequest, page, size);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 

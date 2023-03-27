@@ -1,18 +1,25 @@
 package com.poolc.springproject.poolcreborn.model.activity;
 
+import com.poolc.springproject.poolcreborn.model.participation.Participation;
 import com.poolc.springproject.poolcreborn.model.user.User;
+import com.poolc.springproject.poolcreborn.validator.NotExceedingCapacity;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter @Setter
+@NotExceedingCapacity
 public class Activity {
 
     @Id @GeneratedValue
@@ -28,7 +35,8 @@ public class Activity {
     @NotNull
     private LocalDate startDate;
 
-    private String semester;
+    @Max(2) @Min(1)
+    private int semester;
 
     @Enumerated(EnumType.STRING)
     private ActivityType activityType;
@@ -37,9 +45,11 @@ public class Activity {
     @Max(100)
     private int capacity;
 
-    @NotBlank
+    @NotNull
+    private int numParticipants = getParticipants().size();
+
     @Enumerated
-    private Day day;
+    private Day day = Day.UNDECIDED;
 
     @NotNull
     @Max(10)
@@ -50,6 +60,9 @@ public class Activity {
     @NotBlank
     private String plan;
 
+    @OneToMany(mappedBy = "activity")
+    private Set<Participation> participationList = new HashSet<>();
+
     public Activity(String title, LocalDate startDate, ActivityType activityType, int capacity, Day day, int hours, List<String> tags) {
         this.title = title;
         this.startDate = startDate;
@@ -58,7 +71,24 @@ public class Activity {
         this.day = day;
         this.hours = hours;
         this.tags = tags;
+        if (startDate.getMonthValue() >= 9) {
+            this.semester = 2;
+        }
+        else {
+            this.semester = 1;
+        }
     }
 
     public Activity() {}
+    public void addParticipant(User user) {
+        this.participationList.add(new Participation(user, this));
+    }
+    public Set<User> getParticipants() {
+        if (this.participationList==null) {
+            return new HashSet<>();
+        }
+        return this.participationList.stream()
+                .map(Participation::getUser)
+                .collect(Collectors.toSet());
+    }
 }

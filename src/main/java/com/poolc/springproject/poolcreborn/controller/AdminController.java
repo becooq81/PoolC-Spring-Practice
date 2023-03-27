@@ -1,7 +1,7 @@
 package com.poolc.springproject.poolcreborn.controller;
 
 import com.poolc.springproject.poolcreborn.payload.request.user.UserVo;
-import com.poolc.springproject.poolcreborn.payload.response.DetailedUserDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.DetailedUserDto;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class AdminController {
         return new ResponseEntity<>(detailedUserDtos, HttpStatus.OK);
     }
 
-    @PatchMapping("/add")
+    @PatchMapping("/roles")
     public ResponseEntity<?> addRoles(@Valid @RequestBody List<UserVo> userVos) {
         for (UserVo userVo : userVos) {
             String username = userVo.getUsername();
@@ -42,4 +42,5 @@ public class AdminController {
         }
         return ResponseEntity.ok("Roles have been modified successfully.");
     }
+
 }

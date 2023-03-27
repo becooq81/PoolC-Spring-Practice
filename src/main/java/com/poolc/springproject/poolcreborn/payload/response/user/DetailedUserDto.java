@@ -1,4 +1,4 @@
-package com.poolc.springproject.poolcreborn.payload.response;
+package com.poolc.springproject.poolcreborn.payload.response.user;
 
 import com.poolc.springproject.poolcreborn.model.user.SchoolStatus;
 import lombok.AllArgsConstructor;

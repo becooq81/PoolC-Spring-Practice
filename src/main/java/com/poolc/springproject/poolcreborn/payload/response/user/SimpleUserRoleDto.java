@@ -1,4 +1,4 @@
-package com.poolc.springproject.poolcreborn.payload.response;
+package com.poolc.springproject.poolcreborn.payload.response.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,8 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Setter
-public class SimpleUserDto {
+public class SimpleUserRoleDto {
+    private String username;
     private String name;
     private boolean isAdmin;
 }
