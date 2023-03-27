@@ -107,9 +107,11 @@ public class UserService {
         User user = userRepository.findByUsername(username).get();
         return userMapper.buildUserDtoFromUser(user);
     }
-
     public List<SimpleUserDto> searchUser(SearchRequest searchRequest, int page, int size) {
         PageRequest pr = PageRequest.of(page, size);
+        return processSearchRequest(searchRequest, pr);
+    }
+    private List<SimpleUserDto> processSearchRequest(SearchRequest searchRequest, PageRequest pr) {
         Page<User> searchUsers;
         String keyword = searchRequest.getKeyword();
         switch (searchRequest.getSearchCategory()) {
