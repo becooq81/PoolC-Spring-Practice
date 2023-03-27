@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.poolc.springproject.poolcreborn.model.activity.ActivityType;
 import com.poolc.springproject.poolcreborn.model.activity.Day;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
+import com.poolc.springproject.poolcreborn.payload.request.participation.ParticipationRequest;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.UserService;
 import junit.framework.TestCase;
@@ -67,6 +68,13 @@ public class ActivityControllerTest extends TestCase {
         return activityRequest;
     }
 
+    private static ParticipationRequest createParticipationRequest() {
+        ParticipationRequest participationRequest = ParticipationRequest.builder()
+                .isApproved(true)
+                .build();
+        return participationRequest;
+    }
+
     @WithAnonymousUser
     @Test
     @DisplayName("익명으로 활동 개설 페이지 접근")
@@ -113,6 +121,19 @@ public class ActivityControllerTest extends TestCase {
     public void 익명_활동_상세_성공() throws Exception {
         mockMvc.perform(get(String.format("/activity/%d", 4)))
                 .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("익명으로 활동 신청")
+    @WithAnonymousUser
+    public void 익명_활동_신청_실패() throws Exception {
+        String content = objectMapper.writeValueAsString(createParticipationRequest());
+        mockMvc.perform(post(String.format("/activity/%d/participants", 4))
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
                 .andDo(print());
     }
 
