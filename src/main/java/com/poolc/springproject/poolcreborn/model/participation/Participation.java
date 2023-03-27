@@ -1,4 +1,4 @@
-package com.poolc.springproject.poolcreborn.model;
+package com.poolc.springproject.poolcreborn.model.participation;
 
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
 import com.poolc.springproject.poolcreborn.model.user.User;
@@ -6,7 +6,7 @@ import com.poolc.springproject.poolcreborn.model.user.User;
 import javax.persistence.*;
 
 @Entity
-@IdClass(Participation.class)
+@IdClass(ParticipationId.class)
 public class Participation {
     @Id
     @ManyToOne
