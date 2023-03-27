@@ -5,13 +5,14 @@ import com.poolc.springproject.poolcreborn.model.participation.RequestedParticip
 import com.poolc.springproject.poolcreborn.payload.response.RequestedParticipationDto;
 import com.poolc.springproject.poolcreborn.payload.response.activity.ActivityDto;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
+import com.poolc.springproject.poolcreborn.service.ActivityService;
 import com.poolc.springproject.poolcreborn.service.ParticipationService;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class CustomMapper {
 
-    private final ParticipationService participationService;
+    private final ActivityService activityService;
     private final UserRepository userRepository;
 
     public ActivityDto buildActivityDtoFromActivity(Activity activity) {
@@ -26,7 +27,7 @@ public class CustomMapper {
         activityDto.setCapacity(activity.getCapacity());
         activityDto.setTags(activity.getTags());
         activityDto.setPlan(activity.getPlan());
-        activityDto.setParticipants(participationService.getParticipants(activity));
+        activityDto.setParticipants(activityService.getParticipants(activity));
 
         return activityDto;
     }
