@@ -1,5 +1,6 @@
 package com.poolc.springproject.poolcreborn.model.user;
 
+import com.poolc.springproject.poolcreborn.model.activity.Activity;
 import com.poolc.springproject.poolcreborn.model.participation.Participation;
 import com.poolc.springproject.poolcreborn.validator.IncludeCharInt;
 import lombok.Getter;
@@ -80,6 +81,10 @@ public class User {
         this.isMember = true;
         this.isAdmin = false;
         this.isClubMember = false;
+    }
+
+    public void addParticipating(Activity activity) {
+        this.participationList.add(new Participation(this, activity));
     }
 
 

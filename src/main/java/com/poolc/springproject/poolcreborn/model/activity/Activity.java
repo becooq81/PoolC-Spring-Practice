@@ -73,7 +73,9 @@ public class Activity {
     }
 
     public Activity() {}
-
+    public void addParticipant(User user) {
+        this.participationList.add(new Participation(user, this));
+    }
     public Set<User> getParticipants() {
         if (this.participationList.isEmpty()) {
             return new HashSet<>();
