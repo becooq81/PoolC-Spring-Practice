@@ -13,6 +13,7 @@ import com.poolc.springproject.poolcreborn.util.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -41,5 +42,9 @@ public class ParticipationService {
         Activity activity = activityRepository.findByTitle(requestedParticipationDto.getActivityTitle()).get();
         Participation participation = new Participation(user, activity);
         participationRepository.save(participation);
+    }
+    public void approveParticipationRequestList(List<RequestedParticipationDto> requestedParticipationDtoList) {
+        requestedParticipationDtoList.stream()
+                .forEach(this::approveParticipationRequest);
     }
 }
