@@ -10,7 +10,7 @@ public class CustomMapper {
 
     private final ParticipationService participationService;
 
-    ActivityDto buildActivityDtoFromActivity(Activity activity) {
+    public ActivityDto buildActivityDtoFromActivity(Activity activity) {
         if (activity == null) {
             return null;
         }
