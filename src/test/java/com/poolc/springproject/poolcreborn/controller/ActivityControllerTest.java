@@ -45,21 +45,6 @@ public class ActivityControllerTest extends TestCase {
 
     @Autowired
     UserService userService;
-    /*@Before
-    public void init() {
-        user = new User(
-                "becooq81",
-                "hello12345",
-                "김수진",
-                "becooq81@gmail.com",
-                "010-5832-6853",
-                "수학과",
-                201828312,
-                "안녕하세요"
-        );
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-    }*/
 
     @Before
     public void setObjectMapper() {
