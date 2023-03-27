@@ -70,9 +70,9 @@ public class Activity {
 
     public Activity() {}
 
-    public List<User> getParticipants() {
+    public Set<User> getParticipants() {
         return this.participationList.stream()
                 .map(Participation::getUser)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 }

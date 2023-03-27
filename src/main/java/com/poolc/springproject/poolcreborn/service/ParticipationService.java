@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,9 +17,9 @@ public class ParticipationService {
     private final ParticipationRepository participationRepository;
     private final UserMapper userMapper;
 
-    public List<SimpleUserDto> getParticipants(Activity activity) {
+    public Set<SimpleUserDto> getParticipants(Activity activity) {
         return activity.getParticipants().stream()
                 .map(p -> userMapper.buildSimpleUserDtoFromUser(p))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 }
