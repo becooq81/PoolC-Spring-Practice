@@ -28,6 +28,8 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -101,6 +103,15 @@ public class ActivityControllerTest extends TestCase {
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("익명으로 활동 상세 페이지 접근")
+    @WithAnonymousUser
+    public void 익명_활동_상세_성공() throws Exception {
+        mockMvc.perform(get(String.format("/activity/%d", 4)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
