@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.poolc.springproject.poolcreborn.model.activity.ActivityType;
 import com.poolc.springproject.poolcreborn.model.activity.Day;
-import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
-import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.UserService;
 import junit.framework.TestCase;
@@ -47,10 +45,6 @@ public class ActivityControllerTest extends TestCase {
 
     @Autowired
     UserService userService;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
     /*@Before
     public void init() {
         user = new User(
