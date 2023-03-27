@@ -1,7 +1,5 @@
 package com.poolc.springproject.poolcreborn.model.search;
 
-import com.poolc.springproject.poolcreborn.payload.request.search.SearchRequest;
-
 public enum SearchCategory {
     USERNAME("username"), NAME("name"), MAJOR("major"), ISCLUBMEMBER("isClubMember"), ISADMIN("isAdmin");
 
