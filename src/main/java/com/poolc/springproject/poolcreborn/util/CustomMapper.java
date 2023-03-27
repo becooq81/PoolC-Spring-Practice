@@ -1,7 +1,10 @@
 package com.poolc.springproject.poolcreborn.util;
 
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
+import com.poolc.springproject.poolcreborn.model.participation.RequestedParticipation;
+import com.poolc.springproject.poolcreborn.payload.response.RequestedParticipationDto;
 import com.poolc.springproject.poolcreborn.payload.response.activity.ActivityDto;
+import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.ParticipationService;
 import lombok.RequiredArgsConstructor;
 
@@ -9,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 public class CustomMapper {
 
     private final ParticipationService participationService;
+    private final UserRepository userRepository;
 
     public ActivityDto buildActivityDtoFromActivity(Activity activity) {
         if (activity == null) {
@@ -25,5 +29,18 @@ public class CustomMapper {
         activityDto.setParticipants(participationService.getParticipants(activity));
 
         return activityDto;
+    }
+
+    public RequestedParticipationDto buildRequestedParticipationDtoFromRequestedParticipation(RequestedParticipation requestedParticipation) {
+        if (requestedParticipation == null) {
+            return null;
+        }
+        RequestedParticipationDto requestedParticipationDto = new RequestedParticipationDto();
+
+        requestedParticipationDto.setActivityTitle(requestedParticipation.getActivityTitle());
+        requestedParticipationDto.setUsername(requestedParticipation.getUsername());
+        requestedParticipationDto.setMajor(userRepository.findByUsername(requestedParticipation.getUsername()).get().getMajor());
+
+        return requestedParticipationDto;
     }
 }
