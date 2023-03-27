@@ -75,6 +75,9 @@ public class Activity {
     public Activity() {}
 
     public Set<User> getParticipants() {
+        if (this.participationList.isEmpty()) {
+            return new HashSet<>();
+        }
         return this.participationList.stream()
                 .map(Participation::getUser)
                 .collect(Collectors.toSet());
