@@ -31,7 +31,6 @@ import static com.poolc.springproject.poolcreborn.security.SecurityUtil.getLogin
 public class ActivityController {
     private final ActivityRepository activityRepository;
     private final ActivityService activityService;
-    private final UserRepository userRepository;
     private final ParticipationService participationService;
     private final RequestedParticipationService requestedParticipationService;
 
@@ -64,7 +63,6 @@ public class ActivityController {
     public ResponseEntity<?> signupForActivity(@PathVariable("id") @Min(1) Long currentActivityId,
                                                 @RequestBody @Valid ParticipationRequest request) {
         String username = getLoginUsername();
-        User user = userRepository.findByUsername(username).get();
         Activity activity = activityRepository.findById(currentActivityId).get();
         if (!activity.getUser().getUsername().equals(username)) {
             // 세미나장 본인 아니면 신청 가능
