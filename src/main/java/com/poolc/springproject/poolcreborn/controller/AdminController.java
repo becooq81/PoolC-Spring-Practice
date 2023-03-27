@@ -26,7 +26,7 @@ public class AdminController {
         return new ResponseEntity<>(detailedUserDtos, HttpStatus.OK);
     }
 
-    @PatchMapping("/add")
+    @PatchMapping("/roles")
     public ResponseEntity<?> addRoles(@Valid @RequestBody List<UserVo> userVos) {
         for (UserVo userVo : userVos) {
             String username = userVo.getUsername();
@@ -42,4 +42,6 @@ public class AdminController {
         }
         return ResponseEntity.ok("Roles have been modified successfully.");
     }
+
+
 }
