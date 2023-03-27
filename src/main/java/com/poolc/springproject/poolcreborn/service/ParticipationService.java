@@ -24,16 +24,13 @@ public class ParticipationService {
     private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
 
-    public Set<SimpleUserMajorDto> getParticipants(Activity activity) {
-        return activity.getParticipants().stream()
-                .map(p -> userMapper.buildSimpleUserMajorDtoFromUser(p))
-                .collect(Collectors.toSet());
-    }
-
     public void saveParticipation(String username, Activity activity) {
         Participation participation = new Participation();
-        participation.setUser(userRepository.findByUsername(username).get());
+        User user = userRepository.findByUsername(username).get();
+        participation.setUser(user);
         participation.setActivity(activity);
+        activity.addParticipant(user);
+        user.addParticipating(activity);
         participationRepository.save(participation);
     }
     public void approveParticipationRequest(RequestedParticipationDto requestedParticipationDto) {
