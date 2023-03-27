@@ -87,5 +87,4 @@ public class User {
         this.participationList.add(new Participation(this, activity));
     }
 
-
 }
