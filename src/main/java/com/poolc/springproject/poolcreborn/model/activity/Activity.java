@@ -11,7 +11,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter @Setter
@@ -53,7 +55,7 @@ public class Activity {
     private String plan;
 
     @OneToMany(mappedBy = "activity")
-    private List<Participation> participationList = new ArrayList<>();
+    private Set<Participation> participationList = new HashSet<>();
 
     public Activity(String title, LocalDate startDate, ActivityType activityType, int capacity, Day day, int hours, List<String> tags) {
         this.title = title;

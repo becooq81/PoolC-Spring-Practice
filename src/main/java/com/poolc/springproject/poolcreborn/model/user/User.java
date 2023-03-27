@@ -8,7 +8,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter @Setter
@@ -59,7 +61,7 @@ public class User {
     private boolean isAdmin;
 
     @OneToMany(mappedBy = "user")
-    private List<Participation> participationList = new ArrayList<>();
+    private Set<Participation> participationList = new HashSet<>();
 
     public User(String username, String password, String name, String email, String mobileNumber, String major, int studentId, String description) {
         this.username = username;
