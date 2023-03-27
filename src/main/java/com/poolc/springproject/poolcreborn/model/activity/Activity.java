@@ -48,9 +48,8 @@ public class Activity {
     @NotNull
     private int numParticipants = getParticipants().size();
 
-    @NotBlank
     @Enumerated
-    private Day day;
+    private Day day = Day.UNDECIDED;
 
     @NotNull
     @Max(10)

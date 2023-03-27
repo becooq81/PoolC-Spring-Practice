@@ -8,7 +8,8 @@ public enum Day {
     THURSDAY("매주 목요일"),
     FRIDAY("매주 금요일"),
     SATURDAY("매주 토요일"),
-    SUNDAY("매주 일요일");
+    SUNDAY("매주 일요일"),
+    UNDECIDED("미정");
 
     private final String value;
 
