@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ParticipationService {
     private final ParticipationRepository participationRepository;
-    private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
 
