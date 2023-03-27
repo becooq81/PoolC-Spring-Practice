@@ -4,6 +4,7 @@ import com.poolc.springproject.poolcreborn.model.activity.Activity;
 import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityUpdateRequest;
+import com.poolc.springproject.poolcreborn.payload.response.activity.ActivityDto;
 import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserMajorDto;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
@@ -43,5 +44,21 @@ public class ActivityService {
         return activity.getParticipants().stream()
                 .map(p -> userMapper.buildSimpleUserMajorDtoFromUser(p))
                 .collect(Collectors.toSet());
+    }
+    public ActivityDto buildActivityDtoFromActivity(Activity activity) {
+        if (activity == null) {
+            return null;
+        }
+        ActivityDto activityDto = new ActivityDto();
+
+        activityDto.setLead(activity.getUser().getUsername());
+        activityDto.setStartDate(activity.getStartDate());
+        activityDto.setHours(activity.getHours());
+        activityDto.setCapacity(activity.getCapacity());
+        activityDto.setTags(activity.getTags());
+        activityDto.setPlan(activity.getPlan());
+        activityDto.setParticipants(getParticipants(activity));
+
+        return activityDto;
     }
 }

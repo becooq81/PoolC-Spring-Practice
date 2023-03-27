@@ -6,7 +6,6 @@ import com.poolc.springproject.poolcreborn.payload.response.RequestedParticipati
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
 import com.poolc.springproject.poolcreborn.repository.RequestedParticipationRepository;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
-import com.poolc.springproject.poolcreborn.util.CustomMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +17,8 @@ import java.util.stream.Collectors;
 public class RequestedParticipationService {
 
     private final RequestedParticipationRepository requestedParticipationRepository;
-    private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
-    private final CustomMapper customMapper;
+    private final UserRepository userRepository;
 
     public void saveRequestedParticipation(String username, Activity activity) {
         RequestedParticipation requestedParticipation = new RequestedParticipation();
@@ -33,8 +31,20 @@ public class RequestedParticipationService {
         String activityTitle = activityRepository.findById(activityId).get().getTitle();
         List<RequestedParticipation> requests = requestedParticipationRepository.findByActivityTitle(activityTitle);
         return requests.stream()
-                .map(r -> customMapper.buildRequestedParticipationDtoFromRequestedParticipation(r))
+                .map(r -> buildRequestedParticipationDtoFromRequestedParticipation(r))
                 .collect(Collectors.toList());
 
+    }
+    public RequestedParticipationDto buildRequestedParticipationDtoFromRequestedParticipation(RequestedParticipation requestedParticipation) {
+        if (requestedParticipation == null) {
+            return null;
+        }
+        RequestedParticipationDto requestedParticipationDto = new RequestedParticipationDto();
+
+        requestedParticipationDto.setActivityTitle(requestedParticipation.getActivityTitle());
+        requestedParticipationDto.setUsername(requestedParticipation.getUsername());
+        requestedParticipationDto.setMajor(userRepository.findByUsername(requestedParticipation.getUsername()).get().getMajor());
+
+        return requestedParticipationDto;
     }
 }

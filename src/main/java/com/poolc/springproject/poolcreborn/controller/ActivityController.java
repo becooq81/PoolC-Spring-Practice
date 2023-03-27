@@ -8,15 +8,11 @@ import com.poolc.springproject.poolcreborn.payload.request.participation.Partici
 import com.poolc.springproject.poolcreborn.payload.response.RequestedParticipationDto;
 import com.poolc.springproject.poolcreborn.payload.response.activity.ActivityDto;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
-import com.poolc.springproject.poolcreborn.repository.ParticipationRepository;
-import com.poolc.springproject.poolcreborn.repository.RequestedParticipationRepository;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.ActivityService;
 import com.poolc.springproject.poolcreborn.service.ParticipationService;
 import com.poolc.springproject.poolcreborn.service.RequestedParticipationService;
-import com.poolc.springproject.poolcreborn.util.CustomMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,10 +34,6 @@ public class ActivityController {
     private final UserRepository userRepository;
     private final ParticipationService participationService;
     private final RequestedParticipationService requestedParticipationService;
-    @Bean
-    private CustomMapper customMapper() {
-        return new CustomMapper(activityService, userRepository);
-    };
 
     @PostMapping("/new")
     public ResponseEntity<?> registerActivity(@RequestBody @Valid ActivityRequest activityRequest) {
@@ -54,7 +46,7 @@ public class ActivityController {
     public ResponseEntity<ActivityDto> viewActivity(@PathVariable("id") @Min(1) Long currentActivityId) {
         String username = getLoginUsername();
         Activity activity = activityRepository.findById(currentActivityId).get();
-        return new ResponseEntity<>(customMapper().buildActivityDtoFromActivity(activity), HttpStatus.OK);
+        return new ResponseEntity<>(activityService.buildActivityDtoFromActivity(activity), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}/edit")
