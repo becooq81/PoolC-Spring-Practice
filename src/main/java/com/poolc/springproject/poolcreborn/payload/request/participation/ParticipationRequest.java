@@ -10,9 +10,8 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
-@NoArgsConstructor
 @ReasonRequiredForNotApproved
+@RequiredArgsConstructor
 public class ParticipationRequest {
 
     @NotNull

@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
-@RequiredArgsConstructor
 @NoArgsConstructor
 public class RequestedParticipationDto {
 
