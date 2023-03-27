@@ -90,7 +90,9 @@ public class UserService {
         if (users.getNumberOfElements() == 0) {
             return null;
         }
-        return users.stream().map(u -> userMapper.buildDetailedUserDtoFromUser(u)).collect(Collectors.toList());
+        return users.stream()
+                .map(u -> userMapper.buildDetailedUserDtoFromUser(u))
+                .collect(Collectors.toList());
     }
 
     public List<SimpleUserDto> findAllUsersByClubMember(int page, int size) {
@@ -99,8 +101,10 @@ public class UserService {
         if (users.getNumberOfElements() == 0) {
             return new ArrayList<>();
         }
-        List<User> clubMembers= users.stream().filter(u -> u.isClubMember()).collect(Collectors.toList());
-        return clubMembers.stream().map(u -> userMapper.buildSimpleUserDtoFromUser(u)).collect(Collectors.toList());
+        return users.stream()
+                .filter(User::isClubMember)
+                .map(u -> userMapper.buildSimpleUserDtoFromUser(u))
+                .collect(Collectors.toList());
     }
 
     public UserDto findUserByClubMember(String username) {
