@@ -1,16 +1,15 @@
 package com.poolc.springproject.poolcreborn.payload.request.participation;
 
 import com.poolc.springproject.poolcreborn.validator.ReasonRequiredForNotApproved;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
+
 @ReasonRequiredForNotApproved
-@RequiredArgsConstructor
+@Getter
+@ToString
+@Builder(toBuilder = true)
 public class ParticipationRequest {
 
     @NotNull
