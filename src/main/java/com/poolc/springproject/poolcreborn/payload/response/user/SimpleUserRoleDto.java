@@ -9,7 +9,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Setter
-public class SimpleUserDto {
+public class SimpleUserRoleDto {
     private String name;
     private boolean isAdmin;
 }

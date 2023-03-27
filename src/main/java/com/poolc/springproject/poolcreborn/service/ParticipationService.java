@@ -3,7 +3,9 @@ package com.poolc.springproject.poolcreborn.service;
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
 import com.poolc.springproject.poolcreborn.model.participation.Participation;
 import com.poolc.springproject.poolcreborn.payload.request.participation.ParticipationRequest;
-import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserDto;
+import com.poolc.springproject.poolcreborn.payload.request.participation.RestrictedParticipationRequest;
+import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserMajorDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserRoleDto;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
 import com.poolc.springproject.poolcreborn.repository.ParticipationRepository;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
@@ -11,7 +13,6 @@ import com.poolc.springproject.poolcreborn.util.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,9 +24,9 @@ public class ParticipationService {
     private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
 
-    public Set<SimpleUserDto> getParticipants(Activity activity) {
+    public Set<SimpleUserMajorDto> getParticipants(Activity activity) {
         return activity.getParticipants().stream()
-                .map(p -> userMapper.buildSimpleUserDtoFromUser(p))
+                .map(p -> userMapper.buildSimpleUserMajorDtoFromUser(p))
                 .collect(Collectors.toSet());
     }
 

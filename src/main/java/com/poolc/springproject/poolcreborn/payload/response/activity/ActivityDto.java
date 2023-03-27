@@ -1,6 +1,7 @@
 package com.poolc.springproject.poolcreborn.payload.response.activity;
 
-import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserMajorDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserRoleDto;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -18,5 +19,5 @@ public class ActivityDto {
     private int capacity;
     private List<String> tags;
     private String plan;
-    private Set<SimpleUserDto> participants;
+    private Set<SimpleUserMajorDto> participants;
 }
