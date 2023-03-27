@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Getter @Setter
+@NotExceedingCapacity
 public class Activity {
 
     @Id @GeneratedValue

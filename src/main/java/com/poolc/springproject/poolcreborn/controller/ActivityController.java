@@ -1,6 +1,8 @@
 package com.poolc.springproject.poolcreborn.controller;
 
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
+import com.poolc.springproject.poolcreborn.model.participation.Participation;
+import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.request.participation.ParticipationRequest;
@@ -8,6 +10,7 @@ import com.poolc.springproject.poolcreborn.payload.request.participation.Restric
 import com.poolc.springproject.poolcreborn.payload.response.activity.ActivityDto;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
 import com.poolc.springproject.poolcreborn.repository.ParticipationRepository;
+import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.ActivityService;
 import com.poolc.springproject.poolcreborn.util.CustomMapper;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +33,7 @@ public class ActivityController {
     private final ActivityService activityService;
     private final ParticipationRepository participationRepository;
     private final CustomMapper customMapper;
+    private final UserRepository userRepository;
 
     @PostMapping("/new")
     public ResponseEntity<?> registerActivity(@RequestBody @Valid ActivityRequest activityRequest) {
