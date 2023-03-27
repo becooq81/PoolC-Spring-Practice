@@ -20,9 +20,8 @@ public class ParticipationService {
     private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
 
-    public void saveParticipation(String username, Activity activity) {
+    public void saveParticipation(User user, Activity activity) {
         Participation participation = new Participation();
-        User user = userRepository.findByUsername(username).get();
         participation.setUser(user);
         participation.setActivity(activity);
         activity.addParticipant(user);
