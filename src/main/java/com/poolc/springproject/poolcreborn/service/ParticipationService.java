@@ -17,7 +17,7 @@ public class ParticipationService {
     private final UserMapper userMapper;
 
     public List<SimpleUserDto> getParticipants(Activity activity) {
-        activity.getParticipants().stream()
+        return activity.getParticipants().stream()
                 .map(p -> userMapper.buildSimpleUserDtoFromUser(p))
                 .collect(Collectors.toList());
     }
