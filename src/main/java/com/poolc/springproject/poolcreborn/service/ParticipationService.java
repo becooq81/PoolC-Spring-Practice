@@ -2,10 +2,10 @@ package com.poolc.springproject.poolcreborn.service;
 
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
 import com.poolc.springproject.poolcreborn.model.participation.Participation;
+import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.participation.ParticipationRequest;
-import com.poolc.springproject.poolcreborn.payload.request.participation.RestrictedParticipationRequest;
+import com.poolc.springproject.poolcreborn.payload.response.RequestedParticipationDto;
 import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserMajorDto;
-import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserRoleDto;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
 import com.poolc.springproject.poolcreborn.repository.ParticipationRepository;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
@@ -30,13 +30,16 @@ public class ParticipationService {
                 .collect(Collectors.toSet());
     }
 
-    public void saveParticipation(String username, ParticipationRequest request) {
+    public void saveParticipation(String username, Activity activity) {
         Participation participation = new Participation();
         participation.setUser(userRepository.findByUsername(username).get());
-
-        Activity activity = activityRepository.findByTitle(request.getActivity()).get();
         participation.setActivity(activity);
-
+        participationRepository.save(participation);
+    }
+    public void approveParticipationRequest(RequestedParticipationDto requestedParticipationDto) {
+        User user = userRepository.findByUsername(requestedParticipationDto.getUsername()).get();
+        Activity activity = activityRepository.findByTitle(requestedParticipationDto.getActivityTitle()).get();
+        Participation participation = new Participation(user, activity);
         participationRepository.save(participation);
     }
 }
