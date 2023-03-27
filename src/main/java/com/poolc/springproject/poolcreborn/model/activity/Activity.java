@@ -2,6 +2,7 @@ package com.poolc.springproject.poolcreborn.model.activity;
 
 import com.poolc.springproject.poolcreborn.model.participation.Participation;
 import com.poolc.springproject.poolcreborn.model.user.User;
+import com.poolc.springproject.poolcreborn.validator.NotExceedingCapacity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,6 +43,9 @@ public class Activity {
     @NotNull
     @Max(100)
     private int capacity;
+
+    @NotNull
+    private int numParticipants;
 
     @NotBlank
     @Enumerated
