@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 public class SimpleUserMajorDto {
+    private String username;
     private String name;
     private String major;
 }

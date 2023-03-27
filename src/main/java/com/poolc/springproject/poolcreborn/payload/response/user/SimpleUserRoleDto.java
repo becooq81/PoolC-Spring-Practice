@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 public class SimpleUserRoleDto {
+    private String username;
     private String name;
     private boolean isAdmin;
 }
