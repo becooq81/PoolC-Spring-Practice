@@ -63,7 +63,7 @@ public class Activity {
     @OneToMany(mappedBy = "activity")
     private Set<Participation> participationList = new HashSet<>();
 
-    public Activity(String title, LocalDate startDate, ActivityType activityType, int capacity, Day day, int hours, List<String> tags) {
+    public Activity(String title, LocalDate startDate, ActivityType activityType, int capacity, Day day, int hours, List<String> tags, String plan) {
         this.title = title;
         this.startDate = startDate;
         this.activityType = activityType;
@@ -71,6 +71,7 @@ public class Activity {
         this.day = day;
         this.hours = hours;
         this.tags = tags;
+        this.plan = plan;
         if (startDate.getMonthValue() >= 9) {
             this.semester = 2;
         }
