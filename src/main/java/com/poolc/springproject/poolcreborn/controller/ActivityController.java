@@ -72,8 +72,8 @@ public class ActivityController {
         Activity activity = activityRepository.findById(currentActivityId).get();
         if (!activity.getUser().getUsername().equals(username)) {
             // 세미나장 본인 아니면 신청 가능
-            if (!participationRepository.existsByActivityAndUser(user, activity) && !requestedParticipationRepository.existsByActivityTitleAndUsername(username, activity.getTitle())) {
-                if (request.isApproved()) {
+            if (!participationRepository.existsByActivityAndUser(activity, user) && !requestedParticipationRepository.existsByActivityTitleAndUsername(username, activity.getTitle())) {
+                if (request.getIsApproved()) {
                     participationService.saveParticipation(user, activity);
                     return ResponseEntity.ok("성공적으로 신청되었습니다.");
                 } else {

@@ -12,7 +12,7 @@ public interface RequestedParticipationRepository extends JpaRepository<Requeste
 
     List<RequestedParticipation> findByActivityTitle(String activityTitle);
 
-    Boolean existsByActivityTitleAndUsername(String username, String activityTitle);
+    Boolean existsByActivityTitleAndUsername(String activityTitle, String username);
 
 
 }

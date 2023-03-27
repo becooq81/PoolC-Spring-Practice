@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ParticipationRepository extends JpaRepository<Participation, Long> {
 
-    Boolean existsByActivityAndUser(User user, Activity activity);
+    Boolean existsByActivityAndUser(Activity activity, User user);
 }

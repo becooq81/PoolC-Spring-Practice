@@ -13,8 +13,8 @@ public class ReasonRequiredForNotApprovedValidator implements ConstraintValidato
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         ParticipationRequest participationRequest = (ParticipationRequest) value;
         String reason = participationRequest.getReason();
-        if (!participationRequest.isApproved()) {
-            if (reason.isEmpty() || reason.length() > 300 || reason.length() < 10) {
+        if (!participationRequest.getIsApproved()) {
+            if (reason==null || reason.length() > 300 || reason.length() < 10) {
                 return false;
             }
             return true;
