@@ -3,7 +3,6 @@ package com.poolc.springproject.poolcreborn.service;
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
 import com.poolc.springproject.poolcreborn.model.participation.Participation;
 import com.poolc.springproject.poolcreborn.model.user.User;
-import com.poolc.springproject.poolcreborn.payload.request.participation.ParticipationRequest;
 import com.poolc.springproject.poolcreborn.payload.response.RequestedParticipationDto;
 import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserMajorDto;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;

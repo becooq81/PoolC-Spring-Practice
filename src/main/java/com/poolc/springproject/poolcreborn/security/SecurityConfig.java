@@ -5,7 +5,6 @@ import com.poolc.springproject.poolcreborn.security.jwt.AuthTokenFilter;
 import com.poolc.springproject.poolcreborn.security.jwt.JwtAuthEntryPoint;
 import com.poolc.springproject.poolcreborn.security.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -1,7 +1,6 @@
 package com.poolc.springproject.poolcreborn.payload.response.activity;
 
 import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserMajorDto;
-import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserRoleDto;
 import lombok.*;
 
 import java.time.LocalDate;
