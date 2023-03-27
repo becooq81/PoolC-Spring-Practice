@@ -18,7 +18,6 @@ public class Participation {
     @JoinColumn(name = "activity_id")
     private Activity activity;
 
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
