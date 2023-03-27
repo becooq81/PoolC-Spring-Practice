@@ -1,12 +1,16 @@
 package com.poolc.springproject.poolcreborn.controller;
 
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
+import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.request.participation.ParticipationRequest;
 import com.poolc.springproject.poolcreborn.payload.response.RequestedParticipationDto;
 import com.poolc.springproject.poolcreborn.payload.response.activity.ActivityDto;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
+import com.poolc.springproject.poolcreborn.repository.ParticipationRepository;
+import com.poolc.springproject.poolcreborn.repository.RequestedParticipationRepository;
+import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.ActivityService;
 import com.poolc.springproject.poolcreborn.service.ParticipationService;
 import com.poolc.springproject.poolcreborn.service.RequestedParticipationService;
@@ -31,6 +35,9 @@ public class ActivityController {
     private final ActivityService activityService;
     private final ParticipationService participationService;
     private final RequestedParticipationService requestedParticipationService;
+    private final ParticipationRepository participationRepository;
+    private final UserRepository userRepository;
+    private final RequestedParticipationRepository requestedParticipationRepository;
 
     @PostMapping("/new")
     public ResponseEntity<?> registerActivity(@RequestBody @Valid ActivityRequest activityRequest) {
@@ -57,21 +64,24 @@ public class ActivityController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}")
     public ResponseEntity<?> signupForActivity(@PathVariable("id") @Min(1) Long currentActivityId,
                                                 @RequestBody @Valid ParticipationRequest request) {
         String username = getLoginUsername();
+        User user = userRepository.findByUsername(username).get();
         Activity activity = activityRepository.findById(currentActivityId).get();
         if (!activity.getUser().getUsername().equals(username)) {
             // 세미나장 본인 아니면 신청 가능
-            if (request.isApproved()) {
-                participationService.saveParticipation(username, activity);
-                return ResponseEntity.ok("성공적으로 신청되었습니다.");
+            if (!participationRepository.existsByActivityAndUser(user, activity) && !requestedParticipationRepository.existsByActivityTitleAndUsername(username, activity.getTitle())) {
+                if (request.isApproved()) {
+                    participationService.saveParticipation(user, activity);
+                    return ResponseEntity.ok("성공적으로 신청되었습니다.");
+                } else {
+                    requestedParticipationService.saveRequestedParticipation(username, activity);
+                    return ResponseEntity.ok("성공적으로 신청을 요청했습니다.");
+                }
             }
-            else {
-                requestedParticipationService.saveRequestedParticipation(username, activity);
-                return ResponseEntity.ok("성공적으로 신청을 요청했습니다.");
-            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 신청한 활동입니다.");
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("본인의 활동은 신청할 수 없습니다.");
     }
@@ -85,7 +95,7 @@ public class ActivityController {
         return new ArrayList<>();
     }
 
-    @PatchMapping("/{id}/participants/requested")
+    @PostMapping("/{id}/participants/requested")
     public ResponseEntity<?> approveParticipants(@PathVariable("id") @Min(1) Long currentActivityId,
                                                  @RequestBody @Valid List<RequestedParticipationDto> requests) {
         String username = getLoginUsername();
