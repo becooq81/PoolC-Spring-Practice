@@ -37,7 +37,7 @@ public class AuthController {
 
         userService.saveUser(signupRequest);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(EMessage.SUCCESSFUL_SIGNUP_USER.getMessage());
     }
 
 }
