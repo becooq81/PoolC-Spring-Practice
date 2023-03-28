@@ -1,5 +1,6 @@
 package com.poolc.springproject.poolcreborn.model.activity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poolc.springproject.poolcreborn.model.participation.Participation;
 import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.validator.NotExceedingCapacity;
@@ -30,6 +31,7 @@ public class Activity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @NotNull
@@ -44,9 +46,6 @@ public class Activity {
     @NotNull
     @Max(100)
     private int capacity;
-
-    @NotNull
-    private int numParticipants = getParticipants().size();
 
     @Enumerated
     private Day day = Day.UNDECIDED;
@@ -99,5 +98,8 @@ public class Activity {
     }
     public int getTotalHours() {
         return this.sessions*this.hours;
+    }
+    public int getNumParticipants() {
+        return this.getParticipants().size();
     }
 }
