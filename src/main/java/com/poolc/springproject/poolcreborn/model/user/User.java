@@ -62,11 +62,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Participation> participationList = new HashSet<>();
 
-    private int totalHours = this.participationList.stream()
-            .map(Participation::getActivity)
-            .mapToInt(Activity::getTotalHours)
-            .sum();
-
     public User(String username, String password, String name, String email, String mobileNumber, String major, int studentId, String description) {
         this.username = username;
         this.password = password;
@@ -86,10 +81,25 @@ public class User {
         this.isMember = true;
         this.isAdmin = false;
         this.isClubMember = false;
+
     }
 
     public void addParticipating(Activity activity) {
         this.participationList.add(new Participation(this, activity));
+    }
+
+    public int getTotalHours() {
+        return this.participationList.stream()
+                .map(Participation::getActivity)
+                .mapToInt(Activity::getTotalHours)
+                .sum();
+    }
+
+    public boolean isQualified() {
+        if (this.getTotalHours() >= 6 || this.isAdmin) {
+            return true;
+        }
+        return false;
     }
 
 }
