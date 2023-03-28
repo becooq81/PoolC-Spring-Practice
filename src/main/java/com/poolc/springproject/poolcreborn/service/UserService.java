@@ -1,5 +1,7 @@
 package com.poolc.springproject.poolcreborn.service;
 
+import com.poolc.springproject.poolcreborn.model.activity.Activity;
+import com.poolc.springproject.poolcreborn.model.participation.Participation;
 import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.search.SearchRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.LoginRequest;
@@ -140,5 +142,13 @@ public class UserService {
                 .map(u -> userMapper.buildSimpleUserRoleDtoFromUser(u))
                 .collect(Collectors.toList());
 
+    }
+
+    public int getTotalActivityHours(String username) {
+        User user = userRepository.findByUsername(username).get();
+        return user.getParticipationList().stream()
+                .map(Participation::getActivity)
+                .mapToInt(Activity::getTotalHours)
+                .sum();
     }
 }
