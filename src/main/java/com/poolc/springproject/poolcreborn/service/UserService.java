@@ -146,9 +146,6 @@ public class UserService {
 
     public int getTotalActivityHours(String username) {
         User user = userRepository.findByUsername(username).get();
-        return user.getParticipationList().stream()
-                .map(Participation::getActivity)
-                .mapToInt(Activity::getTotalHours)
-                .sum();
+        return user.getTotalHours();
     }
 }

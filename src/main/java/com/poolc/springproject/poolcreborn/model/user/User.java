@@ -62,6 +62,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Participation> participationList = new HashSet<>();
 
+    private int totalHours = this.participationList.stream()
+            .map(Participation::getActivity)
+            .mapToInt(Activity::getTotalHours)
+            .sum();
+
     public User(String username, String password, String name, String email, String mobileNumber, String major, int studentId, String description) {
         this.username = username;
         this.password = password;
