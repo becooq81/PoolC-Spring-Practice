@@ -7,6 +7,7 @@ public enum EMessage {
     SELF_SIGNUP_DENIED("You cannot sign up for your own activity."),
     UPDATE_ACTIVITY_ACCESS_DENIED("You can only update your own activity."),
     APPROVAL_ACCESS_DENIED("You can only approve requests for your own activity."),
+    SUCCESSFUL_CREATED_ACTIVITY("You have successfully created an activity"),
     SUCCESSFUL_ROLE_ADD("You have successfully added roles."),
     SUCCESSFUL_UPDATE("You have successfully updated your activity."),
     SUCCESSFUL_SIGNUP_ACTIVITY("You have successfully signed up for this activity."),

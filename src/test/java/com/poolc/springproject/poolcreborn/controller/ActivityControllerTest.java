@@ -29,9 +29,8 @@ import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest
@@ -179,7 +178,7 @@ public class ActivityControllerTest extends TestCase {
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(content().string(EMessage.SUCCESSFUL_SIGNUP_ACTIVITY.getMessage()))
                 .andDo(print());
     }
 
@@ -206,6 +205,19 @@ public class ActivityControllerTest extends TestCase {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(print());
     }
+
+    @Test
+    @DisplayName("활동 요청 조회 실패")
+    @WithMockUser(username="member5678", roles = {"CLUB_MEMBER"})
+    public void 활동_요청_조회_실패() throws Exception {
+        mockMvc.perform(get(String.format("/activity/%d/participants/requested", activityId))
+                        .param("id", String.valueOf(activityId)))
+                .andExpect(content().json("[]"))
+                .andDo(print());
+    }
+
+
+
 
 
 }
