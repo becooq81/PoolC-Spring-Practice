@@ -93,6 +93,10 @@ public class User {
         this.participationList.add(new Participation(this, activity));
     }
 
+    public void addLeading(Activity activity) {
+        this.leadingList.add(activity);
+        this.addParticipating(activity);
+    }
     public int getTotalHours() {
         return this.participationList.stream()
                 .map(Participation::getActivity)
