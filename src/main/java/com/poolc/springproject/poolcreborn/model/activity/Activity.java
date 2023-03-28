@@ -63,7 +63,8 @@ public class Activity {
     private Set<Participation> participationList = new HashSet<>();
 
     private int sessions;
-
+    private int numParticipants;
+    private boolean isAvailable;
     public Activity(String title, LocalDate startDate, ActivityType activityType, int capacity, Day day, int hours, List<String> tags, String plan) {
         this.title = title;
         this.startDate = startDate;
@@ -79,7 +80,14 @@ public class Activity {
         else {
             this.semester = 1;
         }
-        sessions = 0;
+        this.sessions = 0;
+        this.numParticipants = 0;
+        if (this.numParticipants < capacity) {
+            this.isAvailable = true;
+        }
+        else {
+            this.isAvailable = false;
+        }
     }
 
     public Activity() {
@@ -87,6 +95,10 @@ public class Activity {
     }
     public void addParticipant(User user) {
         this.participationList.add(new Participation(user, this));
+        this.numParticipants += 1;
+        if (this.numParticipants >= this.capacity) {
+            isAvailable = false;
+        }
     }
     public Set<User> getParticipants() {
         if (this.participationList==null) {
@@ -102,7 +114,5 @@ public class Activity {
     public int getTotalHours() {
         return this.sessions*this.hours;
     }
-    public int getNumParticipants() {
-        return this.getParticipants().size();
-    }
+
 }
