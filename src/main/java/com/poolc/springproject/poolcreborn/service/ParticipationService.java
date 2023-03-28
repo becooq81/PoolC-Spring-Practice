@@ -21,12 +21,14 @@ public class ParticipationService {
     private final ActivityRepository activityRepository;
 
     public void saveParticipation(User user, Activity activity) {
-        Participation participation = new Participation();
-        participation.setUser(user);
-        participation.setActivity(activity);
-        activity.addParticipant(user);
-        user.addParticipating(activity);
-        participationRepository.save(participation);
+         if (user.isClubMember()) {
+             Participation participation = new Participation();
+             participation.setUser(user);
+             participation.setActivity(activity);
+             activity.addParticipant(user);
+             user.addParticipating(activity);
+             participationRepository.save(participation);
+         }
     }
     public void approveParticipationRequest(RequestedParticipationDto requestedParticipationDto) {
         User user = userRepository.findByUsername(requestedParticipationDto.getUsername()).get();
