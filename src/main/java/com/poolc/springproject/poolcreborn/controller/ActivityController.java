@@ -1,5 +1,6 @@
 package com.poolc.springproject.poolcreborn.controller;
 
+import com.poolc.springproject.poolcreborn.model.EMessage;
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
 import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
@@ -59,9 +60,9 @@ public class ActivityController {
         Activity activity = activityRepository.findById(currentActivityId).get();
         if (activity.getUser().getUsername().equals(username)) {
             activityService.updateActivity(activityUpdateRequest, currentActivityId);
-            return ResponseEntity.ok("성공적으로 수정했습니다.");
+            return ResponseEntity.ok(EMessage.SUCCESSFUL_UPDATE.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(EMessage.UPDATE_ACTIVITY_ACCESS_DENIED.getMessage());
     }
 
     @PostMapping("/{id}/participants")
@@ -75,15 +76,15 @@ public class ActivityController {
             if (!participationRepository.existsByActivityAndUser(activity, user) && !requestedParticipationRepository.existsByActivityTitleAndUsername(username, activity.getTitle())) {
                 if (request.getIsApproved()) {
                     participationService.saveParticipation(user, activity);
-                    return ResponseEntity.ok("성공적으로 신청되었습니다.");
+                    return ResponseEntity.ok(EMessage.SUCCESSFUL_SIGNUP.getMessage());
                 } else {
                     requestedParticipationService.saveRequestedParticipation(username, activity);
-                    return ResponseEntity.ok("성공적으로 신청을 요청했습니다.");
+                    return ResponseEntity.ok(EMessage.SUCCESSFUL_SIGNUP_REQUEST.getMessage());
                 }
             }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 신청한 활동입니다.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(EMessage.ALREADY_SIGNED_UP.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("본인의 활동은 신청할 수 없습니다.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(EMessage.SELF_SIGNUP_DENIED.getMessage());
     }
     @GetMapping("/{id}/participants/requested")
     public List<RequestedParticipationDto> viewParticipationRequests(@PathVariable("id") @Min(1) Long currentActivityId) {
@@ -103,9 +104,9 @@ public class ActivityController {
         if (activity.getUser().getUsername().equals(username)) {
             // 세미나장 본인이면 신청 승인 가능
             participationService.approveParticipationRequestList(requests);
-            return ResponseEntity.ok("성공적으로 요청을 승인했습니다.");
+            return ResponseEntity.ok(EMessage.SUCCESSFUL_REQUEST_APPROVAL.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("본인이 개설한 활동만 신청 요청자를 승인할 수 있습니다.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(EMessage.APPROVAL_ACCESS_DENIED.getMessage());
 
     }
 }

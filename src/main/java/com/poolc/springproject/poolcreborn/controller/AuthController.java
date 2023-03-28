@@ -1,5 +1,6 @@
 package com.poolc.springproject.poolcreborn.controller;
 
+import com.poolc.springproject.poolcreborn.model.EMessage;
 import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.LoginRequest;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
@@ -27,11 +28,11 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
 
         if (userRepository.existsByUsername(signupRequest.getUsername())) {
-            return new ResponseEntity<>("Username is already taken.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(EMessage.USED_USERNAME.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
         if (userRepository.existsByEmail(signupRequest.getEmail())) {
-            return new ResponseEntity<>("Email is already taken.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(EMessage.USED_EMAIL.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
         userService.saveUser(signupRequest);

@@ -1,5 +1,6 @@
 package com.poolc.springproject.poolcreborn.controller;
 
+import com.poolc.springproject.poolcreborn.model.EMessage;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserVo;
 import com.poolc.springproject.poolcreborn.payload.response.user.DetailedUserDto;
 import com.poolc.springproject.poolcreborn.payload.response.user.UserHoursDto;
@@ -41,7 +42,7 @@ public class AdminController {
                 userService.addClubMemberRole(username);
             }
         }
-        return ResponseEntity.ok("Roles have been modified successfully.");
+        return ResponseEntity.ok(EMessage.SUCCESSFUL_ROLE_ADD.getMessage());
     }
 
     @GetMapping("/hours")
