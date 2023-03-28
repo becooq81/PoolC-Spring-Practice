@@ -2,6 +2,7 @@ package com.poolc.springproject.poolcreborn.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.poolc.springproject.poolcreborn.model.EMessage;
 import com.poolc.springproject.poolcreborn.model.activity.ActivityType;
 import com.poolc.springproject.poolcreborn.model.activity.Day;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
@@ -164,7 +165,7 @@ public class ActivityControllerTest extends TestCase {
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("본인의 활동은 신청할 수 없습니다."))
+                .andExpect(content().string(EMessage.SELF_SIGNUP_DENIED.getMessage()))
                 .andDo(print());
     }
 
@@ -202,7 +203,8 @@ public class ActivityControllerTest extends TestCase {
     public void 활동_요청_조회() throws Exception {
         mockMvc.perform(get(String.format("/activity/%d/participants/requested", activityId))
                 .param("id", String.valueOf(activityId)))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andDo(print());
     }
 
 
