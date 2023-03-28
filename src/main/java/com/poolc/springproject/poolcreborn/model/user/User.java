@@ -61,8 +61,7 @@ public class User {
     private boolean isClubMember;
     private boolean isAdmin;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "activity_id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Activity> leadingList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
