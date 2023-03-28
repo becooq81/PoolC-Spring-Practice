@@ -62,7 +62,7 @@ public class Activity {
     @OneToMany(mappedBy = "activity")
     private Set<Participation> participationList = new HashSet<>();
 
-    private int sessions = 0;
+    private int sessions;
 
     public Activity(String title, LocalDate startDate, ActivityType activityType, int capacity, Day day, int hours, List<String> tags, String plan) {
         this.title = title;
@@ -79,9 +79,12 @@ public class Activity {
         else {
             this.semester = 1;
         }
+        sessions = 0;
     }
 
-    public Activity() {}
+    public Activity() {
+        sessions=0;
+    }
     public void addParticipant(User user) {
         this.participationList.add(new Participation(user, this));
     }
