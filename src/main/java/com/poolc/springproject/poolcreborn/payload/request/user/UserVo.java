@@ -18,4 +18,12 @@ public class UserVo {
     private boolean isClubMember;
     private boolean isAdmin;
 
+    public UserVo() {}
+    public UserVo(String username, boolean isMember, boolean isClubMember, boolean isAdmin) {
+        this.username = username;
+        this.isMember = isMember;
+        this.isClubMember = isClubMember;
+        this.isAdmin = isAdmin;
+    }
+
 }
