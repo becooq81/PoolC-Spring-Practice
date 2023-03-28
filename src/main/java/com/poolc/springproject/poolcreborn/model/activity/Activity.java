@@ -97,4 +97,7 @@ public class Activity {
     public void addSession() {
         this.sessions += 1;
     }
+    public int getTotalHours() {
+        return this.sessions*this.hours;
+    }
 }
