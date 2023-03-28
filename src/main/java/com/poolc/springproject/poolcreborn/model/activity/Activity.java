@@ -63,6 +63,8 @@ public class Activity {
     @OneToMany(mappedBy = "activity")
     private Set<Participation> participationList = new HashSet<>();
 
+    private int sessions = 0;
+
     public Activity(String title, LocalDate startDate, ActivityType activityType, int capacity, Day day, int hours, List<String> tags, String plan) {
         this.title = title;
         this.startDate = startDate;
@@ -91,5 +93,8 @@ public class Activity {
         return this.participationList.stream()
                 .map(Participation::getUser)
                 .collect(Collectors.toSet());
+    }
+    public void addSession() {
+        this.sessions += 1;
     }
 }
