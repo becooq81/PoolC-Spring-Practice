@@ -28,6 +28,7 @@ import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -49,9 +50,12 @@ public class ActivityControllerTest extends TestCase {
     @Autowired
     UserService userService;
 
+    private int activityId;
+
     @Before
-    public void setObjectMapper() {
+    public void init() {
         objectMapper.registerModule(new JavaTimeModule());
+        activityId = 5;
     }
 
     private static ActivityRequest createActivityRequest() {
@@ -119,7 +123,7 @@ public class ActivityControllerTest extends TestCase {
     @DisplayName("익명으로 활동 상세 페이지 접근")
     @WithAnonymousUser
     public void 익명_활동_상세_성공() throws Exception {
-        mockMvc.perform(get(String.format("/activity/%d", 4)))
+        mockMvc.perform(get(String.format("/activity/%d", activityId)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -129,7 +133,7 @@ public class ActivityControllerTest extends TestCase {
     @WithAnonymousUser
     public void 익명_활동_신청_실패() throws Exception {
         String content = objectMapper.writeValueAsString(createParticipationRequest());
-        mockMvc.perform(post(String.format("/activity/%d/participants", 4))
+        mockMvc.perform(post(String.format("/activity/%d/participants", activityId))
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -142,7 +146,7 @@ public class ActivityControllerTest extends TestCase {
     @WithMockUser(username = "becooq81", password="hello12345")
     public void 준회원_활동_신청_실패() throws Exception {
         String content = objectMapper.writeValueAsString(createParticipationRequest());
-        mockMvc.perform(post(String.format("/activity/%d/participants", 4))
+        mockMvc.perform(post(String.format("/activity/%d/participants", activityId))
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -155,12 +159,12 @@ public class ActivityControllerTest extends TestCase {
     @WithMockUser(username="member1234",roles={"CLUB_MEMBER"})
     public void 본인_활동_신청_실패() throws Exception {
         String content = objectMapper.writeValueAsString(createParticipationRequest());
-        mockMvc.perform(post(String.format("/activity/%d/participants", 4))
-                        .param("id", "4")
+        mockMvc.perform(post(String.format("/activity/%d/participants", activityId))
+                        .param("id", String.valueOf(activityId))
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is4xxClientError())
+                .andExpect(content().string("본인의 활동은 신청할 수 없습니다."))
                 .andDo(print());
     }
 
@@ -169,13 +173,36 @@ public class ActivityControllerTest extends TestCase {
     @WithMockUser(username="admin1234", roles={"CLUB_MEMBER", "ADMIN"})
     public void 활동_신청_성공() throws Exception {
         String content = objectMapper.writeValueAsString(createParticipationRequest());
-        mockMvc.perform(post(String.format("/activity/%d/participants", 4))
-                        .param("id", "4")
+        mockMvc.perform(post(String.format("/activity/%d/participants", activityId))
+                        .param("id", String.valueOf(activityId))
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
+    }
+
+    @Test
+    @DisplayName("활동 요청 신청 성공")
+    @WithMockUser(username="admin1234", roles={"CLUB_MEMBER", "ADMIN"})
+    public void 활동_요청_신청_성공() throws Exception {
+        String content = objectMapper.writeValueAsString(createParticipationRequest());
+        mockMvc.perform(post(String.format("/activity/%d/participants", activityId))
+                        .param("id", String.valueOf(activityId))
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("활동 요청 조회 성공")
+    @WithMockUser(username="member1234", roles = {"CLUB_MEMBER"})
+    public void 활동_요청_조회() throws Exception {
+        mockMvc.perform(get(String.format("/activity/%d/participants/requested", activityId))
+                .param("id", String.valueOf(activityId)))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
 
