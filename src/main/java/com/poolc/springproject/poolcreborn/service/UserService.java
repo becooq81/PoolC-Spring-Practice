@@ -9,6 +9,7 @@ import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.response.user.DetailedUserDto;
 import com.poolc.springproject.poolcreborn.payload.response.JwtResponse;
+import com.poolc.springproject.poolcreborn.payload.response.user.UserHoursDto;
 import com.poolc.springproject.poolcreborn.payload.response.user.UserRoleDto;
 import com.poolc.springproject.poolcreborn.payload.response.user.UserDto;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
@@ -143,9 +144,33 @@ public class UserService {
                 .collect(Collectors.toList());
 
     }
-
-    public int getTotalActivityHours(String username) {
+    private int getTotalActivityHours(String username) {
         User user = userRepository.findByUsername(username).get();
         return user.getTotalHours();
+    }
+    public List<UserHoursDto> findAllHoursByAdmin(int page, int size) {
+        PageRequest pr = PageRequest.of(page, size);
+        Page<User> users = userRepository.findAll(pr);
+        if (users.getNumberOfElements() == 0) {
+            return new ArrayList<>();
+        }
+        return users.stream()
+                .filter(User::isClubMember)
+                .map(u -> buildUserHoursDtoFromUser(u))
+                .collect(Collectors.toList());
+    }
+
+    private UserHoursDto buildUserHoursDtoFromUser(User user) {
+        UserHoursDto userHoursDto = new UserHoursDto();
+
+        userHoursDto.setUsername(user.getUsername());
+        userHoursDto.setName(user.getName());
+        userHoursDto.setMajor(user.getMajor());
+        userHoursDto.setStudentId(user.getStudentId());
+        userHoursDto.setTotalHours(user.getTotalHours());
+        userHoursDto.setAdmin(user.isAdmin());
+        userHoursDto.setQualified(user.isQualified());
+
+        return userHoursDto;
     }
 }
