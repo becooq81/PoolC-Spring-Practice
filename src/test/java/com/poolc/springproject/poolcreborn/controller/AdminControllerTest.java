@@ -80,7 +80,7 @@ public class AdminControllerTest {
     @WithMockUser(username = "admin1234", password = "admin1234", roles={"ADMIN", "USER"})
     public void 관리자_관리자페이지() throws Exception {
         mockMvc.perform(get("/admin")
-                        .param("page", "1")
+                        .param("page", "0")
                         .param("size", "100"))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -96,6 +96,17 @@ public class AdminControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(EMessage.SUCCESSFUL_ROLE_ADD.getMessage()))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("회원 시간 조회")
+    @WithMockUser(username = "admin1234", password = "admin1234", roles={"ADMIN", "USER"})
+    public void 관리자_회원_시간_조회() throws Exception {
+        mockMvc.perform(get("/admin/hours")
+                .param("page", "0")
+                .param("size", "100"))
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 }
