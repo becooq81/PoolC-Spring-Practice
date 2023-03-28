@@ -5,7 +5,7 @@ import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.response.activity.ActivityDto;
-import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserMajorDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.UserMajorDto;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.util.ActivityMapper;
@@ -40,7 +40,7 @@ public class ActivityService {
         activityRepository.save(activity);
     }
 
-    public Set<SimpleUserMajorDto> getParticipants(Activity activity) {
+    public Set<UserMajorDto> getParticipants(Activity activity) {
         return activity.getParticipants().stream()
                 .map(p -> userMapper.buildSimpleUserMajorDtoFromUser(p))
                 .collect(Collectors.toSet());

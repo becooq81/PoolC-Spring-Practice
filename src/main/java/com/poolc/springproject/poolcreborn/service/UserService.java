@@ -9,7 +9,7 @@ import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.response.user.DetailedUserDto;
 import com.poolc.springproject.poolcreborn.payload.response.JwtResponse;
-import com.poolc.springproject.poolcreborn.payload.response.user.SimpleUserRoleDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.UserRoleDto;
 import com.poolc.springproject.poolcreborn.payload.response.user.UserDto;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.security.jwt.JwtUtils;
@@ -96,7 +96,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<SimpleUserRoleDto> findAllUsersByClubMember(int page, int size) {
+    public List<UserRoleDto> findAllUsersByClubMember(int page, int size) {
         PageRequest pr = PageRequest.of(page, size);
         Page<User> users = userRepository.findAll(pr);
         if (users.getNumberOfElements() == 0) {
@@ -112,11 +112,11 @@ public class UserService {
         User user = userRepository.findByUsername(username).get();
         return userMapper.buildUserDtoFromUser(user);
     }
-    public List<SimpleUserRoleDto> searchUser(SearchRequest searchRequest, int page, int size) {
+    public List<UserRoleDto> searchUser(SearchRequest searchRequest, int page, int size) {
         PageRequest pr = PageRequest.of(page, size);
         return processSearchRequest(searchRequest, pr);
     }
-    private List<SimpleUserRoleDto> processSearchRequest(SearchRequest searchRequest, PageRequest pr) {
+    private List<UserRoleDto> processSearchRequest(SearchRequest searchRequest, PageRequest pr) {
         Page<User> searchUsers;
         String keyword = searchRequest.getKeyword();
         switch (searchRequest.getSearchCategory()) {

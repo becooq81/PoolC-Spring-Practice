@@ -9,8 +9,8 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Setter
-public class SimpleUserRoleDto {
+public class UserMajorDto {
     private String username;
     private String name;
-    private boolean isAdmin;
+    private String major;
 }
