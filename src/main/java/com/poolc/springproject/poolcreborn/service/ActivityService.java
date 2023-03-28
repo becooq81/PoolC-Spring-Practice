@@ -30,6 +30,7 @@ public class ActivityService {
         Activity activity = new Activity();
         activityMapper.buildActivityFromRequest(activityRequest, activity);
         User user = userRepository.findByUsername(username).get();
+        user.addLeading(activity);
         activity.setUser(user);
         activityRepository.save(activity);
     }
