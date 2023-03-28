@@ -8,7 +8,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -59,6 +61,10 @@ public class User {
     private boolean isClubMember;
     private boolean isAdmin;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "activity_id")
+    private List<Activity> leadingList = new ArrayList<>();
+
     @OneToMany(mappedBy = "user")
     private Set<Participation> participationList = new HashSet<>();
 
@@ -96,7 +102,10 @@ public class User {
     }
 
     public boolean isQualified() {
-        if (this.getTotalHours() >= 6 || this.isAdmin) {
+        int leadingHours = this.leadingList.stream()
+                .mapToInt(Activity::getTotalHours)
+                .sum();
+        if (this.getTotalHours() >= 6 || this.isAdmin || leadingHours >= 4) {
             return true;
         }
         return false;
