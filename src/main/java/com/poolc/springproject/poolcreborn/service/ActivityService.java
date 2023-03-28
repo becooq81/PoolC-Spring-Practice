@@ -30,7 +30,13 @@ public class ActivityService {
         Activity activity = new Activity();
         activityMapper.buildActivityFromRequest(activityRequest, activity);
         User user = userRepository.findByUsername(username).get();
-        user.addLeading(activity);
+        switch (activity.getActivityType()) {
+            case STUDY:
+                user.addLeadingStudy(activity);
+                break;
+            case SEMINAR:
+                user.addLeadingSeminar(activity);
+        }
         activity.setUser(user);
         activityRepository.save(activity);
     }

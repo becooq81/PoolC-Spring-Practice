@@ -144,10 +144,6 @@ public class UserService {
                 .collect(Collectors.toList());
 
     }
-    private int getTotalActivityHours(String username) {
-        User user = userRepository.findByUsername(username).get();
-        return user.getTotalHours();
-    }
     public List<UserHoursDto> findAllHoursByAdmin(int page, int size) {
         PageRequest pr = PageRequest.of(page, size);
         Page<User> users = userRepository.findAll(pr);
@@ -167,9 +163,12 @@ public class UserService {
         userHoursDto.setName(user.getName());
         userHoursDto.setMajor(user.getMajor());
         userHoursDto.setStudentId(user.getStudentId());
-        userHoursDto.setTotalHours(user.getTotalHours());
         userHoursDto.setAdmin(user.isAdmin());
         userHoursDto.setQualified(user.isQualified());
+        userHoursDto.setAttendingHours(user.getTotalAttendingHours());
+        userHoursDto.setSeminarLeadingHours(user.getLeadingSeminarHours());
+        userHoursDto.setStudyLeadingHours(user.getLeadingStudyHours());
+
 
         return userHoursDto;
     }

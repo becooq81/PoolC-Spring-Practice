@@ -62,7 +62,9 @@ public class User {
     private boolean isAdmin;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Activity> leadingList = new ArrayList<>();
+    private List<Activity> leadingSeminars = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Activity> leadingStudies = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private Set<Participation> participationList = new HashSet<>();
@@ -93,11 +95,7 @@ public class User {
         this.participationList.add(new Participation(this, activity));
     }
 
-    public void addLeading(Activity activity) {
-        this.leadingList.add(activity);
-        this.addParticipating(activity);
-    }
-    public int getTotalHours() {
+    public int getTotalAttendingHours() {
         return this.participationList.stream()
                 .map(Participation::getActivity)
                 .mapToInt(Activity::getTotalHours)
@@ -105,13 +103,33 @@ public class User {
     }
 
     public boolean isQualified() {
-        int leadingHours = this.leadingList.stream()
+        int leadingHours = this.leadingSeminars.stream()
+                .mapToInt(Activity::getTotalHours)
+                .sum()
+                + this.leadingStudies.stream()
                 .mapToInt(Activity::getTotalHours)
                 .sum();
-        if (this.getTotalHours() >= 6 || this.isAdmin || leadingHours >= 4) {
+        if (this.getTotalAttendingHours() >= 6 || this.isAdmin || leadingHours >= 4) {
             return true;
         }
         return false;
+    }
+    public void addLeadingStudy(Activity activity) {
+        this.leadingStudies.add(activity);
+    }
+    public void addLeadingSeminar(Activity activity) {
+        this.leadingSeminars.add(activity);
+    }
+
+    public int getLeadingStudyHours() {
+        return this.leadingStudies.stream()
+                .mapToInt(Activity::getTotalHours)
+                .sum();
+    }
+    public int getLeadingSeminarHours() {
+        return this.leadingSeminars.stream()
+                .mapToInt(Activity::getTotalHours)
+                .sum();
     }
 
 }
