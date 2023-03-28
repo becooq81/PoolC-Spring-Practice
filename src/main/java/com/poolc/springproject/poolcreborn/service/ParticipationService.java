@@ -36,6 +36,7 @@ public class ParticipationService {
     }
     public void approveParticipationRequestList(List<RequestedParticipationDto> requestedParticipationDtoList) {
         requestedParticipationDtoList.stream()
+                .filter(r -> userRepository.findByUsername(r.getUsername()).get().isClubMember())
                 .forEach(this::approveParticipationRequest);
     }
 }
