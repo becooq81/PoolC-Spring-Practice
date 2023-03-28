@@ -68,9 +68,12 @@ public class ActivityController {
     @PostMapping("/{id}/participants")
     public ResponseEntity<?> signupForActivity(@PathVariable("id") @Min(1) Long currentActivityId,
                                                 @RequestBody @Valid ParticipationRequest request) {
+        Activity activity = activityRepository.findById(currentActivityId).get();
+        if (!activity.isAvailable()) {
+            return ResponseEntity.ok(EMessage.FAIL_SIGNUP_ACTIVITY.getMessage());
+        }
         String username = getLoginUsername();
         User user = userRepository.findByUsername(username).get();
-        Activity activity = activityRepository.findById(currentActivityId).get();
         if (!activity.getUser().getUsername().equals(username)) {
             // 세미나장 본인 아니면 신청 가능
             if (!participationRepository.existsByActivityAndUser(activity, user) && !requestedParticipationRepository.existsByActivityTitleAndUsername(username, activity.getTitle())) {
