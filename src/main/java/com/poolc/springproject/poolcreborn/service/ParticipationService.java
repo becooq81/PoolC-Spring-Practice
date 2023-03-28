@@ -20,14 +20,18 @@ public class ParticipationService {
     private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
 
-    public void saveParticipation(User user, Activity activity) {
-         if (user.isClubMember()) {
+    public boolean saveParticipation(User user, Activity activity) {
+         if (user.isClubMember() && activity.getParticipants().size() < activity.getCapacity()) {
              Participation participation = new Participation();
              participation.setUser(user);
              participation.setActivity(activity);
              activity.addParticipant(user);
              user.addParticipating(activity);
              participationRepository.save(participation);
+             return true;
+         }
+         else {
+             return false;
          }
     }
     public void approveParticipationRequest(RequestedParticipationDto requestedParticipationDto) {

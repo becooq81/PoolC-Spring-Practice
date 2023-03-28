@@ -75,8 +75,12 @@ public class ActivityController {
             // 세미나장 본인 아니면 신청 가능
             if (!participationRepository.existsByActivityAndUser(activity, user) && !requestedParticipationRepository.existsByActivityTitleAndUsername(username, activity.getTitle())) {
                 if (request.getIsApproved()) {
-                    participationService.saveParticipation(user, activity);
-                    return ResponseEntity.ok(EMessage.SUCCESSFUL_SIGNUP_ACTIVITY.getMessage());
+                    boolean saved = participationService.saveParticipation(user, activity);
+                    if (saved) {
+                        return ResponseEntity.ok(EMessage.SUCCESSFUL_SIGNUP_ACTIVITY.getMessage());
+                    } else {
+                        return ResponseEntity.ok(EMessage.FAIL_SIGNUP_ACTIVITY.getMessage());
+                    }
                 } else {
                     requestedParticipationService.saveRequestedParticipation(username, activity);
                     return ResponseEntity.ok(EMessage.SUCCESSFUL_SIGNUP_REQUEST.getMessage());

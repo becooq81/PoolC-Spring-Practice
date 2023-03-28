@@ -52,7 +52,7 @@ public class ActivityControllerTest extends TestCase {
     @Before
     public void init() {
         objectMapper.registerModule(new JavaTimeModule());
-        activityId = 5;
+        activityId = 7;
     }
 
     private static ActivityRequest createActivityRequest() {
@@ -208,6 +208,20 @@ public class ActivityControllerTest extends TestCase {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(EMessage.SUCCESSFUL_SIGNUP_REQUEST.getMessage()))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("활동 정원 초과")
+    @WithMockUser(username="admin1234", roles={"CLUB_MEMBER", "ADMIN"})
+    public void 활동_정원_초과() throws Exception {
+        String content = objectMapper.writeValueAsString(createApprovedParticipationRequest());
+        mockMvc.perform(post(String.format("/activity/%d/participants", 9))
+                        .param("id", String.valueOf(9))
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().string(EMessage.FAIL_SIGNUP_ACTIVITY.getMessage()))
                 .andDo(print());
     }
 
