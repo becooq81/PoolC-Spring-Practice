@@ -76,7 +76,7 @@ public class ActivityController {
             if (!participationRepository.existsByActivityAndUser(activity, user) && !requestedParticipationRepository.existsByActivityTitleAndUsername(username, activity.getTitle())) {
                 if (request.getIsApproved()) {
                     participationService.saveParticipation(user, activity);
-                    return ResponseEntity.ok(EMessage.SUCCESSFUL_SIGNUP.getMessage());
+                    return ResponseEntity.ok(EMessage.SUCCESSFUL_SIGNUP_ACTIVITY.getMessage());
                 } else {
                     requestedParticipationService.saveRequestedParticipation(username, activity);
                     return ResponseEntity.ok(EMessage.SUCCESSFUL_SIGNUP_REQUEST.getMessage());
