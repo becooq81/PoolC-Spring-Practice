@@ -16,5 +16,6 @@ public class UserHoursDto {
     private int studentId;
     private int totalHours;
     private boolean isAdmin;
+    private boolean isQualified;
 
 }
