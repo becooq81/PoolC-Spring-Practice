@@ -7,6 +7,7 @@ import com.poolc.springproject.poolcreborn.model.activity.ActivityType;
 import com.poolc.springproject.poolcreborn.model.activity.Day;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
 import com.poolc.springproject.poolcreborn.payload.request.participation.ParticipationRequest;
+import com.poolc.springproject.poolcreborn.payload.response.RequestedParticipationDto;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.UserService;
 import junit.framework.TestCase;
@@ -25,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -44,11 +46,6 @@ public class ActivityControllerTest extends TestCase {
     @Autowired
     ObjectMapper objectMapper;
 
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    UserService userService;
 
     private int activityId;
 
@@ -72,9 +69,27 @@ public class ActivityControllerTest extends TestCase {
         return activityRequest;
     }
 
-    private static ParticipationRequest createParticipationRequest() {
+    private static List<RequestedParticipationDto> createRqDtos() {
+        RequestedParticipationDto rqDto = new RequestedParticipationDto(
+                "admin1234",
+                "자료구조",
+                "경제학과"
+        );
+        List<RequestedParticipationDto> rqDtos = new ArrayList<>();
+        rqDtos.add(rqDto);
+        return rqDtos;
+    }
+
+    private static ParticipationRequest createApprovedParticipationRequest() {
         ParticipationRequest participationRequest = ParticipationRequest.builder()
                 .isApproved(true)
+                .build();
+        return participationRequest;
+    }
+    private static ParticipationRequest createParticipationRequest() {
+        ParticipationRequest participationRequest = ParticipationRequest.builder()
+                .isApproved(false)
+                .reason("세미나에 참가하여 열심히 공부하고자합니다!")
                 .build();
         return participationRequest;
     }
@@ -115,7 +130,7 @@ public class ActivityControllerTest extends TestCase {
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(content().string(EMessage.SUCCESSFUL_CREATED_ACTIVITY.getMessage()))
                 .andDo(print());
     }
 
@@ -132,7 +147,7 @@ public class ActivityControllerTest extends TestCase {
     @DisplayName("익명으로 활동 신청")
     @WithAnonymousUser
     public void 익명_활동_신청_실패() throws Exception {
-        String content = objectMapper.writeValueAsString(createParticipationRequest());
+        String content = objectMapper.writeValueAsString(createApprovedParticipationRequest());
         mockMvc.perform(post(String.format("/activity/%d/participants", activityId))
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -172,7 +187,7 @@ public class ActivityControllerTest extends TestCase {
     @DisplayName("활동 신청 성공")
     @WithMockUser(username="admin1234", roles={"CLUB_MEMBER", "ADMIN"})
     public void 활동_신청_성공() throws Exception {
-        String content = objectMapper.writeValueAsString(createParticipationRequest());
+        String content = objectMapper.writeValueAsString(createApprovedParticipationRequest());
         mockMvc.perform(post(String.format("/activity/%d/participants", activityId))
                         .param("id", String.valueOf(activityId))
                         .content(content)
@@ -192,7 +207,7 @@ public class ActivityControllerTest extends TestCase {
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(content().string(EMessage.SUCCESSFUL_SIGNUP_REQUEST.getMessage()))
                 .andDo(print());
     }
 
@@ -216,8 +231,18 @@ public class ActivityControllerTest extends TestCase {
                 .andDo(print());
     }
 
-
-
-
+    @Test
+    @DisplayName("활동 요청 승인 성공")
+    @WithMockUser(username="member1234", roles = {"CLUB_MEMBER"})
+    public void 활동_요청_승인_성공() throws Exception {
+        String content = objectMapper.writeValueAsString(createRqDtos());
+        mockMvc.perform(post(String.format("/activity/%d/participants/requested", activityId))
+                .param("id", String.valueOf(activityId))
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().string(EMessage.SUCCESSFUL_REQUEST_APPROVAL.getMessage()))
+                .andDo(print());
+    }
 
 }
