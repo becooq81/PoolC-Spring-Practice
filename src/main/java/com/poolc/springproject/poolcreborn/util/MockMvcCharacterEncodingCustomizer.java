@@ -6,7 +6,6 @@ import org.springframework.test.web.servlet.setup.ConfigurableMockMvcBuilder;
 
 import java.nio.charset.StandardCharsets;
 
-// @AutoconfigureMockMvc를 사용하여 MockMvc를 주입하는 경우에 한해서만 적용
 @Component
 class MockMvcCharacterEncodingCustomizer implements MockMvcBuilderCustomizer {
     @Override
