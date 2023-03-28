@@ -2,6 +2,7 @@ package com.poolc.springproject.poolcreborn.controller;
 
 import com.poolc.springproject.poolcreborn.payload.request.user.UserVo;
 import com.poolc.springproject.poolcreborn.payload.response.user.DetailedUserDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.UserHoursDto;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,12 @@ public class AdminController {
             }
         }
         return ResponseEntity.ok("Roles have been modified successfully.");
+    }
+
+    @GetMapping("/hours")
+    public ResponseEntity<List<UserHoursDto>> viewHours(@RequestParam int page, @RequestParam int size) {
+        List<UserHoursDto> userHoursDtos = userService.findAllHoursByAdmin(page, size);
+        return new ResponseEntity<>(userHoursDtos, HttpStatus.OK);
     }
 
 }
