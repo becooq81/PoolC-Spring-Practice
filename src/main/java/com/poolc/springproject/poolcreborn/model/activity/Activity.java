@@ -48,7 +48,7 @@ public class Activity {
     private int capacity;
 
     @Enumerated
-    private Day day = Day.UNDECIDED;
+    private Set<Day> days = new HashSet<>();
 
     @NotNull
     @Max(10)
@@ -65,12 +65,12 @@ public class Activity {
     private int sessions;
     private int numParticipants;
     private boolean isAvailable;
-    public Activity(String title, LocalDate startDate, ActivityType activityType, int capacity, Day day, int hours, List<String> tags, String plan) {
+    public Activity(String title, LocalDate startDate, ActivityType activityType, int capacity, Set<Day> days, int hours, List<String> tags, String plan) {
         this.title = title;
         this.startDate = startDate;
         this.activityType = activityType;
         this.capacity = capacity;
-        this.day = day;
+        this.days = days;
         this.hours = hours;
         this.tags = tags;
         this.plan = plan;
