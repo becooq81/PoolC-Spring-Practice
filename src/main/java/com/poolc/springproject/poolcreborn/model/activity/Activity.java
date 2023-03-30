@@ -74,14 +74,14 @@ public class Activity {
         this.hours = hours;
         this.tags = tags;
         this.plan = plan;
+        this.sessions = 0;
+        this.numParticipants = 0;
         if (startDate.getMonthValue() >= 9) {
             this.semester = 2;
         }
         else {
             this.semester = 1;
         }
-        this.sessions = 0;
-        this.numParticipants = 0;
         if (this.numParticipants < capacity) {
             this.isAvailable = true;
         }
