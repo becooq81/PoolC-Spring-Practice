@@ -47,7 +47,7 @@ public class Activity {
     @Max(100)
     private int capacity;
 
-    @Enumerated
+    @ElementCollection(targetClass = Day.class)
     private Set<Day> days = new HashSet<>();
 
     @NotNull
