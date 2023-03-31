@@ -1,7 +1,6 @@
 package com.poolc.springproject.poolcreborn.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.poolc.springproject.poolcreborn.model.EMessage;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserVo;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.poolc.springproject.poolcreborn.util.Message.SUCCESSFUL_ROLE_ADD;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -95,7 +95,7 @@ public class AdminControllerTest {
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(content().string(EMessage.SUCCESSFUL_ROLE_ADD.getMessage()))
+                .andExpect(content().string(SUCCESSFUL_ROLE_ADD))
                 .andDo(print());
     }
 

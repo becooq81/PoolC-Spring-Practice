@@ -1,7 +1,6 @@
 package com.poolc.springproject.poolcreborn.controller.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.poolc.springproject.poolcreborn.model.EMessage;
 import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.poolc.springproject.poolcreborn.util.Message.SUCCESSFUL_SIGNUP_USER;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -55,7 +55,7 @@ public class SignupTest {
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(content().string(EMessage.SUCCESSFUL_SIGNUP_USER.getMessage()))
+                .andExpect(content().string(SUCCESSFUL_SIGNUP_USER))
                 .andDo(print());
 
     }

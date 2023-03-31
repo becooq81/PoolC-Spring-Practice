@@ -2,14 +2,11 @@ package com.poolc.springproject.poolcreborn.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.poolc.springproject.poolcreborn.model.EMessage;
 import com.poolc.springproject.poolcreborn.model.activity.ActivityType;
 import com.poolc.springproject.poolcreborn.model.activity.Day;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
 import com.poolc.springproject.poolcreborn.payload.request.participation.ParticipationRequest;
 import com.poolc.springproject.poolcreborn.payload.response.RequestedParticipationDto;
-import com.poolc.springproject.poolcreborn.repository.UserRepository;
-import com.poolc.springproject.poolcreborn.service.UserService;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +26,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.poolc.springproject.poolcreborn.util.Message.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -130,7 +128,7 @@ public class ActivityControllerTest extends TestCase {
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(content().string(EMessage.SUCCESSFUL_CREATED_ACTIVITY.getMessage()))
+                .andExpect(content().string(SUCCESSFUL_CREATED_ACTIVITY))
                 .andDo(print());
     }
 
@@ -179,7 +177,7 @@ public class ActivityControllerTest extends TestCase {
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(content().string(EMessage.SELF_SIGNUP_DENIED.getMessage()))
+                .andExpect(content().string(SELF_SIGNUP_DENIED))
                 .andDo(print());
     }
 
@@ -193,7 +191,7 @@ public class ActivityControllerTest extends TestCase {
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(content().string(EMessage.SUCCESSFUL_SIGNUP_ACTIVITY.getMessage()))
+                .andExpect(content().string(SUCCESSFUL_SIGNUP_ACTIVITY))
                 .andDo(print());
     }
 
@@ -207,7 +205,7 @@ public class ActivityControllerTest extends TestCase {
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(content().string(EMessage.SUCCESSFUL_SIGNUP_REQUEST.getMessage()))
+                .andExpect(content().string(SUCCESSFUL_SIGNUP_REQUEST))
                 .andDo(print());
     }
 
@@ -221,7 +219,7 @@ public class ActivityControllerTest extends TestCase {
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(content().string(EMessage.FAIL_SIGNUP_ACTIVITY.getMessage()))
+                .andExpect(content().string(FAIL_SIGNUP_ACTIVITY))
                 .andDo(print());
     }
 
@@ -255,7 +253,7 @@ public class ActivityControllerTest extends TestCase {
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(content().string(EMessage.SUCCESSFUL_REQUEST_APPROVAL.getMessage()))
+                .andExpect(content().string(SUCCESSFUL_REQUEST_APPROVAL))
                 .andDo(print());
     }
 

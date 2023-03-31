@@ -1,6 +1,5 @@
 package com.poolc.springproject.poolcreborn.controller;
 
-import com.poolc.springproject.poolcreborn.model.EMessage;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserVo;
 import com.poolc.springproject.poolcreborn.payload.response.user.DetailedUserDto;
 import com.poolc.springproject.poolcreborn.payload.response.user.UserHoursDto;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.poolc.springproject.poolcreborn.util.Message.SUCCESSFUL_ROLE_ADD;
 
 @RestController
 @RequestMapping("/admin")
@@ -42,7 +43,7 @@ public class AdminController {
                 userService.addClubMemberRole(username);
             }
         }
-        return ResponseEntity.ok(EMessage.SUCCESSFUL_ROLE_ADD.getMessage());
+        return ResponseEntity.ok(SUCCESSFUL_ROLE_ADD);
     }
 
     @GetMapping("/hours")

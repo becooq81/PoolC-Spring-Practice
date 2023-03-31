@@ -1,6 +1,5 @@
 package com.poolc.springproject.poolcreborn.controller;
 
-import com.poolc.springproject.poolcreborn.model.EMessage;
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
 import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
@@ -27,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.poolc.springproject.poolcreborn.security.SecurityUtil.getLoginUsername;
+import static com.poolc.springproject.poolcreborn.util.Message.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,7 +44,7 @@ public class ActivityController {
     public ResponseEntity<?> registerActivity(@RequestBody @Valid ActivityRequest activityRequest) {
         String username = getLoginUsername();
         activityService.saveActivity(activityRequest, username);
-        return ResponseEntity.status(HttpStatus.CREATED).body(EMessage.SUCCESSFUL_CREATED_ACTIVITY.getMessage());
+        return ResponseEntity.status(HttpStatus.CREATED).body(SUCCESSFUL_CREATED_ACTIVITY);
     }
 
     @GetMapping("/{id}")
@@ -60,9 +60,9 @@ public class ActivityController {
         Activity activity = activityRepository.findById(currentActivityId).get();
         if (activity.getUser().getUsername().equals(username)) {
             activityService.updateActivity(activityUpdateRequest, currentActivityId);
-            return ResponseEntity.ok(EMessage.SUCCESSFUL_UPDATE.getMessage());
+            return ResponseEntity.ok(SUCCESSFUL_UPDATE);
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(EMessage.UPDATE_ACTIVITY_ACCESS_DENIED.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(UPDATE_ACTIVITY_ACCESS_DENIED);
     }
 
     @PostMapping("/{id}/participants")
@@ -70,7 +70,7 @@ public class ActivityController {
                                                 @RequestBody @Valid ParticipationRequest request) {
         Activity activity = activityRepository.findById(currentActivityId).get();
         if (!activity.isAvailable()) {
-            return ResponseEntity.ok(EMessage.FAIL_SIGNUP_ACTIVITY.getMessage());
+            return ResponseEntity.ok(FAIL_SIGNUP_ACTIVITY);
         }
         String username = getLoginUsername();
         User user = userRepository.findByUsername(username).get();
@@ -80,18 +80,18 @@ public class ActivityController {
                 if (request.getIsApproved()) {
                     boolean saved = participationService.saveParticipation(user, activity);
                     if (saved) {
-                        return ResponseEntity.ok(EMessage.SUCCESSFUL_SIGNUP_ACTIVITY.getMessage());
+                        return ResponseEntity.ok(SUCCESSFUL_SIGNUP_ACTIVITY);
                     } else {
-                        return ResponseEntity.ok(EMessage.FAIL_SIGNUP_ACTIVITY.getMessage());
+                        return ResponseEntity.ok(FAIL_SIGNUP_ACTIVITY);
                     }
                 } else {
                     requestedParticipationService.saveRequestedParticipation(username, activity);
-                    return ResponseEntity.ok(EMessage.SUCCESSFUL_SIGNUP_REQUEST.getMessage());
+                    return ResponseEntity.ok(SUCCESSFUL_SIGNUP_REQUEST);
                 }
             }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(EMessage.ALREADY_SIGNED_UP.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ALREADY_SIGNED_UP);
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(EMessage.SELF_SIGNUP_DENIED.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(SELF_SIGNUP_DENIED);
     }
     @GetMapping("/{id}/participants/requested")
     public List<RequestedParticipationDto> viewParticipationRequests(@PathVariable("id") @Min(1) Long currentActivityId) {
@@ -111,9 +111,9 @@ public class ActivityController {
         if (activity.getUser().getUsername().equals(username)) {
             // 세미나장 본인이면 신청 승인 가능
             participationService.approveParticipationRequestList(requests);
-            return ResponseEntity.ok(EMessage.SUCCESSFUL_REQUEST_APPROVAL.getMessage());
+            return ResponseEntity.ok(SUCCESSFUL_REQUEST_APPROVAL);
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(EMessage.APPROVAL_ACCESS_DENIED.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(APPROVAL_ACCESS_DENIED);
 
     }
 }
