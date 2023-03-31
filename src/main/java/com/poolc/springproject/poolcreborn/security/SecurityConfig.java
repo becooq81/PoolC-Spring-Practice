@@ -27,7 +27,6 @@ public class SecurityConfig {
 
     private final JwtAuthEntryPoint unauthorizedHandler;
     private final UserRepository userRepository;
-
     @Bean
     public  UserDetailsServiceImpl userDetailsService() {
         return new UserDetailsServiceImpl(userRepository);
@@ -71,6 +70,7 @@ public class SecurityConfig {
                     .antMatchers("/my-info").hasAnyAuthority("ROLE_CLUB_MEMBER", "ROLE_ADMIN", "ROLE_USER")
                     .antMatchers("/**/new", "/activity/**/participants", "/activity/**/participants/**").hasAnyAuthority("ROLE_CLUB_MEMBER", "ROLE_ADMIN")
                     .antMatchers("/admin", "/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                    .antMatchers("/login/confirm/mail").hasAnyAuthority("ROLE_USER")
                     .antMatchers("/login", "/signup", "/activity", "/activity/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
