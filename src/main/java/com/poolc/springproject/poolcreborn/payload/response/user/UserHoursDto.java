@@ -17,11 +17,7 @@ public class UserHoursDto {
     private int seminarLeadingHours;
     private int studyLeadingHours;
     private int attendingHours;
+    private int totalHours = seminarLeadingHours + studyLeadingHours + attendingHours;
     private boolean isAdmin;
     private boolean isQualified;
-
-    public int getTotalHours() {
-        return seminarLeadingHours + studyLeadingHours + attendingHours;
-    }
-
 }
