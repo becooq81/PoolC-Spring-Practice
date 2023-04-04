@@ -28,6 +28,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
     implementation 'junit:junit:4.12'
+    implementation 'org.apache.commons:commons-collections4:4.4'
     implementation 'org.mapstruct:mapstruct:1.5.3.Final'
     implementation 'org.springframework.boot:spring-boot-test-autoconfigure:2.2.7.RELEASE'
     implementation 'org.springframework:spring-test'

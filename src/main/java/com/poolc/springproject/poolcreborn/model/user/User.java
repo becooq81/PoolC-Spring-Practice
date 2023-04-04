@@ -5,6 +5,7 @@ import com.poolc.springproject.poolcreborn.model.participation.Participation;
 import com.poolc.springproject.poolcreborn.validator.IncludeCharInt;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.collections4.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -103,10 +104,7 @@ public class User {
     }
 
     public boolean isQualified() {
-        int leadingHours = this.leadingSeminars.stream()
-                .mapToInt(Activity::getTotalHours)
-                .sum()
-                + this.leadingStudies.stream()
+        int leadingHours = ListUtils.union(leadingSeminars, leadingStudies).stream()
                 .mapToInt(Activity::getTotalHours)
                 .sum();
         if (this.getTotalAttendingHours() >= 6 || this.isAdmin || leadingHours >= 4) {
