@@ -7,13 +7,13 @@ import com.poolc.springproject.poolcreborn.payload.request.participation.Partici
 import com.poolc.springproject.poolcreborn.payload.response.RequestedParticipationDto;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
 import com.poolc.springproject.poolcreborn.repository.ParticipationRepository;
-import com.poolc.springproject.poolcreborn.repository.RequestedParticipationRepository;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -23,9 +23,6 @@ public class ParticipationService {
     private final ParticipationRepository participationRepository;
     private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
-    private final RequestedParticipationRepository requestedParticipationRepository;
-
-    private final RequestedParticipationService requestedParticipationService;
     public boolean saveParticipation(User user, Activity activity) {
          if (!user.isClubMember()) {
              return false;
@@ -57,14 +54,35 @@ public class ParticipationService {
     public boolean signupRequestAvailable(String username, String activityTitle, ParticipationRequest request) {
         Activity activity = activityRepository.findByTitle(activityTitle).get();
         User user = userRepository.findByUsername(username).get();
-        if (!participationRepository.existsByActivityAndUser(activity, user) && !requestedParticipationRepository.existsByActivityTitleAndUsername(username, activity.getTitle())) {
+        if (!participationRepository.existsByActivityAndUser(activity, user)) {
             if (request.getIsApproved()) {
                 return saveParticipation(user, activity);
             }
             else {
-                return requestedParticipationService.saveRequestedParticipation(username, activity);
+                return saveParticipation(user, activity);
             }
         }
         return false;
+    }
+    public RequestedParticipationDto buildRequestedParticipationDtoFromRequestedParticipation(Participation participation) {
+        if (participation == null || !participation.isApproved()) {
+            return null;
+        }
+        RequestedParticipationDto requestedParticipationDto = new RequestedParticipationDto();
+
+        requestedParticipationDto.setActivityTitle(participation.getActivity().getTitle());
+        requestedParticipationDto.setUsername(participation.getActivity().getUser().getUsername());
+        requestedParticipationDto.setMajor(userRepository.findByUsername(participation.getUser().getUsername()).get().getMajor());
+        requestedParticipationDto.setReason(participation.getReason());
+
+        return requestedParticipationDto;
+    }
+    public List<RequestedParticipationDto> viewRequestedParticipation(Long activityId) {
+        String activityTitle = activityRepository.findById(activityId).get().getTitle();
+        List<Participation> requests = participationRepository.findByActivityTitleAndIsApproved(activityTitle, false);
+        return requests.stream()
+                .map(r -> buildRequestedParticipationDtoFromRequestedParticipation(r))
+                .collect(Collectors.toList());
+
     }
 }

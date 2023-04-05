@@ -8,7 +8,6 @@ import com.poolc.springproject.poolcreborn.payload.response.RequestedParticipati
 import com.poolc.springproject.poolcreborn.payload.response.activity.ActivityDto;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
 import com.poolc.springproject.poolcreborn.repository.ParticipationRepository;
-import com.poolc.springproject.poolcreborn.repository.RequestedParticipationRepository;
 import com.poolc.springproject.poolcreborn.service.ActivityService;
 import com.poolc.springproject.poolcreborn.service.ParticipationService;
 import com.poolc.springproject.poolcreborn.service.UserService;
@@ -33,10 +32,8 @@ public class ActivityController {
     private final ActivityRepository activityRepository;
     private final ActivityService activityService;
     private final ParticipationService participationService;
-    private final RequestedParticipationService requestedParticipationService;
     private final ParticipationRepository participationRepository;
     private final UserService userService;
-    private final RequestedParticipationRepository requestedParticipationRepository;
 
     @PostMapping("/new")
     public ResponseEntity<?> registerActivity(@RequestBody @Valid ActivityRequest activityRequest) {
