@@ -1,5 +1,6 @@
 package com.poolc.springproject.poolcreborn.service;
 
+import com.poolc.springproject.poolcreborn.exception.InvalidUserException;
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
 import com.poolc.springproject.poolcreborn.model.activity.ActivityType;
 import com.poolc.springproject.poolcreborn.model.user.User;
