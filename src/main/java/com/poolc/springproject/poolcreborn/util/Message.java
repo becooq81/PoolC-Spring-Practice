@@ -5,11 +5,11 @@ public final class Message {
     public static final String USED_EMAIL = "This message is already in use.";
     public static final String USED_USERNAME = "This username is already in use.";
     public static final String WRONG_EMAIL = "Please enter your email correctly.";
+    public static final String USER_DOES_NOT_EXIST = "The user does not exist.";
     public static final String SELF_SIGNUP_DENIED = "You cannot sign up for your own activity.";
     public static final String UPDATE_ACTIVITY_ACCESS_DENIED = "You can only update your own activity.";
     public static final String APPROVAL_ACCESS_DENIED = "You can only approve requests for your own activity.";
     public static final String FAIL_SIGNUP_ACTIVITY = "You failed to sign up for this activity.";
-
     public static final String SUCCESSFUL_SIGNUP_USER = "You have successfully created an account.";
     public static final String SUCCESSFUL_CREATED_ACTIVITY = "You have successfully created an activity";
     public static final String SUCCESSFUL_ROLE_ADD = "You have successfully added roles.";
