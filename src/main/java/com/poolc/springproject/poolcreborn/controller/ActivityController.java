@@ -7,6 +7,7 @@ import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityUpda
 import com.poolc.springproject.poolcreborn.payload.request.participation.ParticipationRequest;
 import com.poolc.springproject.poolcreborn.payload.response.RequestedParticipationDto;
 import com.poolc.springproject.poolcreborn.payload.response.activity.ActivityDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.UserDto;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
 import com.poolc.springproject.poolcreborn.repository.ParticipationRepository;
 import com.poolc.springproject.poolcreborn.repository.RequestedParticipationRepository;
@@ -14,6 +15,7 @@ import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.ActivityService;
 import com.poolc.springproject.poolcreborn.service.ParticipationService;
 import com.poolc.springproject.poolcreborn.service.RequestedParticipationService;
+import com.poolc.springproject.poolcreborn.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +39,7 @@ public class ActivityController {
     private final ParticipationService participationService;
     private final RequestedParticipationService requestedParticipationService;
     private final ParticipationRepository participationRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final RequestedParticipationRepository requestedParticipationRepository;
 
     @PostMapping("/new")
@@ -69,29 +71,23 @@ public class ActivityController {
     public ResponseEntity<?> signupForActivity(@PathVariable("id") @Min(1) Long currentActivityId,
                                                 @RequestBody @Valid ParticipationRequest request) {
         Activity activity = activityRepository.findById(currentActivityId).get();
-        if (!activity.isAvailable()) {
-            return ResponseEntity.ok(FAIL_SIGNUP_ACTIVITY);
-        }
         String username = getLoginUsername();
-        User user = userRepository.findByUsername(username).get();
-        if (!activity.getUser().getUsername().equals(username)) {
-            // 세미나장 본인 아니면 신청 가능
-            if (!participationRepository.existsByActivityAndUser(activity, user) && !requestedParticipationRepository.existsByActivityTitleAndUsername(username, activity.getTitle())) {
-                if (request.getIsApproved()) {
-                    boolean saved = participationService.saveParticipation(user, activity);
-                    if (saved) {
-                        return ResponseEntity.ok(SUCCESSFUL_SIGNUP_ACTIVITY);
-                    } else {
-                        return ResponseEntity.ok(FAIL_SIGNUP_ACTIVITY);
-                    }
-                } else {
-                    requestedParticipationService.saveRequestedParticipation(username, activity);
-                    return ResponseEntity.ok(SUCCESSFUL_SIGNUP_REQUEST);
-                }
-            }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ALREADY_SIGNED_UP);
+        HttpStatus httpStatus;
+        String message;
+
+        if (!activity.isAvailable() || activity.getUser().getUsername().equals(username)) {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            message = FAIL_SIGNUP_ACTIVITY;
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(SELF_SIGNUP_DENIED);
+        if (participationService.signupRequestAvailable(username, activity.getTitle(), request)) {
+            httpStatus = HttpStatus.ACCEPTED;
+            message = SUCCESSFUL_SIGNUP_ACTIVITY;
+        }
+        else {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            message = FAIL_SIGNUP_ACTIVITY;
+        }
+        return ResponseEntity.status(httpStatus).body(message);
     }
     @GetMapping("/{id}/participants/requested")
     public List<RequestedParticipationDto> viewParticipationRequests(@PathVariable("id") @Min(1) Long currentActivityId) {
