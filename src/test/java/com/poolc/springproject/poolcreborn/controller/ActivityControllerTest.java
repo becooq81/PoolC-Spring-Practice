@@ -6,7 +6,7 @@ import com.poolc.springproject.poolcreborn.model.activity.ActivityType;
 import com.poolc.springproject.poolcreborn.model.activity.Day;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
 import com.poolc.springproject.poolcreborn.payload.request.participation.ParticipationRequest;
-import com.poolc.springproject.poolcreborn.payload.response.RequestedParticipationDto;
+import com.poolc.springproject.poolcreborn.payload.response.participation.RequestedParticipationDto;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;

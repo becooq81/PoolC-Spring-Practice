@@ -1,4 +1,4 @@
-package com.poolc.springproject.poolcreborn.payload.response;
+package com.poolc.springproject.poolcreborn.payload.response.participation;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
