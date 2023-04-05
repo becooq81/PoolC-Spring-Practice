@@ -24,6 +24,8 @@ public class Participation {
 
     private boolean isApproved;
 
+    private String reason;
+
     public Participation() {}
     public Participation(User user, Activity activity) {
         this.user = user;
