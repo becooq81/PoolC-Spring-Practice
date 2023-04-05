@@ -20,13 +20,15 @@ public class RequestedParticipationService {
     private final ActivityRepository activityRepository;
     private final UserRepository userRepository;
 
-    public void saveRequestedParticipation(String username, Activity activity) {
+    public boolean saveRequestedParticipation(String username, Activity activity) {
         if (userRepository.findByUsername(username).get().isClubMember()) {
             RequestedParticipation requestedParticipation = new RequestedParticipation();
             requestedParticipation.setUsername(username);
             requestedParticipation.setActivityTitle(activity.getTitle());
             requestedParticipationRepository.save(requestedParticipation);
+            return true;
         }
+        return false;
     }
 
     public List<RequestedParticipationDto> viewRequestedParticipation(Long activityId) {
