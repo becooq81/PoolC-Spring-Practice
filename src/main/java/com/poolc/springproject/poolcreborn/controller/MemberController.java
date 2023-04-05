@@ -49,7 +49,8 @@ public class MemberController {
     public ResponseEntity<?> deleteUser(@Valid @RequestBody UserDeleteRequest userDeleteRequest) {
         String username = getLoginUsername();
         userService.deleteUser(username);
-        return ResponseEntity.ok(SUCCESSFUL_DELETE_USER);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(SUCCESSFUL_DELETE_USER);
     }
 
     @GetMapping("/members/search")

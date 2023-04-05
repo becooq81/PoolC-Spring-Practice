@@ -43,7 +43,8 @@ public class AdminController {
                 userService.addClubMemberRole(username);
             }
         }
-        return ResponseEntity.ok(SUCCESSFUL_ROLE_ADD);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(SUCCESSFUL_ROLE_ADD);
     }
 
     @GetMapping("/hours")

@@ -1,17 +1,14 @@
 package com.poolc.springproject.poolcreborn.controller;
 
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
-import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.request.participation.ParticipationRequest;
 import com.poolc.springproject.poolcreborn.payload.response.RequestedParticipationDto;
 import com.poolc.springproject.poolcreborn.payload.response.activity.ActivityDto;
-import com.poolc.springproject.poolcreborn.payload.response.user.UserDto;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
 import com.poolc.springproject.poolcreborn.repository.ParticipationRepository;
 import com.poolc.springproject.poolcreborn.repository.RequestedParticipationRepository;
-import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.service.ActivityService;
 import com.poolc.springproject.poolcreborn.service.ParticipationService;
 import com.poolc.springproject.poolcreborn.service.RequestedParticipationService;
@@ -60,11 +57,19 @@ public class ActivityController {
     public ResponseEntity<?> updateActivity(@PathVariable("id") @Min(1) Long currentActivityId, @RequestBody @Valid ActivityUpdateRequest activityUpdateRequest) {
         String username = getLoginUsername();
         Activity activity = activityRepository.findById(currentActivityId).get();
+        HttpStatus httpStatus;
+        String message;
         if (activity.getUser().getUsername().equals(username)) {
             activityService.updateActivity(activityUpdateRequest, currentActivityId);
-            return ResponseEntity.ok(SUCCESSFUL_UPDATE);
+            httpStatus = HttpStatus.OK;
+            message = SUCCESSFUL_UPDATE;
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(UPDATE_ACTIVITY_ACCESS_DENIED);
+        else {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            message = UPDATE_ACTIVITY_ACCESS_DENIED;
+        }
+        return ResponseEntity.status(httpStatus)
+                .body(message);
     }
 
     @PostMapping("/{id}/participants")
@@ -79,15 +84,16 @@ public class ActivityController {
             httpStatus = HttpStatus.BAD_REQUEST;
             message = FAIL_SIGNUP_ACTIVITY;
         }
-        if (participationService.signupRequestAvailable(username, activity.getTitle(), request)) {
-            httpStatus = HttpStatus.ACCEPTED;
+        else if (participationService.signupRequestAvailable(username, activity.getTitle(), request)) {
+            httpStatus = HttpStatus.OK;
             message = SUCCESSFUL_SIGNUP_ACTIVITY;
         }
         else {
             httpStatus = HttpStatus.BAD_REQUEST;
             message = FAIL_SIGNUP_ACTIVITY;
         }
-        return ResponseEntity.status(httpStatus).body(message);
+        return ResponseEntity.status(httpStatus)
+                .body(message);
     }
     @GetMapping("/{id}/participants/requested")
     public List<RequestedParticipationDto> viewParticipationRequests(@PathVariable("id") @Min(1) Long currentActivityId) {
@@ -104,12 +110,21 @@ public class ActivityController {
                                                  @RequestBody @Valid List<RequestedParticipationDto> requests) {
         String username = getLoginUsername();
         Activity activity = activityRepository.findById(currentActivityId).get();
+
+        HttpStatus httpStatus;
+        String message;
+
         if (activity.getUser().getUsername().equals(username)) {
-            // 세미나장 본인이면 신청 승인 가능
             participationService.approveParticipationRequestList(requests);
-            return ResponseEntity.ok(SUCCESSFUL_REQUEST_APPROVAL);
+            httpStatus = HttpStatus.OK;
+            message = SUCCESSFUL_REQUEST_APPROVAL;
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(APPROVAL_ACCESS_DENIED);
+        else {
+            httpStatus = HttpStatus.BAD_REQUEST;
+            message = APPROVAL_ACCESS_DENIED;
+        }
+        return ResponseEntity.status(httpStatus)
+                .body(message);
 
     }
 }
