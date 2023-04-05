@@ -38,7 +38,7 @@ public class ParticipationService {
              return true;
          }
     }
-    public void approveParticipationRequest(RequestedParticipationDto requestedParticipationDto) {
+    private void approveParticipationRequest(RequestedParticipationDto requestedParticipationDto) {
         User user = userRepository.findByUsername(requestedParticipationDto.getUsername()).orElse(null);
         Activity activity = activityRepository.findByTitle(requestedParticipationDto.getActivityTitle()).orElse(null);
         if (user != null && activity != null) {
