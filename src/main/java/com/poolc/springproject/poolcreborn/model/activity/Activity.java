@@ -45,7 +45,7 @@ public class Activity {
     private ActivityType activityType;
 
     @Enumerated(EnumType.STRING)
-    private ParticipationType partcipationType;
+    private ParticipationType participationType;
 
     @NotNull
     @Max(100)
@@ -72,7 +72,7 @@ public class Activity {
         this.title = title;
         this.startDate = startDate;
         this.activityType = activityType;
-        this.partcipationType = participationType;
+        this.participationType = participationType;
         this.capacity = capacity;
         this.days = days;
         this.hours = hours;
