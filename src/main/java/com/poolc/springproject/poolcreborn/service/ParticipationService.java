@@ -11,11 +11,13 @@ import com.poolc.springproject.poolcreborn.repository.RequestedParticipationRepo
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ParticipationService {
     private final ParticipationRepository participationRepository;
