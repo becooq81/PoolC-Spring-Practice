@@ -7,10 +7,8 @@ import com.poolc.springproject.poolcreborn.payload.request.participation.Partici
 import com.poolc.springproject.poolcreborn.payload.response.RequestedParticipationDto;
 import com.poolc.springproject.poolcreborn.payload.response.activity.ActivityDto;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
-import com.poolc.springproject.poolcreborn.repository.ParticipationRepository;
 import com.poolc.springproject.poolcreborn.service.ActivityService;
 import com.poolc.springproject.poolcreborn.service.ParticipationService;
-import com.poolc.springproject.poolcreborn.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +30,6 @@ public class ActivityController {
     private final ActivityRepository activityRepository;
     private final ActivityService activityService;
     private final ParticipationService participationService;
-    private final ParticipationRepository participationRepository;
-    private final UserService userService;
 
     @PostMapping("/new")
     public ResponseEntity<?> registerActivity(@RequestBody @Valid ActivityRequest activityRequest) {
