@@ -41,8 +41,7 @@ public class ActivityController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ActivityDto> viewActivity(@PathVariable("id") @Min(1) Long currentActivityId) {
-        String username = getLoginUsername();
-        Activity activity = activityRepository.findById(currentActivityId).get();
+        Activity activity = activityRepository.findById(currentActivityId).orElse(null);
         return new ResponseEntity<>(activityService.buildActivityDtoFromActivity(activity), HttpStatus.OK);
     }
 
@@ -50,38 +49,32 @@ public class ActivityController {
     public ResponseEntity<?> updateActivity(@PathVariable("id") @Min(1) Long currentActivityId, @RequestBody @Valid ActivityUpdateRequest activityUpdateRequest) {
         String username = getLoginUsername();
         HttpStatus httpStatus = HttpStatus.OK;
-        String message = SUCCESSFUL_UPDATE_ACTIVITY;;
+        String message = SUCCESSFUL_UPDATE_ACTIVITY;
 
         try {
             activityService.updateActivity(username, activityUpdateRequest, currentActivityId);
         } catch (Exception e) {
             httpStatus = HttpStatus.BAD_REQUEST;
-            message = UPDATE_ACTIVITY_ACCESS_DENIED;
-        } finally {
-            return ResponseEntity.status(httpStatus)
-                    .body(message);
+            message = e.getMessage();
         }
+        return ResponseEntity.status(httpStatus)
+                    .body(message);
     }
 
     @PostMapping("/{id}/participants")
     public ResponseEntity<?> signupForActivity(@PathVariable("id") @Min(1) Long currentActivityId,
                                                 @RequestBody @Valid ParticipationRequest request) {
-        Activity activity = activityRepository.findById(currentActivityId).get();
+        Activity activity = activityRepository.findById(currentActivityId).orElse(null);
         String username = getLoginUsername();
-        HttpStatus httpStatus;
-        String message;
 
-        if (!activity.isAvailable() || activity.getUser().getUsername().equals(username)) {
+        HttpStatus httpStatus = HttpStatus.OK;
+        String message = SUCCESSFUL_SIGNUP_ACTIVITY;
+
+        try {
+            participationService.signupParticipation(username, activity.getTitle(), request);
+        } catch (Exception e) {
             httpStatus = HttpStatus.BAD_REQUEST;
-            message = FAIL_SIGNUP_ACTIVITY;
-        }
-        else if (participationService.signupRequestAvailable(username, activity.getTitle(), request)) {
-            httpStatus = HttpStatus.OK;
-            message = SUCCESSFUL_SIGNUP_ACTIVITY;
-        }
-        else {
-            httpStatus = HttpStatus.BAD_REQUEST;
-            message = FAIL_SIGNUP_ACTIVITY;
+            message = e.getMessage();
         }
         return ResponseEntity.status(httpStatus)
                 .body(message);
@@ -98,7 +91,7 @@ public class ActivityController {
 
     @PostMapping("/{id}/participants/requested")
     public ResponseEntity<?> approveParticipants(@PathVariable("id") @Min(1) Long currentActivityId,
-                                                 @RequestBody @Valid List<RequestedParticipationDto> requests) {
+                                                 @RequestBody @Valid List<RequestedParticipationDto> requests) throws Exception {
         String username = getLoginUsername();
         Activity activity = activityRepository.findById(currentActivityId).get();
 
