@@ -15,12 +15,12 @@ public class Participation {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "activity_id")
-    private Activity activity;
-
-    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "activity_id")
+    private Activity activity;
 
     private boolean isApproved;
 
