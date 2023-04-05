@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<div style="margin:100px;">
+    <h1> Welcome to PoolC!</h1>
+    <br>
+    <p> Please copy and past the verification code below to the page.</p>
+    <br>
+
+    <div align="center" style="border:1px solid black; font-family:verdana;">
+        <h3 style="color:blue"> The verification code is: </h3>
+        <div style="font-size:130%" th:text="${code}"> </div>
+    </div>
+    <br/>
+</div>
+
+
+</body>
+</html>

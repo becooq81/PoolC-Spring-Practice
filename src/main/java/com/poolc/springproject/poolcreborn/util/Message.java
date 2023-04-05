@@ -13,7 +13,7 @@ public final class Message {
     public static final String SUCCESSFUL_SIGNUP_USER = "You have successfully created an account.";
     public static final String SUCCESSFUL_CREATED_ACTIVITY = "You have successfully created an activity";
     public static final String SUCCESSFUL_ROLE_ADD = "You have successfully added roles.";
-    public static final String SUCCESSFUL_UPDATE = "You have successfully updated your activity.";
+    public static final String SUCCESSFUL_UPDATE_ACTIVITY = "You have successfully updated your activity.";
     public static final String SUCCESSFUL_SIGNUP_ACTIVITY = "You have successfully signed up or requested sign-up for this activity.";
     public static final String SUCCESSFUL_REQUEST_APPROVAL = "You have successfully approved requests.";
     public static final String SUCCESSFUL_DELETE_USER = "You have successfully deleted your account.";
