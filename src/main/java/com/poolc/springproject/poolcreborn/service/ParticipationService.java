@@ -25,7 +25,10 @@ public class ParticipationService {
 
     private final RequestedParticipationService requestedParticipationService;
     public boolean saveParticipation(User user, Activity activity) {
-         if (user.isClubMember()) {
+         if (!user.isClubMember()) {
+             return false;
+         }
+         else {
              Participation participation = new Participation();
              participation.setUser(user);
              participation.setActivity(activity);
@@ -33,9 +36,6 @@ public class ParticipationService {
              user.addParticipating(activity);
              participationRepository.save(participation);
              return true;
-         }
-         else {
-             return false;
          }
     }
     public void approveParticipationRequest(RequestedParticipationDto requestedParticipationDto) {
