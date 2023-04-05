@@ -82,12 +82,7 @@ public class Activity {
         else {
             this.semester = 1;
         }
-        if (this.numParticipants < capacity) {
-            this.isAvailable = true;
-        }
-        else {
-            this.isAvailable = false;
-        }
+        this.isAvailable = this.numParticipants < capacity;
     }
 
     public Activity() {
