@@ -71,7 +71,8 @@ public class ActivityControllerTest extends TestCase {
         RequestedParticipationDto rqDto = new RequestedParticipationDto(
                 "admin1234",
                 "자료구조",
-                "경제학과"
+                "경제학과",
+                "열심히 하고 싶습니다"
         );
         List<RequestedParticipationDto> rqDtos = new ArrayList<>();
         rqDtos.add(rqDto);
