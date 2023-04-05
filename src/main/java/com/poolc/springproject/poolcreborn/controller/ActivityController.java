@@ -56,20 +56,18 @@ public class ActivityController {
     @PatchMapping("/{id}/edit")
     public ResponseEntity<?> updateActivity(@PathVariable("id") @Min(1) Long currentActivityId, @RequestBody @Valid ActivityUpdateRequest activityUpdateRequest) {
         String username = getLoginUsername();
-        Activity activity = activityRepository.findById(currentActivityId).get();
-        HttpStatus httpStatus;
-        String message;
-        if (activity.getUser().getUsername().equals(username)) {
-            activityService.updateActivity(activityUpdateRequest, currentActivityId);
-            httpStatus = HttpStatus.OK;
-            message = SUCCESSFUL_UPDATE;
-        }
-        else {
+        HttpStatus httpStatus = HttpStatus.OK;
+        String message = SUCCESSFUL_UPDATE_ACTIVITY;;
+
+        try {
+            activityService.updateActivity(username, activityUpdateRequest, currentActivityId);
+        } catch (Exception e) {
             httpStatus = HttpStatus.BAD_REQUEST;
             message = UPDATE_ACTIVITY_ACCESS_DENIED;
+        } finally {
+            return ResponseEntity.status(httpStatus)
+                    .body(message);
         }
-        return ResponseEntity.status(httpStatus)
-                .body(message);
     }
 
     @PostMapping("/{id}/participants")

@@ -26,7 +26,6 @@ public class ActivityService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-
     public void saveActivity(ActivityRequest activityRequest, String username) {
         Activity activity = new Activity();
         activityMapper.buildActivityFromRequest(activityRequest, activity);
@@ -41,10 +40,14 @@ public class ActivityService {
         activityRepository.save(activity);
     }
 
-    public void updateActivity(ActivityUpdateRequest activityUpdateRequest, Long currentActivityId) {
+    public void updateActivity(String username, ActivityUpdateRequest activityUpdateRequest, Long currentActivityId) {
         Activity activity = activityRepository.findById(currentActivityId).get();
-        activityMapper.updateActivityInfoFromRequest(activityUpdateRequest, activity);
-        activityRepository.save(activity);
+        if (username != activity.getUser().getUsername()) {
+            throw new IllegalArgumentException();
+        } else {
+            activityMapper.updateActivityInfoFromRequest(activityUpdateRequest, activity);
+            activityRepository.save(activity);
+        }
     }
 
     public Set<UserMajorDto> getParticipants(Activity activity) {
