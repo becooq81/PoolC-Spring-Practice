@@ -3,10 +3,7 @@ package com.poolc.springproject.poolcreborn.util;
 import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.UserUpdateRequest;
-import com.poolc.springproject.poolcreborn.payload.response.user.DetailedUserDto;
-import com.poolc.springproject.poolcreborn.payload.response.user.UserMajorDto;
-import com.poolc.springproject.poolcreborn.payload.response.user.UserRoleDto;
-import com.poolc.springproject.poolcreborn.payload.response.user.UserDto;
+import com.poolc.springproject.poolcreborn.payload.response.user.*;
 import org.mapstruct.*;
 
 
@@ -22,4 +19,5 @@ public interface UserMapper {
     UserRoleDto buildSimpleUserRoleDtoFromUser(User user);
     UserMajorDto buildSimpleUserMajorDtoFromUser(User user);
     UserDto buildUserDtoFromUser(User user);
+    UserHoursDto buildUserHoursDtoFromUser(User user);
 }

@@ -14,10 +14,10 @@ public class UserHoursDto {
     private String name;
     private String major;
     private int studentId;
-    private int seminarLeadingHours;
-    private int studyLeadingHours;
+    private int leadingSeminarHours;
+    private int leadingStudyHours;
     private int attendingHours;
-    private int totalHours = seminarLeadingHours + studyLeadingHours + attendingHours;
+    private int totalHours = leadingSeminarHours + leadingStudyHours + attendingHours;
     private boolean isAdmin;
     private boolean isQualified;
 }

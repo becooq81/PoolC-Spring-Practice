@@ -149,24 +149,7 @@ public class UserService {
         }
         return users.stream()
                 .filter(User::isClubMember)
-                .map(u -> buildUserHoursDtoFromUser(u))
+                .map(u -> userMapper.buildUserHoursDtoFromUser(u))
                 .collect(Collectors.toList());
-    }
-
-    private UserHoursDto buildUserHoursDtoFromUser(User user) {
-        UserHoursDto userHoursDto = new UserHoursDto();
-
-        userHoursDto.setUsername(user.getUsername());
-        userHoursDto.setName(user.getName());
-        userHoursDto.setMajor(user.getMajor());
-        userHoursDto.setStudentId(user.getStudentId());
-        userHoursDto.setAdmin(user.isAdmin());
-        userHoursDto.setQualified(user.isQualified());
-        userHoursDto.setAttendingHours(user.getTotalAttendingHours());
-        userHoursDto.setSeminarLeadingHours(user.getLeadingSeminarHours());
-        userHoursDto.setStudyLeadingHours(user.getLeadingStudyHours());
-
-
-        return userHoursDto;
     }
 }
