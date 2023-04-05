@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.poolc.springproject.poolcreborn.util.Message.FAIL_SIGNUP_ACTIVITY;
+
 
 @Service
 @Transactional
@@ -25,26 +27,22 @@ public class ParticipationService {
     private final ParticipationRepository participationRepository;
     private final UserRepository userRepository;
     private final ActivityRepository activityRepository;
-    public boolean saveParticipation(User user, Activity activity) {
-         if (!user.isClubMember()) {
-             return false;
-         }
-         else {
+    public void saveParticipation(User user, Activity activity) {
+         if (user.isClubMember()) {
              Participation participation = new Participation();
              participation.setUser(user);
              participation.setActivity(activity);
              activity.addParticipant(user);
              user.addParticipating(activity);
              participationRepository.save(participation);
-             return true;
          }
     }
     private void approveParticipationRequest(RequestedParticipationDto requestedParticipationDto) {
         User user = userRepository.findByUsername(requestedParticipationDto.getUsername()).orElse(null);
         Activity activity = activityRepository.findByTitle(requestedParticipationDto.getActivityTitle()).orElse(null);
-        if (user != null && activity != null) {
-            Participation participation = new Participation(user, activity);
-            participationRepository.save(participation);
+        if (user != null && activity != null && activity.isAvailable()) {
+            Participation participation = participationRepository.findByUserAndActivity(user, activity).get();
+            participation.setApproved(true);
         }
     }
     public void approveParticipationRequestList(List<RequestedParticipationDto> requestedParticipationDtoList) {
@@ -53,18 +51,15 @@ public class ParticipationService {
                 .forEach(this::approveParticipationRequest);
     }
 
-    public boolean signupRequestAvailable(String username, String activityTitle, ParticipationRequest request) {
+    public void signupParticipation(String username, String activityTitle, ParticipationRequest request) throws Exception{
         Activity activity = activityRepository.findByTitle(activityTitle).orElse(null);
         User user = userRepository.findByUsername(username).orElse(null);
-        if ((activity != null && user != null) && !participationRepository.existsByActivityAndUser(activity, user)) {
-            if (request.getIsApproved()) {
-                return saveParticipation(user, activity);
-            }
-            else {
-                return saveParticipation(user, activity);
-            }
+        if (participationRepository.existsByActivityAndUser(activity, user)) {
+            throw new InvalidUserException(FAIL_SIGNUP_ACTIVITY);
         }
-        return false;
+        else if (activity != null && user != null) {
+            saveParticipation(user, activity);
+        }
     }
     public RequestedParticipationDto buildRequestedParticipationDtoFromRequestedParticipation(Participation participation) {
         if (participation == null || !participation.isApproved()) {
