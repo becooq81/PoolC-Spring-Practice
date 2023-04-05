@@ -43,8 +43,10 @@ public class ParticipationService {
     public void approveParticipationRequest(RequestedParticipationDto requestedParticipationDto) {
         User user = userRepository.findByUsername(requestedParticipationDto.getUsername()).get();
         Activity activity = activityRepository.findByTitle(requestedParticipationDto.getActivityTitle()).get();
-        Participation participation = new Participation(user, activity);
-        participationRepository.save(participation);
+        if (user != null && activity != null) {
+            Participation participation = new Participation(user, activity);
+            participationRepository.save(participation);
+        }
     }
     public void approveParticipationRequestList(List<RequestedParticipationDto> requestedParticipationDtoList) {
         requestedParticipationDtoList.stream()
