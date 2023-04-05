@@ -11,7 +11,6 @@ import com.poolc.springproject.poolcreborn.repository.ParticipationRepository;
 import com.poolc.springproject.poolcreborn.repository.RequestedParticipationRepository;
 import com.poolc.springproject.poolcreborn.service.ActivityService;
 import com.poolc.springproject.poolcreborn.service.ParticipationService;
-import com.poolc.springproject.poolcreborn.service.RequestedParticipationService;
 import com.poolc.springproject.poolcreborn.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -98,7 +97,7 @@ public class ActivityController {
         String username = getLoginUsername();
         Activity activity = activityRepository.findById(currentActivityId).get();
         if (activity.getUser().getUsername().equals(username)) {
-            return requestedParticipationService.viewRequestedParticipation(currentActivityId);
+            return participationService.viewRequestedParticipation(currentActivityId);
         }
         return new ArrayList<>();
     }
