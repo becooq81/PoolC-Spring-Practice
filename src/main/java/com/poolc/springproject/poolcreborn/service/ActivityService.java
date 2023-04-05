@@ -1,6 +1,7 @@
 package com.poolc.springproject.poolcreborn.service;
 
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
+import com.poolc.springproject.poolcreborn.model.activity.ActivityType;
 import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityUpdateRequest;
@@ -30,12 +31,11 @@ public class ActivityService {
         Activity activity = new Activity();
         activityMapper.buildActivityFromRequest(activityRequest, activity);
         User user = userRepository.findByUsername(username).get();
-        switch (activity.getActivityType()) {
-            case STUDY:
-                user.addLeadingStudy(activity);
-                break;
-            case SEMINAR:
-                user.addLeadingSeminar(activity);
+        if (activity.getActivityType().equals(ActivityType.STUDY)) {
+            user.addLeadingStudy(activity);
+        }
+        else {
+            user.addLeadingSeminar(activity);
         }
         activity.setUser(user);
         activityRepository.save(activity);
