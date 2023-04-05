@@ -2,6 +2,7 @@ package com.poolc.springproject.poolcreborn.model.activity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poolc.springproject.poolcreborn.model.participation.Participation;
+import com.poolc.springproject.poolcreborn.model.participation.ParticipationType;
 import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.validator.NotExceedingCapacity;
 import lombok.Getter;
@@ -43,6 +44,9 @@ public class Activity {
     @Enumerated(EnumType.STRING)
     private ActivityType activityType;
 
+    @Enumerated(EnumType.STRING)
+    private ParticipationType partcipationType;
+
     @NotNull
     @Max(100)
     private int capacity;
@@ -64,23 +68,24 @@ public class Activity {
 
     private int sessions;
     private boolean isAvailable;
-    public Activity(String title, LocalDate startDate, ActivityType activityType, int capacity, Set<Day> days, int hours, List<String> tags, String plan) {
+    public Activity(String title, LocalDate startDate, ActivityType activityType, ParticipationType participationType, int capacity, Set<Day> days, int hours, List<String> tags, String plan) {
         this.title = title;
         this.startDate = startDate;
         this.activityType = activityType;
+        this.partcipationType = participationType;
         this.capacity = capacity;
         this.days = days;
         this.hours = hours;
         this.tags = tags;
         this.plan = plan;
         this.sessions = 0;
+        this.isAvailable = this.participationList.size() < capacity;
         if (startDate.getMonthValue() >= 9) {
             this.semester = 2;
         }
         else {
             this.semester = 1;
         }
-        this.isAvailable = this.participationList.size() < capacity;
     }
 
     public Activity() {
