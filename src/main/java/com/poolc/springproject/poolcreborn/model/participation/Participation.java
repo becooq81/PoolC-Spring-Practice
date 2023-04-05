@@ -22,10 +22,13 @@ public class Participation {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private boolean isApproved;
+
     public Participation() {}
     public Participation(User user, Activity activity) {
         this.user = user;
         this.activity = activity;
+        this.isApproved = activity.getParticipationType() == ParticipationType.PARTICIPATION;
     }
 
 }
