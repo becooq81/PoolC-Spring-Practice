@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,8 +39,8 @@ public class ParticipationService {
          }
     }
     public void approveParticipationRequest(RequestedParticipationDto requestedParticipationDto) {
-        User user = userRepository.findByUsername(requestedParticipationDto.getUsername()).get();
-        Activity activity = activityRepository.findByTitle(requestedParticipationDto.getActivityTitle()).get();
+        User user = userRepository.findByUsername(requestedParticipationDto.getUsername()).orElse(null);
+        Activity activity = activityRepository.findByTitle(requestedParticipationDto.getActivityTitle()).orElse(null);
         if (user != null && activity != null) {
             Participation participation = new Participation(user, activity);
             participationRepository.save(participation);
@@ -52,9 +53,9 @@ public class ParticipationService {
     }
 
     public boolean signupRequestAvailable(String username, String activityTitle, ParticipationRequest request) {
-        Activity activity = activityRepository.findByTitle(activityTitle).get();
-        User user = userRepository.findByUsername(username).get();
-        if (!participationRepository.existsByActivityAndUser(activity, user)) {
+        Activity activity = activityRepository.findByTitle(activityTitle).orElse(null);
+        User user = userRepository.findByUsername(username).orElse(null);
+        if ((activity != null && user != null) && !participationRepository.existsByActivityAndUser(activity, user)) {
             if (request.getIsApproved()) {
                 return saveParticipation(user, activity);
             }
@@ -78,11 +79,14 @@ public class ParticipationService {
         return requestedParticipationDto;
     }
     public List<RequestedParticipationDto> viewRequestedParticipation(Long activityId) {
-        String activityTitle = activityRepository.findById(activityId).get().getTitle();
-        List<Participation> requests = participationRepository.findByActivityTitleAndIsApproved(activityTitle, false);
-        return requests.stream()
-                .map(r -> buildRequestedParticipationDtoFromRequestedParticipation(r))
-                .collect(Collectors.toList());
-
+        Activity activity = activityRepository.findById(activityId).orElse(null);
+        if (activity != null) {
+            List<Participation> requests = participationRepository.findByActivityTitleAndIsApproved(activity.getTitle(), false);
+            return requests.stream()
+                    .map(r -> buildRequestedParticipationDtoFromRequestedParticipation(r))
+                    .collect(Collectors.toList());
+        } else {
+            return new ArrayList<>();
+        }
     }
 }
