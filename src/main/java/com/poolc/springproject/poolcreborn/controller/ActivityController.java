@@ -1,7 +1,7 @@
 package com.poolc.springproject.poolcreborn.controller;
 
+import com.poolc.springproject.poolcreborn.exception.InvalidUserException;
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
-import com.poolc.springproject.poolcreborn.model.participation.Participation;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.request.participation.ParticipationRequest;
@@ -49,17 +49,15 @@ public class ActivityController {
     @PatchMapping("/{id}/edit")
     public ResponseEntity<?> updateActivity(@PathVariable("id") @Min(1) Long currentActivityId, @RequestBody @Valid ActivityUpdateRequest activityUpdateRequest) {
         String username = getLoginUsername();
-        HttpStatus httpStatus = HttpStatus.OK;
-        String message = Message.SUCCESSFUL_UPDATE_ACTIVITY;
 
         try {
             activityService.updateActivity(username, activityUpdateRequest, currentActivityId);
-        } catch (Exception e) {
-            httpStatus = HttpStatus.BAD_REQUEST;
-            message = e.getMessage();
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(Message.SUCCESSFUL_UPDATE_ACTIVITY);
+        } catch (InvalidUserException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
         }
-        return ResponseEntity.status(httpStatus)
-                    .body(message);
     }
 
     @PostMapping("/{id}/participants")
@@ -68,17 +66,14 @@ public class ActivityController {
         Activity activity = activityRepository.findById(currentActivityId).orElse(null);
         String username = getLoginUsername();
 
-        HttpStatus httpStatus = HttpStatus.OK;
-        String message = Message.SUCCESSFUL_SIGNUP_ACTIVITY;
-
         try {
             participationService.signupParticipation(username, activity.getTitle(), request);
-        } catch (Exception e) {
-            httpStatus = HttpStatus.BAD_REQUEST;
-            message = e.getMessage();
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(Message.SUCCESSFUL_SIGNUP_ACTIVITY);
+        } catch (InvalidUserException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
         }
-        return ResponseEntity.status(httpStatus)
-                .body(message);
     }
     @GetMapping("/{id}/participants/requested")
     public List<RequestedParticipationDto> viewParticipationRequests(@PathVariable("id") @Min(1) Long currentActivityId) {
