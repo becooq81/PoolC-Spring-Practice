@@ -54,7 +54,7 @@ public class ParticipationService {
     public void signupParticipation(String username, String activityTitle, ParticipationRequest request) throws Exception{
         Activity activity = activityRepository.findByTitle(activityTitle).orElse(null);
         User user = userRepository.findByUsername(username).orElse(null);
-        if (participationRepository.existsByActivityAndUser(activity, user)) {
+        if (participationRepository.existsByUserAndActivity(user, activity)) {
             throw new InvalidUserException(FAIL_SIGNUP_ACTIVITY);
         }
         else if (activity != null && user != null) {

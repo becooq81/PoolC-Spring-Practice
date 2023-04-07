@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface ParticipationRepository extends JpaRepository<Participation, Long> {
-    Boolean existsByActivityAndUser(Activity activity, User user);
+    Boolean existsByUserAndActivity(User user, Activity activity);
     List<Participation> findByActivityTitle(String activityTitle);
     Optional<Participation> findByUserAndActivity(User user, Activity activity);
     List<Participation> findByActivityTitleAndIsApproved(String activityTitle, boolean isApproved);
