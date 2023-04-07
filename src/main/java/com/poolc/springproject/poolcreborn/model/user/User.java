@@ -107,10 +107,7 @@ public class User {
         int leadingHours = ListUtils.union(leadingSeminars, leadingStudies).stream()
                 .mapToInt(Activity::getTotalHours)
                 .sum();
-        if (this.getTotalAttendingHours() >= 6 || this.isAdmin || leadingHours >= 4) {
-            return true;
-        }
-        return false;
+        return this.getTotalAttendingHours() >= 6 || this.isAdmin || leadingHours >= 4;
     }
     public void addLeadingStudy(Activity activity) {
         this.leadingStudies.add(activity);
