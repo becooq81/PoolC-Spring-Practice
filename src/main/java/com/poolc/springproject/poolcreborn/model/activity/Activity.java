@@ -97,8 +97,8 @@ public class Activity {
             this.isAvailable = false;
         }
     }
-    public void removeParticipant(User user) {
-        this.participationList.remove(user);
+    public void removeParticipant(Participation participation) {
+        this.participationList.remove(participation);
         if (this.participationList.size() < this.capacity) {
             this.isAvailable = true;
         }
