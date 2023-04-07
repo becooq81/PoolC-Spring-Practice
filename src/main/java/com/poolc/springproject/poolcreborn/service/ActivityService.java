@@ -43,7 +43,7 @@ public class ActivityService {
         activityRepository.save(activity);
     }
 
-    public void updateActivity(String username, ActivityUpdateRequest activityUpdateRequest, Long currentActivityId) throws Exception {
+    public void updateActivity(String username, ActivityUpdateRequest activityUpdateRequest, Long currentActivityId) throws InvalidUserException {
         Activity activity = activityRepository.findById(currentActivityId).get();
         if (!username.equals(activity.getUser().getUsername())) {
             throw new InvalidUserException(Message.UPDATE_ACTIVITY_ACCESS_DENIED);

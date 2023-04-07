@@ -67,7 +67,7 @@ public class ParticipationService {
                 .forEach(this::approveParticipationRequest);
     }
 
-    public void signupParticipation(String username, String activityTitle, ParticipationRequest request) throws Exception{
+    public void signupParticipation(String username, String activityTitle, ParticipationRequest request) throws InvalidUserException{
         Activity activity = activityRepository.findByTitle(activityTitle).orElse(null);
         User user = userRepository.findByUsername(username).orElse(null);
         if (participationRepository.existsByUserAndActivity(user, activity)) {
