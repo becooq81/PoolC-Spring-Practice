@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 
 import static com.poolc.springproject.poolcreborn.security.SecurityUtil.getLoginUsername;
-import static com.poolc.springproject.poolcreborn.util.Message.*;
+import com.poolc.springproject.poolcreborn.util.Message;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,24 +39,24 @@ public class AuthController {
         if (email.equals(emailDto.getEmail())) {
             return emailService.sendEmail(emailDto.getEmail());
         }
-        return WRONG_EMAIL;
+        return Message.WRONG_EMAIL;
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
 
         if (userRepository.existsByUsername(signupRequest.getUsername())) {
-            return new ResponseEntity<>(USED_USERNAME, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Message.USED_USERNAME, HttpStatus.BAD_REQUEST);
         }
 
         if (userRepository.existsByEmail(signupRequest.getEmail())) {
-            return new ResponseEntity<>(USED_EMAIL, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Message.USED_EMAIL, HttpStatus.BAD_REQUEST);
         }
 
         userService.saveUser(signupRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(SUCCESSFUL_SIGNUP_USER);
+                .body(Message.SUCCESSFUL_SIGNUP_USER);
     }
 
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.poolc.springproject.poolcreborn.util.Message.SUCCESSFUL_ROLE_ADD;
+import com.poolc.springproject.poolcreborn.util.Message;
 
 @RestController
 @RequestMapping("/admin")
@@ -44,7 +44,7 @@ public class AdminController {
             }
         }
         return ResponseEntity.status(HttpStatus.OK)
-                .body(SUCCESSFUL_ROLE_ADD);
+                .body(Message.SUCCESSFUL_ROLE_ADD);
     }
 
     @GetMapping("/hours")

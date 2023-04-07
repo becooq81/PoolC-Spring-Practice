@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.poolc.springproject.poolcreborn.security.SecurityUtil.getLoginUsername;
-import static com.poolc.springproject.poolcreborn.util.Message.*;
+import com.poolc.springproject.poolcreborn.util.Message;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,7 +37,7 @@ public class ActivityController {
     public ResponseEntity<?> registerActivity(@RequestBody @Valid ActivityRequest activityRequest) {
         String username = getLoginUsername();
         activityService.saveActivity(activityRequest, username);
-        return ResponseEntity.status(HttpStatus.CREATED).body(SUCCESSFUL_CREATED_ACTIVITY);
+        return ResponseEntity.status(HttpStatus.CREATED).body(Message.SUCCESSFUL_CREATED_ACTIVITY);
     }
 
     @GetMapping("/{id}")
@@ -50,7 +50,7 @@ public class ActivityController {
     public ResponseEntity<?> updateActivity(@PathVariable("id") @Min(1) Long currentActivityId, @RequestBody @Valid ActivityUpdateRequest activityUpdateRequest) {
         String username = getLoginUsername();
         HttpStatus httpStatus = HttpStatus.OK;
-        String message = SUCCESSFUL_UPDATE_ACTIVITY;
+        String message = Message.SUCCESSFUL_UPDATE_ACTIVITY;
 
         try {
             activityService.updateActivity(username, activityUpdateRequest, currentActivityId);
@@ -69,7 +69,7 @@ public class ActivityController {
         String username = getLoginUsername();
 
         HttpStatus httpStatus = HttpStatus.OK;
-        String message = SUCCESSFUL_SIGNUP_ACTIVITY;
+        String message = Message.SUCCESSFUL_SIGNUP_ACTIVITY;
 
         try {
             participationService.signupParticipation(username, activity.getTitle(), request);
@@ -102,11 +102,11 @@ public class ActivityController {
         if (activity.getUser().getUsername().equals(username)) {
             participationService.approveParticipationRequestList(requests);
             httpStatus = HttpStatus.OK;
-            message = SUCCESSFUL_REQUEST_APPROVAL;
+            message = Message.SUCCESSFUL_REQUEST_APPROVAL;
         }
         else {
             httpStatus = HttpStatus.BAD_REQUEST;
-            message = APPROVAL_ACCESS_DENIED;
+            message = Message.APPROVAL_ACCESS_DENIED;
         }
         return ResponseEntity.status(httpStatus)
                 .body(message);
@@ -117,12 +117,12 @@ public class ActivityController {
                                                 @RequestBody @Valid ParticipationDeleteRequest deleteRequest) {
         String username = getLoginUsername();
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        String message = PARTICIPATION_DELETE_DENIED;
+        String message = Message.PARTICIPATION_DELETE_DENIED;
 
         if (participationService.findParticipation(username, currentActivityId) != null) {
             participationService.removeParticipation(username, currentActivityId);
             httpStatus = HttpStatus.OK;
-            message = SUCCESSFUL_DELETE_PARTICIPATION;
+            message = Message.SUCCESSFUL_DELETE_PARTICIPATION;
         }
         return ResponseEntity.status(httpStatus)
                 .body(message);

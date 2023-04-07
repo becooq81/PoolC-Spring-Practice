@@ -15,10 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.poolc.springproject.poolcreborn.util.Message.FAIL_SIGNUP_ACTIVITY;
+import com.poolc.springproject.poolcreborn.util.Message;
 
 
 @Service
@@ -72,7 +71,7 @@ public class ParticipationService {
         Activity activity = activityRepository.findByTitle(activityTitle).orElse(null);
         User user = userRepository.findByUsername(username).orElse(null);
         if (participationRepository.existsByUserAndActivity(user, activity)) {
-            throw new InvalidUserException(FAIL_SIGNUP_ACTIVITY);
+            throw new InvalidUserException(Message.FAIL_SIGNUP_ACTIVITY);
         }
         else if (activity != null && user != null) {
             saveParticipation(user, activity);

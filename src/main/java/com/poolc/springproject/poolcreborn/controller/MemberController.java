@@ -18,7 +18,7 @@ import javax.validation.constraints.Positive;
 import java.util.List;
 
 import static com.poolc.springproject.poolcreborn.security.SecurityUtil.getLoginUsername;
-import static com.poolc.springproject.poolcreborn.util.Message.SUCCESSFUL_DELETE_USER;
+import com.poolc.springproject.poolcreborn.util.Message;
 
 @RestController
 @RequiredArgsConstructor
@@ -50,7 +50,7 @@ public class MemberController {
         String username = getLoginUsername();
         userService.deleteUser(username);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(SUCCESSFUL_DELETE_USER);
+                .body(Message.SUCCESSFUL_DELETE_USER);
     }
 
     @GetMapping("/members/search")
