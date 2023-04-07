@@ -1,10 +1,11 @@
 package com.poolc.springproject.poolcreborn.controller;
 
-import com.poolc.springproject.poolcreborn.exception.InvalidUserException;
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
+import com.poolc.springproject.poolcreborn.model.participation.Participation;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityRequest;
 import com.poolc.springproject.poolcreborn.payload.request.activity.ActivityUpdateRequest;
 import com.poolc.springproject.poolcreborn.payload.request.participation.ParticipationRequest;
+import com.poolc.springproject.poolcreborn.payload.request.participation.ParticipationDeleteRequest;
 import com.poolc.springproject.poolcreborn.payload.response.participation.RequestedParticipationDto;
 import com.poolc.springproject.poolcreborn.payload.response.activity.ActivityDto;
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
@@ -109,6 +110,21 @@ public class ActivityController {
         }
         return ResponseEntity.status(httpStatus)
                 .body(message);
+    }
 
+    @PatchMapping("/{id}/participants")
+    public ResponseEntity<?> removeParticipants(@PathVariable("id") @Min(1) Long currentActivityId,
+                                                @RequestBody @Valid ParticipationDeleteRequest deleteRequest) {
+        String username = getLoginUsername();
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        String message = PARTICIPATION_DELETE_DENIED;
+
+        if (participationService.findParticipation(username, currentActivityId) != null) {
+            participationService.removeParticipation(username, currentActivityId);
+            httpStatus = HttpStatus.OK;
+            message = SUCCESSFUL_DELETE_PARTICIPATION;
+        }
+        return ResponseEntity.status(httpStatus)
+                .body(message);
     }
 }
