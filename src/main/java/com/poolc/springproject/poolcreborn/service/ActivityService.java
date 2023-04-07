@@ -18,8 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.poolc.springproject.poolcreborn.util.Message.SELF_SIGNUP_DENIED;
-import static com.poolc.springproject.poolcreborn.util.Message.UPDATE_ACTIVITY_ACCESS_DENIED;
+import com.poolc.springproject.poolcreborn.util.Message;
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +46,7 @@ public class ActivityService {
     public void updateActivity(String username, ActivityUpdateRequest activityUpdateRequest, Long currentActivityId) throws Exception {
         Activity activity = activityRepository.findById(currentActivityId).get();
         if (!username.equals(activity.getUser().getUsername())) {
-            throw new InvalidUserException(UPDATE_ACTIVITY_ACCESS_DENIED);
+            throw new InvalidUserException(Message.UPDATE_ACTIVITY_ACCESS_DENIED);
         } else {
             activityMapper.updateActivityInfoFromRequest(activityUpdateRequest, activity);
             activityRepository.save(activity);
