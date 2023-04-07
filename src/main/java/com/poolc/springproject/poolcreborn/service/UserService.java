@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,7 @@ public class UserService {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         return new JwtResponse(token, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles);
     }
@@ -63,24 +64,24 @@ public class UserService {
 
     public User updateUserInfo(UserUpdateRequest userUpdateRequest, String currentUsername) {
         Optional<User> optionalUser =  userRepository.findByUsername(currentUsername);
-        User user = optionalUser.get();
+        User user = optionalUser.orElse(null);
         userMapper.updateUserInfoFromRequest(userUpdateRequest, user);
         return user;
     }
 
     public void deleteUser(String username) {
         Optional<User> user = userRepository.findByUsername(username);
-        userRepository.deleteById(user.get().getId());
+        user.ifPresent(u -> userRepository.deleteById(u.getId()));
     }
 
     public void addAdminRole(String username) {
-        User user = userRepository.findByUsername(username).get();
-        user.setAdmin(true);
+        Optional<User> user = userRepository.findByUsername(username);
+        user.ifPresent(u -> u.setAdmin(true));
     }
 
     public void addClubMemberRole(String username) {
-        User user = userRepository.findByUsername(username).get();
-        user.setClubMember(true);
+        Optional<User> user = userRepository.findByUsername(username);
+        user.ifPresent(u -> u.setClubMember(true));
     }
 
     public List<DetailedUserDto> findAllUsersByAdmin(int page, int size) {
@@ -107,7 +108,7 @@ public class UserService {
     }
 
     public UserDto findUserByClubMember(String username) {
-        User user = userRepository.findByUsername(username).get();
+        User user = userRepository.findByUsername(username).orElse(null);
         return userMapper.buildUserDtoFromUser(user);
     }
     public List<UserRoleDto> searchUser(SearchRequest searchRequest, int page, int size) {
