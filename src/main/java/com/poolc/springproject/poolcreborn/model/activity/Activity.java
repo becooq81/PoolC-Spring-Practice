@@ -94,7 +94,13 @@ public class Activity {
     public void addParticipant(User user) {
         this.participationList.add(new Participation(user, this));
         if (this.participationList.size() >= this.capacity) {
-            isAvailable = false;
+            this.isAvailable = false;
+        }
+    }
+    public void removeParticipant(User user) {
+        this.participationList.remove(user);
+        if (this.participationList.size() < this.capacity) {
+            this.isAvailable = true;
         }
     }
     public Set<User> getParticipants() {
