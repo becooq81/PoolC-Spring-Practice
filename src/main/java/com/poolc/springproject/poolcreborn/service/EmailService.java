@@ -16,13 +16,13 @@ import java.util.Random;
 public class EmailService {
     private final JavaMailSender javaMailSender;
     private final SpringTemplateEngine templateEngine;
-    private String authNum;
+    private ThreadLocal<String> authNum = new ThreadLocal<>();
 
     public void createCode() {
         Random random = new Random();
         StringBuffer key = new StringBuffer();
 
-        for(int i=0;i<8;i++) {
+        for(int i = 0;i < 8; i++) {
             int index = random.nextInt(3);
 
             switch (index) {
@@ -37,7 +37,7 @@ public class EmailService {
                     break;
             }
         }
-        authNum = key.toString();
+        authNum.set(key.toString());
     }
 
     public MimeMessage createEmailForm(String email) throws MessagingException, UnsupportedEncodingException {
@@ -50,7 +50,7 @@ public class EmailService {
         message.addRecipients(MimeMessage.RecipientType.TO, email);
         message.setSubject(title);
         message.setFrom(setFrom);
-        message.setText(setContext(authNum), "utf-8", "html");
+        message.setText(setContext(authNum.get()), "utf-8", "html");
 
         return message;
     }
@@ -59,7 +59,7 @@ public class EmailService {
         MimeMessage emailForm = createEmailForm(toEmail);
         javaMailSender.send(emailForm);
 
-        return authNum;
+        return authNum.get();
     }
 
     public String setContext(String code) {
