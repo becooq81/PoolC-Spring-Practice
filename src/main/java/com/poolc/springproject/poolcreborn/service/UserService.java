@@ -103,7 +103,7 @@ public class UserService {
         }
         return users.stream()
                 .filter(User::isClubMember)
-                .map(u -> userMapper.buildSimpleUserRoleDtoFromUser(u))
+                .map(u -> userMapper.buildUserRoleDtoFromUser(u))
                 .collect(Collectors.toList());
     }
 
@@ -138,7 +138,7 @@ public class UserService {
                 throw new IllegalStateException("Unexpected value: " + searchRequest.getSearchCategory());
         }
         return searchUsers.stream()
-                .map(u -> userMapper.buildSimpleUserRoleDtoFromUser(u))
+                .map(u -> userMapper.buildUserRoleDtoFromUser(u))
                 .collect(Collectors.toList());
 
     }

@@ -55,7 +55,7 @@ public class ActivityService {
 
     public Set<UserMajorDto> getParticipants(Activity activity) {
         return activity.getParticipants().stream()
-                .map(p -> userMapper.buildSimpleUserMajorDtoFromUser(p))
+                .map(p -> userMapper.buildUserMajorDtoFromUser(p))
                 .collect(Collectors.toSet());
     }
     public ActivityDto buildActivityDtoFromActivity(Activity activity) {

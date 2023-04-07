@@ -16,8 +16,8 @@ public interface UserMapper {
     @BeanMapping(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void buildUserFromRequest(SignupRequest signupRequest, @MappingTarget User user);
     DetailedUserDto buildDetailedUserDtoFromUser(User user);
-    UserRoleDto buildSimpleUserRoleDtoFromUser(User user);
-    UserMajorDto buildSimpleUserMajorDtoFromUser(User user);
+    UserRoleDto buildUserRoleDtoFromUser(User user);
+    UserMajorDto buildUserMajorDtoFromUser(User user);
     UserDto buildUserDtoFromUser(User user);
     UserHoursDto buildUserHoursDtoFromUser(User user);
 }
