@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.poolc.springproject.poolcreborn.util.Message.FAIL_SIGNUP_ACTIVITY;
@@ -36,6 +37,22 @@ public class ParticipationService {
              user.addParticipating(activity);
              participationRepository.save(participation);
          }
+    }
+    public void removeParticipation(String username, Long activityId) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        Activity activity = activityRepository.findById(activityId).orElse(null);
+        if (user != null && activity != null) {
+            Participation participation = participationRepository.findByUserAndActivity(user, activity).orElse(null);
+            participationRepository.deleteById(participation.getId());
+        }
+    }
+    public Participation findParticipation(String username, Long activityId) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        Activity activity = activityRepository.findById(activityId).orElse(null);
+        if (user == null || activity == null) { return null; }
+        else {
+            return participationRepository.findByUserAndActivity(user, activity).orElse(null);
+        }
     }
     private void approveParticipationRequest(RequestedParticipationDto requestedParticipationDto) {
         User user = userRepository.findByUsername(requestedParticipationDto.getUsername()).orElse(null);
