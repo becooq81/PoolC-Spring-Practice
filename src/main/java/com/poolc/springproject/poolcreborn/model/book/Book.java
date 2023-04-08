@@ -22,6 +22,18 @@ public class Book {
 
     private LocalDate published;
 
-    private String description;
+    private String publisher;
 
+    private Integer category;
+
+    public Book() {}
+
+    public Book(String title, Integer isbn, String author, LocalDate published, String publisher, Integer category) {
+        this.title = title;
+        this.isbn = isbn;
+        this.author = author;
+        this.published = published;
+        this.publisher = publisher;
+        this.category = category;
+    }
 }
