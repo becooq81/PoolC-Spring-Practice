@@ -40,7 +40,7 @@ public class MemberController {
     @PatchMapping("/my-info")
     public ResponseEntity<User> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest) {
         String username = getLoginUsername();
-        User user = userService.updateUserInfo(userUpdateRequest, username);
+        User user = userService.updateUser(userUpdateRequest, username);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

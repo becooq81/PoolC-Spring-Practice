@@ -11,7 +11,7 @@ import org.mapstruct.*;
 public interface UserMapper {
 
     @BeanMapping(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateUserInfoFromRequest(UserUpdateRequest userUpdateRequest, @MappingTarget User user);
+    void updateUserFromRequest(UserUpdateRequest userUpdateRequest, @MappingTarget User user);
 
     @BeanMapping(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void buildUserFromRequest(SignupRequest signupRequest, @MappingTarget User user);

@@ -62,10 +62,10 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User updateUserInfo(UserUpdateRequest userUpdateRequest, String currentUsername) {
+    public User updateUser(UserUpdateRequest userUpdateRequest, String currentUsername) {
         Optional<User> optionalUser =  userRepository.findByUsername(currentUsername);
         User user = optionalUser.orElse(null);
-        userMapper.updateUserInfoFromRequest(userUpdateRequest, user);
+        userMapper.updateUserFromRequest(userUpdateRequest, user);
         return user;
     }
 
@@ -91,7 +91,7 @@ public class UserService {
             return null;
         }
         return users.stream()
-                .map(u -> userMapper.buildDetailedUserDtoFromUser(u))
+                .map(userMapper::buildDetailedUserDtoFromUser)
                 .collect(Collectors.toList());
     }
 
@@ -103,7 +103,7 @@ public class UserService {
         }
         return users.stream()
                 .filter(User::isClubMember)
-                .map(u -> userMapper.buildUserRoleDtoFromUser(u))
+                .map(userMapper::buildUserRoleDtoFromUser)
                 .collect(Collectors.toList());
     }
 
@@ -138,7 +138,7 @@ public class UserService {
                 throw new IllegalStateException("Unexpected value: " + searchRequest.getSearchCategory());
         }
         return searchUsers.stream()
-                .map(u -> userMapper.buildUserRoleDtoFromUser(u))
+                .map(userMapper::buildUserRoleDtoFromUser)
                 .collect(Collectors.toList());
 
     }
@@ -150,7 +150,7 @@ public class UserService {
         }
         return users.stream()
                 .filter(User::isClubMember)
-                .map(u -> userMapper.buildUserHoursDtoFromUser(u))
+                .map(userMapper::buildUserHoursDtoFromUser)
                 .collect(Collectors.toList());
     }
 }
