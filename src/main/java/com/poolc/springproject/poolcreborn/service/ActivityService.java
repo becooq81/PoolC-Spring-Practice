@@ -58,20 +58,4 @@ public class ActivityService {
                 .map(p -> userMapper.buildUserMajorDtoFromUser(p))
                 .collect(Collectors.toSet());
     }
-    public ActivityDto buildActivityDtoFromActivity(Activity activity) {
-        if (activity == null) {
-            return null;
-        }
-        ActivityDto activityDto = new ActivityDto();
-
-        activityDto.setLead(activity.getUser().getUsername());
-        activityDto.setStartDate(activity.getStartDate());
-        activityDto.setHours(activity.getHours());
-        activityDto.setCapacity(activity.getCapacity());
-        activityDto.setTags(activity.getTags());
-        activityDto.setPlan(activity.getPlan());
-        activityDto.setParticipants(getParticipants(activity));
-
-        return activityDto;
-    }
 }

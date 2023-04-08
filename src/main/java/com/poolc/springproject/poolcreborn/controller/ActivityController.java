@@ -11,7 +11,9 @@ import com.poolc.springproject.poolcreborn.payload.response.activity.ActivityDto
 import com.poolc.springproject.poolcreborn.repository.ActivityRepository;
 import com.poolc.springproject.poolcreborn.service.ActivityService;
 import com.poolc.springproject.poolcreborn.service.ParticipationService;
+import com.poolc.springproject.poolcreborn.util.CustomMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +34,8 @@ public class ActivityController {
     private final ActivityRepository activityRepository;
     private final ActivityService activityService;
     private final ParticipationService participationService;
+    @Bean
+    public CustomMapper customMapper() { return new CustomMapper(); }
 
     @PostMapping("/new")
     public ResponseEntity<?> registerActivity(@RequestBody @Valid ActivityRequest activityRequest) {
@@ -43,7 +47,7 @@ public class ActivityController {
     @GetMapping("/{id}")
     public ResponseEntity<ActivityDto> viewActivity(@PathVariable("id") @Min(1) Long currentActivityId) {
         Activity activity = activityRepository.findById(currentActivityId).orElse(null);
-        return new ResponseEntity<>(activityService.buildActivityDtoFromActivity(activity), HttpStatus.OK);
+        return new ResponseEntity<>(customMapper().buildActivityDtoFromActivity(activity), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}/edit")
