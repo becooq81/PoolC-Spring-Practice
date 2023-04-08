@@ -74,7 +74,7 @@ public class ActivityController {
             participationService.signupParticipation(username, activity.getTitle(), request);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(Message.SUCCESSFUL_SIGNUP_ACTIVITY);
-        } catch (InvalidUserException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(e.getMessage());
         }
