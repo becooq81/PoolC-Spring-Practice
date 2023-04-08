@@ -34,8 +34,7 @@ public class ActivityController {
     private final ActivityRepository activityRepository;
     private final ActivityService activityService;
     private final ParticipationService participationService;
-    @Bean
-    public CustomMapper customMapper() { return new CustomMapper(); }
+    private final CustomMapper customMapper;
 
     @PostMapping("/new")
     public ResponseEntity<?> registerActivity(@RequestBody @Valid ActivityRequest activityRequest) {
@@ -47,7 +46,7 @@ public class ActivityController {
     @GetMapping("/{id}")
     public ResponseEntity<ActivityDto> viewActivity(@PathVariable("id") @Min(1) Long currentActivityId) {
         Activity activity = activityRepository.findById(currentActivityId).orElse(null);
-        return new ResponseEntity<>(customMapper().buildActivityDtoFromActivity(activity), HttpStatus.OK);
+        return new ResponseEntity<>(customMapper.buildActivityDtoFromActivity(activity), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}/edit")

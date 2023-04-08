@@ -4,6 +4,7 @@ import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.security.jwt.AuthTokenFilter;
 import com.poolc.springproject.poolcreborn.security.jwt.JwtAuthEntryPoint;
 import com.poolc.springproject.poolcreborn.security.service.UserDetailsServiceImpl;
+import com.poolc.springproject.poolcreborn.util.CustomMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,9 @@ public class SecurityConfig {
 
     private final JwtAuthEntryPoint unauthorizedHandler;
     private final UserRepository userRepository;
+
+    @Bean
+    public CustomMapper customMapper() { return new CustomMapper(); }
     @Bean
     public  UserDetailsServiceImpl userDetailsService() {
         return new UserDetailsServiceImpl(userRepository);
