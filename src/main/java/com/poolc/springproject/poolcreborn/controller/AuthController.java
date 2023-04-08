@@ -1,6 +1,6 @@
 package com.poolc.springproject.poolcreborn.controller;
 
-import com.poolc.springproject.poolcreborn.payload.request.EmailAuthRequestDto;
+import com.poolc.springproject.poolcreborn.payload.request.email.EmailAuthRequestDto;
 import com.poolc.springproject.poolcreborn.payload.request.user.SignupRequest;
 import com.poolc.springproject.poolcreborn.payload.request.user.LoginRequest;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;

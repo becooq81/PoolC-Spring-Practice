@@ -1,4 +1,4 @@
-package com.poolc.springproject.poolcreborn.payload.request;
+package com.poolc.springproject.poolcreborn.payload.request.email;
 
 import lombok.Getter;
 import lombok.ToString;
