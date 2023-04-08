@@ -11,7 +11,7 @@ public class NotExceedingCapacityValidator implements ConstraintValidator<NotExc
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         Activity activity = (Activity) value;
-        if (activity.getCapacity() < activity.getNumParticipants()) {
+        if (activity.getCapacity() < activity.getParticipants().size()) {
             return false;
         }
         return true;
