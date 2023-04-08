@@ -42,6 +42,8 @@ public class ParticipationService {
         Activity activity = activityRepository.findById(activityId).orElse(null);
         if (user != null && activity != null) {
             Participation participation = participationRepository.findByUserAndActivity(user, activity).orElse(null);
+            activity.removeParticipant(participation);
+            user.removeParticipating(participation);
             participationRepository.deleteById(participation.getId());
         }
     }

@@ -95,7 +95,7 @@ public class User {
     public void addParticipating(Activity activity) {
         this.participationList.add(new Participation(this, activity));
     }
-
+    public void removeParticipating(Participation participation) { this.participationList.remove(participation); }
     public int getTotalAttendingHours() {
         return this.participationList.stream()
                 .map(Participation::getActivity)
