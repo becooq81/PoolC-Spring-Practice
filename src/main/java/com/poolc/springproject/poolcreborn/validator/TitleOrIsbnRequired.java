@@ -12,10 +12,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({TYPE,ANNOTATION_TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = PasswordMatchesValidator.class)
+@Constraint(validatedBy = TitleOrIsbnRequiredValidator.class)
 @Documented
-public @interface PasswordMatches {
-    String message() default "암호가 일치하지 않습니다.";
+public @interface TitleOrIsbnRequired {
+    String message() default "Either the title or ISBN is required.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
