@@ -2,6 +2,7 @@ package com.poolc.springproject.poolcreborn.controller;
 
 import com.poolc.springproject.poolcreborn.model.book.Book;
 import com.poolc.springproject.poolcreborn.payload.request.book.BookRequest;
+import com.poolc.springproject.poolcreborn.payload.request.book.BookSearchRequest;
 import com.poolc.springproject.poolcreborn.payload.response.book.BookDto;
 import com.poolc.springproject.poolcreborn.repository.BookRepository;
 import com.poolc.springproject.poolcreborn.service.BookService;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+
+import java.util.List;
 
 import static com.poolc.springproject.poolcreborn.security.SecurityUtil.getLoginUsername;
 
@@ -49,4 +52,11 @@ public class BookController {
                 .body(Message.SUCCESSFUL_DELETE_BOOK);
     }
 
+    @GetMapping("/api/search")
+    public ResponseEntity<List<BookDto>> searchBooks(BookSearchRequest bookSearchRequest) {
+        List<BookDto> bookDtoList = bookService.naverBookSearchApi(bookSearchRequest);
+        return new ResponseEntity<>(bookDtoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/search/")
 }
