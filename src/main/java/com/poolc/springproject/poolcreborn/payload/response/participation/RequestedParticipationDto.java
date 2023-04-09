@@ -1,8 +1,6 @@
 package com.poolc.springproject.poolcreborn.payload.response.participation;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter

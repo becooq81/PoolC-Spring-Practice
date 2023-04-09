@@ -16,5 +16,7 @@ public class BookSearchRequest {
     private Integer display;
     private Integer start;
     private String sort;
+    private String d_title;
+    private String d_isbn;
 
 }

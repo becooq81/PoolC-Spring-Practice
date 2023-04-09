@@ -4,9 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
 
-@Builder
+@Builder(toBuilder = true)
 @Getter
 public class BookRequest {
     @NotEmpty
@@ -14,7 +13,5 @@ public class BookRequest {
     private Integer isbn;
     @NotEmpty
     private String author;
-    private LocalDate published;
     private String publisher;
-    private Integer category;
 }
