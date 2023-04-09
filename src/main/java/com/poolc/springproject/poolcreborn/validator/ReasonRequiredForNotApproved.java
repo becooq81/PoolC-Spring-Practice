@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface ReasonRequiredForNotApproved {
 
-    String message() default "요청 신청 시에는 사유를 적으셔야 합니다. (10자~300자)";
+    String message() default "You must write your reason of 10~300 letters for participation in this type of seminar.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 
