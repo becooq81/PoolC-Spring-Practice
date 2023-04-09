@@ -39,7 +39,9 @@ public class ActivityController {
     public ResponseEntity<?> registerActivity(@RequestBody @Valid ActivityRequest activityRequest) {
         String username = getLoginUsername();
         activityService.saveActivity(activityRequest, username);
-        return ResponseEntity.status(HttpStatus.CREATED).body(Message.SUCCESSFUL_CREATED_ACTIVITY);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(Message.SUCCESSFUL_CREATED_ACTIVITY);
     }
 
     @GetMapping("/{id}")
