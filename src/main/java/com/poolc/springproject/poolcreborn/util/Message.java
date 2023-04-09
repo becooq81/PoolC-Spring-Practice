@@ -12,11 +12,13 @@ public final class Message {
     public static final String APPROVAL_ACCESS_DENIED = "You can only approve requests for your own activity.";
     public static final String FAIL_SIGNUP_ACTIVITY = "You failed to sign up for this activity.";
     public static final String SUCCESSFUL_SIGNUP_USER = "You have successfully created an account.";
-    public static final String SUCCESSFUL_CREATED_ACTIVITY = "You have successfully created an activity";
+    public static final String SUCCESSFUL_CREATED_ACTIVITY = "You have successfully regsitered the activity";
+    public static final String SUCCESSFUL_CREATED_BOOK = "You have successfully registered the book.";
     public static final String SUCCESSFUL_ROLE_ADD = "You have successfully added roles.";
     public static final String SUCCESSFUL_DELETE_PARTICIPATION = "You have successfully canceled your participation in this activity.";
     public static final String SUCCESSFUL_UPDATE_ACTIVITY = "You have successfully updated your activity.";
     public static final String SUCCESSFUL_SIGNUP_ACTIVITY = "You have successfully signed up or requested sign-up for this activity.";
     public static final String SUCCESSFUL_REQUEST_APPROVAL = "You have successfully approved requests.";
     public static final String SUCCESSFUL_DELETE_USER = "You have successfully deleted your account.";
+    public static final String SUCCESSFUL_DELETE_BOOK = "You have successfully deleted your book.";
 }
