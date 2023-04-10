@@ -21,4 +21,5 @@ public final class Message {
     public static final String SUCCESSFUL_REQUEST_APPROVAL = "You have successfully approved requests.";
     public static final String SUCCESSFUL_DELETE_USER = "You have successfully deleted your account.";
     public static final String SUCCESSFUL_DELETE_BOOK = "You have successfully deleted your book.";
+    public static final String SUCCESSFUL_BORROW_BOOK = "You have successfully borrowed this book";
 }
