@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,10 +40,16 @@ public class BookService {
 
     public void saveBook(BookRequest bookRequest, String username) {
         User user = userRepository.findByUsername(username).orElse(null);
-        if (user != null && user.isAdmin()) {
+        if (user != null && user.isAdmin() && !bookRepository.existsByIsbn(bookRequest.getIsbn())) {
             Book book = new Book();
             bookMapper.buildBookFromRequest(bookRequest, book);
             bookRepository.save(book);
+        }
+    }
+    public void addCount(Long bookId) {
+        Book book = bookRepository.findById(bookId).orElse(null);
+        if (book != null) {
+            book.increaseCount();
         }
     }
 
@@ -91,4 +100,17 @@ public class BookService {
         return naverBookDtoList;
     }
 
+    public List<BookDto> findAllBooks(int page, int size) {
+        PageRequest pr = PageRequest.of(page, size);
+        Page<Book> books = bookRepository.findAll(pr);
+        if (books.getNumberOfElements() == 0) {
+            return null;
+        }
+        return books.stream()
+                .map(bookMapper::buildBookDtoFromBook)
+                .collect(Collectors.toList());
+    }
+
+    public void borrowBook(Long currentBookId) {
+    }
 }
