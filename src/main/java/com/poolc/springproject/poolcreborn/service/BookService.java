@@ -1,5 +1,7 @@
 package com.poolc.springproject.poolcreborn.service;
 
+import com.poolc.springproject.poolcreborn.exception.InvalidStateException;
+import com.poolc.springproject.poolcreborn.exception.InvalidUserException;
 import com.poolc.springproject.poolcreborn.model.book.Book;
 import com.poolc.springproject.poolcreborn.model.user.User;
 import com.poolc.springproject.poolcreborn.payload.request.book.BookSearchRequest;
@@ -8,6 +10,7 @@ import com.poolc.springproject.poolcreborn.payload.response.book.BookDto;
 import com.poolc.springproject.poolcreborn.repository.BookRepository;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
 import com.poolc.springproject.poolcreborn.util.BookMapper;
+import com.poolc.springproject.poolcreborn.util.Message;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -111,6 +114,24 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
-    public void borrowBook(Long currentBookId) {
+    public void borrowBook(Long currentBookId, String username) throws InvalidStateException {
+        User user = userRepository.findByUsername(username).orElse(null);
+        Book book = bookRepository.findById(currentBookId).orElse(null);
+        if (book != null && user != null && book.getCount() != 0) {
+            book.decreaseCount();
+            book.setBorrowerUsername(username);
+        } else {
+            throw new InvalidStateException(Message.BORROW_BOOK_DENIED);
+        }
+    }
+    public void returnBook(Long currentBookId, String username) throws InvalidUserException {
+        User user = userRepository.findByUsername(username).orElse(null);
+        Book book = bookRepository.findById(currentBookId).orElse(null);
+        if (book != null && user != null && book.getBorrowerUsername().equals(user.getUsername())) {
+            book.increaseCount();
+            book.setBorrowerUsername(null);
+        } else {
+            throw new InvalidUserException(Message.RETURN_BOOK_DENIED);
+        }
     }
 }

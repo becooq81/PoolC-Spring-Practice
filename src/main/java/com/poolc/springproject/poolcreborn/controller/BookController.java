@@ -1,5 +1,7 @@
 package com.poolc.springproject.poolcreborn.controller;
 
+import com.poolc.springproject.poolcreborn.exception.InvalidStateException;
+import com.poolc.springproject.poolcreborn.exception.InvalidUserException;
 import com.poolc.springproject.poolcreborn.model.book.Book;
 import com.poolc.springproject.poolcreborn.payload.request.book.BookSearchRequest;
 import com.poolc.springproject.poolcreborn.payload.request.book.BookRequest;
@@ -66,10 +68,28 @@ public class BookController {
         List<BookDto> bookDtoList = bookService.findAllBooks(page, size);
         return new ResponseEntity<>(bookDtoList, HttpStatus.OK);
     }
-    @PostMapping("/library/{id}")
+    @PutMapping("/library/{id}")
     public ResponseEntity<?> borrowBook(@PathVariable("id") @Min(1) Long currentBookId) {
-        bookService.borrowBook(currentBookId);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Message.SUCCESSFUL_BORROW_BOOK);
+        String username = getLoginUsername();
+        try {
+            bookService.borrowBook(currentBookId, username);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(Message.SUCCESSFUL_BORROW_BOOK);
+        } catch (InvalidStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
+    }
+    @PatchMapping("/library/{id}")
+    public ResponseEntity<?> returnBook(@PathVariable("id") @Min(1) Long currentBookId) {
+        String username = getLoginUsername();
+        try {
+            bookService.returnBook(currentBookId, username);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(Message.SUCCESSFUL_RETURN_BOOK);
+        } catch (InvalidUserException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
     }
 }
