@@ -4,11 +4,13 @@ import com.poolc.springproject.poolcreborn.model.activity.Activity;
 import com.poolc.springproject.poolcreborn.payload.response.activity.ActivityDto;
 import com.poolc.springproject.poolcreborn.service.ActivityService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
-@RequiredArgsConstructor
 public class CustomMapper {
-    private final ActivityService activityService;
+    @Autowired
+    private ActivityService activityService;
+    public CustomMapper() {}
 
     public ActivityDto buildActivityDtoFromActivity(Activity activity) {
         if (activity == null) {
