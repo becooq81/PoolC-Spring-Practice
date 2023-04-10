@@ -22,14 +22,13 @@ import static com.poolc.springproject.poolcreborn.security.SecurityUtil.getLogin
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/book")
 public class BookController {
 
     private final BookRepository bookRepository;
     private final BookService bookService;
     private final BookMapper bookMapper;
 
-    @PostMapping("/new")
+    @PostMapping("/book/new")
     public ResponseEntity<?> registerBook(@RequestBody @Valid BookRequest bookRequest) {
         String username = getLoginUsername();
         bookService.saveBook(bookRequest, username);
@@ -38,13 +37,12 @@ public class BookController {
                 .body(Message.SUCCESSFUL_CREATED_BOOK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/book/{id}")
     public ResponseEntity<BookDto> viewBook(@PathVariable("id") @Min(1) Long currentBookId) {
         Book book = bookRepository.findById(currentBookId).orElse(null);
         return new ResponseEntity<>(bookMapper.buildBookDtoFromBook(book), HttpStatus.OK);
     }
-
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/book/{id}")
     public ResponseEntity<?> deleteBook(@PathVariable("id") @Min(1) Long currentBookId) {
         String username = getLoginUsername();
         bookService.deleteBook(currentBookId, username);
@@ -52,11 +50,26 @@ public class BookController {
                 .body(Message.SUCCESSFUL_DELETE_BOOK);
     }
 
-    @GetMapping("/api/search")
-    public ResponseEntity<List<BookDto>> searchBooks(BookSearchRequest bookSearchRequest) {
-        List<BookDto> bookDtoList = bookService.naverBookSearchApi(bookSearchRequest);
+    @GetMapping("/book/api/search")
+    public ResponseEntity<List<BookDto>> searchBooks(@RequestBody @Valid BookSearchRequest searchRequest) {
+        List<BookDto> bookDtoList = bookService.naverBookSearchApi(searchRequest);
         return new ResponseEntity<>(bookDtoList, HttpStatus.OK);
     }
 
-    @GetMapping("/api/search/")
+    /*@GetMapping("/api/search/{id}")
+    public ResponseEntity<BookDetailedDto> searchDetailedBook(@PathVariable("id") @Min(1) Long searchedBookId) {
+
+    }*/
+
+    @GetMapping("/library")
+    public ResponseEntity<List<BookDto>> viewLibrary(@RequestParam int page, @RequestParam int size) {
+        List<BookDto> bookDtoList = bookService.findAllBooks(page, size);
+        return new ResponseEntity<>(bookDtoList, HttpStatus.OK);
+    }
+    @PostMapping("/library/{id}")
+    public ResponseEntity<?> borrowBook(@PathVariable("id") @Min(1) Long currentBookId) {
+        bookService.borrowBook(currentBookId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(Message.SUCCESSFUL_BORROW_BOOK);
+    }
 }
