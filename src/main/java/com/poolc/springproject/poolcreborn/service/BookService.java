@@ -58,9 +58,9 @@ public class BookService {
         URI uri = UriComponentsBuilder.fromHttpUrl(url)
                 .path("v1/search/book.json")
                 .queryParam("query", bookSearchRequest.getQuery())
-                .queryParam("display", bookSearchRequest.getDisplay())
-                .queryParam("start", bookSearchRequest.getStart())
-                .queryParam("sort", bookSearchRequest.getSort())
+                .queryParam("display", 10)
+                .queryParam("start", 1)
+                .queryParam("sort", "sim")
                 .encode()
                 .build()
                 .toUri();

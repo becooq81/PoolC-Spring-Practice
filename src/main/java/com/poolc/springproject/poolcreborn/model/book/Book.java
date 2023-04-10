@@ -16,7 +16,7 @@ public class Book {
 
     private String title;
 
-    private Integer isbn;
+    private String isbn;
 
     private String author;
 
@@ -24,14 +24,24 @@ public class Book {
 
     private String publisher;
 
+    private int count;
+
+    
 
     public Book() {}
 
-    public Book(String title, Integer isbn, String author, LocalDate published, String publisher) {
+    public Book(String title, String isbn, String author, LocalDate published, String publisher) {
         this.title = title;
         this.isbn = isbn;
         this.author = author;
         this.published = published;
         this.publisher = publisher;
+        this.count = 1;
+    }
+    public void increaseCount() {
+        this.count += 1;
+    }
+    public void decreaseCount() {
+        this.count -= 1;
     }
 }

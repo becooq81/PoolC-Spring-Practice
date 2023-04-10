@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
 public class BookRequest {
     @NotEmpty
     private String title;
-    private Integer isbn;
+    private String isbn;
     @NotEmpty
     private String author;
     private String publisher;
