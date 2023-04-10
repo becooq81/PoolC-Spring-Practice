@@ -26,7 +26,7 @@ public class Book {
 
     private int count;
 
-    
+    private String borrowerUsername;
 
     public Book() {}
 
