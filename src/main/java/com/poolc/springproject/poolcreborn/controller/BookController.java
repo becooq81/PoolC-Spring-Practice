@@ -51,17 +51,11 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Message.SUCCESSFUL_DELETE_BOOK);
     }
-
     @GetMapping("/book/api/search")
     public ResponseEntity<List<BookDto>> searchBooks(@RequestBody @Valid BookSearchRequest searchRequest) {
         List<BookDto> bookDtoList = bookService.naverBookSearchApi(searchRequest);
         return new ResponseEntity<>(bookDtoList, HttpStatus.OK);
     }
-
-    /*@GetMapping("/api/search/{id}")
-    public ResponseEntity<BookDetailedDto> searchDetailedBook(@PathVariable("id") @Min(1) Long searchedBookId) {
-
-    }*/
 
     @GetMapping("/library")
     public ResponseEntity<List<BookDto>> viewLibrary(@RequestParam int page, @RequestParam int size) {

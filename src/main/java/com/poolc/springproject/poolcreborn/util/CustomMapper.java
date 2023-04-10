@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class CustomMapper {
-    private ActivityService activityService;
+    private final ActivityService activityService;
 
     public ActivityDto buildActivityDtoFromActivity(Activity activity) {
         if (activity == null) {
