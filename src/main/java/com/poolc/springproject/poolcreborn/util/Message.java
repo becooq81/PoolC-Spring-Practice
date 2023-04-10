@@ -10,6 +10,8 @@ public final class Message {
     public static final String PARTICIPATION_DELETE_DENIED = "You can only cancel your own participation.";
     public static final String UPDATE_ACTIVITY_ACCESS_DENIED = "You can only update your own activity.";
     public static final String APPROVAL_ACCESS_DENIED = "You can only approve requests for your own activity.";
+    public static final String BORROW_BOOK_DENIED = "You cannot borrow this book.";
+    public static final String RETURN_BOOK_DENIED = "You cannot return this book.";
     public static final String FAIL_SIGNUP_ACTIVITY = "You failed to sign up for this activity.";
     public static final String SUCCESSFUL_SIGNUP_USER = "You have successfully created an account.";
     public static final String SUCCESSFUL_CREATED_ACTIVITY = "You have successfully regsitered the activity";
@@ -21,5 +23,6 @@ public final class Message {
     public static final String SUCCESSFUL_REQUEST_APPROVAL = "You have successfully approved requests.";
     public static final String SUCCESSFUL_DELETE_USER = "You have successfully deleted your account.";
     public static final String SUCCESSFUL_DELETE_BOOK = "You have successfully deleted your book.";
-    public static final String SUCCESSFUL_BORROW_BOOK = "You have successfully borrowed this book";
+    public static final String SUCCESSFUL_BORROW_BOOK = "You have successfully borrowed this book.";
+    public static final String SUCCESSFUL_RETURN_BOOK = "You have successfully returned this book.";
 }
