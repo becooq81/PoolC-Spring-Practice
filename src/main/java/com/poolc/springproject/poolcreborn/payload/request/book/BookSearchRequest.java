@@ -1,4 +1,4 @@
-package com.poolc.springproject.poolcreborn.payload.request;
+package com.poolc.springproject.poolcreborn.payload.request.book;
 
 import lombok.Builder;
 import lombok.Getter;

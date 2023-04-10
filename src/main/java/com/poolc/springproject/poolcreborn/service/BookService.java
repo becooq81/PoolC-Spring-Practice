@@ -2,8 +2,8 @@ package com.poolc.springproject.poolcreborn.service;
 
 import com.poolc.springproject.poolcreborn.model.book.Book;
 import com.poolc.springproject.poolcreborn.model.user.User;
-import com.poolc.springproject.poolcreborn.payload.request.book.BookRequest;
 import com.poolc.springproject.poolcreborn.payload.request.book.BookSearchRequest;
+import com.poolc.springproject.poolcreborn.payload.request.book.BookRequest;
 import com.poolc.springproject.poolcreborn.payload.response.book.BookDto;
 import com.poolc.springproject.poolcreborn.repository.BookRepository;
 import com.poolc.springproject.poolcreborn.repository.UserRepository;
@@ -83,7 +83,7 @@ public class BookService {
         JSONObject rjson = new JSONObject(result);
         JSONArray naverBooks = rjson.getJSONArray("items");
         List<BookDto> naverBookDtoList = new ArrayList<>();
-        for (int i = 0; i < naverBookDtoList.size(); i++) {
+        for (int i = 0; i < naverBooks.length(); i++) {
             JSONObject naverBooksJson = (JSONObject) naverBooks.get(i);
             BookDto itemDto = new BookDto(naverBooksJson);
             naverBookDtoList.add(itemDto);
