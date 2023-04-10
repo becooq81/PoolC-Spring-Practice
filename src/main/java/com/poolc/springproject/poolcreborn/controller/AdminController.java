@@ -25,8 +25,8 @@ public class AdminController {
 
     @GetMapping()
     public ResponseEntity<List<DetailedUserDto>> admin(@RequestParam int page, @RequestParam int size) {
-        List<DetailedUserDto> detailedUserDtos = userService.findAllUsersByAdmin(page, size);
-        return new ResponseEntity<>(detailedUserDtos, HttpStatus.OK);
+        List<DetailedUserDto> detailedUserDtoList = userService.findAllUsersByAdmin(page, size);
+        return new ResponseEntity<>(detailedUserDtoList, HttpStatus.OK);
     }
 
     @PatchMapping("/roles")
@@ -49,8 +49,8 @@ public class AdminController {
 
     @GetMapping("/hours")
     public ResponseEntity<List<UserHoursDto>> viewHours(@RequestParam int page, @RequestParam int size) {
-        List<UserHoursDto> userHoursDtos = userService.findAllHoursByAdmin(page, size);
-        return new ResponseEntity<>(userHoursDtos, HttpStatus.OK);
+        List<UserHoursDto> userHoursDtoList = userService.findAllHoursByAdmin(page, size);
+        return new ResponseEntity<>(userHoursDtoList, HttpStatus.OK);
     }
 
 }

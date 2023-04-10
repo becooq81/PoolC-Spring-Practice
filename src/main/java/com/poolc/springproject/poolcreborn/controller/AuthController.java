@@ -33,7 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/login/confirm/mail")
-    public String cofirmMail(@RequestBody @Valid EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException {
+    public String confirmMail(@RequestBody @Valid EmailAuthRequestDto emailDto) throws MessagingException, UnsupportedEncodingException {
         String username = getLoginUsername();
         String email = userRepository.findByUsername(username).get().getEmail();
         if (email.equals(emailDto.getEmail())) {

@@ -28,8 +28,8 @@ public class MemberController {
 
     @GetMapping("/members")
     public ResponseEntity<List<UserRoleDto>> findAllUsers(@RequestParam @Positive int page, @RequestParam @Positive int size) {
-        List<UserRoleDto> userDtos = userService.findAllUsersByClubMember(page, size);
-        return new ResponseEntity<>(userDtos, HttpStatus.OK);
+        List<UserRoleDto> userDtoList = userService.findAllUsersByClubMember(page, size);
+        return new ResponseEntity<>(userDtoList, HttpStatus.OK);
     }
 
     @GetMapping("/member/{username}")

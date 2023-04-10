@@ -1,24 +1,17 @@
-package com.poolc.springproject.poolcreborn.payload.request.book;
+package com.poolc.springproject.poolcreborn.payload.request;
 
-import com.poolc.springproject.poolcreborn.validator.TitleOrIsbnRequired;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotEmpty;
-
-@Builder(toBuilder = true)
+@Builder
 @Getter
-@ToString
-@TitleOrIsbnRequired
 public class BookSearchRequest {
-
-    @NotEmpty
+    @Length(min = 1, max = 30)
     private String query;
-    private Integer display;
-    private Integer start;
-    private String sort;
-    private String d_title;
-    private String d_isbn;
 
+    public BookSearchRequest() {}
+    public BookSearchRequest(String query){
+        this.query = query;
+    }
 }
