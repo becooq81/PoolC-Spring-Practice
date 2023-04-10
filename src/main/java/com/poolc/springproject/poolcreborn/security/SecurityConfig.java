@@ -72,7 +72,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/my-info").hasAnyAuthority("ROLE_CLUB_MEMBER", "ROLE_ADMIN", "ROLE_USER")
-                    .antMatchers("/**/new", "/activity/**/participants", "/activity/**/participants/**").hasAnyAuthority("ROLE_CLUB_MEMBER", "ROLE_ADMIN")
+                    .antMatchers("/**/new", "/activity/**/participants", "/activity/**/participants/**", "/library", "/library/**").hasAnyAuthority("ROLE_CLUB_MEMBER", "ROLE_ADMIN")
                     .antMatchers("/admin", "/admin/**", "/book", "/book/**").hasAnyAuthority("ROLE_ADMIN")
                     .antMatchers("/login/confirm/mail").hasAnyAuthority("ROLE_USER")
                     .antMatchers("/login", "/signup", "/activity", "/activity/**").permitAll()
