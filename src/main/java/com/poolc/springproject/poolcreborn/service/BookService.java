@@ -46,6 +46,7 @@ public class BookService {
         if (user != null && user.isAdmin() && !bookRepository.existsByIsbn(bookRequest.getIsbn())) {
             Book book = new Book();
             bookMapper.buildBookFromRequest(bookRequest, book);
+            book.setBorrowerUsername(username);
             bookRepository.save(book);
         }
     }
