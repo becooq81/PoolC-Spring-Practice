@@ -40,14 +40,14 @@ public class BookController {
     }
 
     @GetMapping("/book/{id}")
-    public ResponseEntity<BookDto> viewBook(@PathVariable("id") @Min(1) Long currentBookId) {
-        Book book = bookRepository.findById(currentBookId).orElse(null);
+    public ResponseEntity<BookDto> viewBook(@PathVariable("id") @Min(1) Long bookId) {
+        Book book = bookRepository.findById(bookId).orElse(null);
         return new ResponseEntity<>(bookMapper.buildBookDtoFromBook(book), HttpStatus.OK);
     }
     @DeleteMapping("/book/{id}")
-    public ResponseEntity<?> deleteBook(@PathVariable("id") @Min(1) Long currentBookId) {
+    public ResponseEntity<?> deleteBook(@PathVariable("id") @Min(1) Long bookId) {
         String username = getLoginUsername();
-        bookService.deleteBook(currentBookId, username);
+        bookService.deleteBook(bookId, username);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(Message.SUCCESSFUL_DELETE_BOOK);
     }
@@ -57,16 +57,25 @@ public class BookController {
         return new ResponseEntity<>(bookDtoList, HttpStatus.OK);
     }
 
+    @PostMapping("/book/api/search/{id}")
+    public ResponseEntity<?> registerBookFromSearch(@RequestBody @Valid BookSearchRequest searchRequest,
+                                                          @PathVariable("id") @Min(1) Long bookId) {
+        bookService.registerNaverBook(searchRequest, bookId);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(Message.SUCCESSFUL_CREATED_BOOK);
+    }
+
     @GetMapping("/library")
     public ResponseEntity<List<BookDto>> viewLibrary(@RequestParam int page, @RequestParam int size) {
         List<BookDto> bookDtoList = bookService.findAllBooks(page, size);
         return new ResponseEntity<>(bookDtoList, HttpStatus.OK);
     }
     @PutMapping("/library/{id}")
-    public ResponseEntity<?> borrowBook(@PathVariable("id") @Min(1) Long currentBookId) {
+    public ResponseEntity<?> borrowBook(@PathVariable("id") @Min(1) Long bookId) {
         String username = getLoginUsername();
         try {
-            bookService.borrowBook(currentBookId, username);
+            bookService.borrowBook(bookId, username);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(Message.SUCCESSFUL_BORROW_BOOK);
         } catch (InvalidStateException e) {
@@ -75,10 +84,10 @@ public class BookController {
         }
     }
     @PatchMapping("/library/{id}")
-    public ResponseEntity<?> returnBook(@PathVariable("id") @Min(1) Long currentBookId) {
+    public ResponseEntity<?> returnBook(@PathVariable("id") @Min(1) Long bookId) {
         String username = getLoginUsername();
         try {
-            bookService.returnBook(currentBookId, username);
+            bookService.returnBook(bookId, username);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(Message.SUCCESSFUL_RETURN_BOOK);
         } catch (InvalidUserException e) {

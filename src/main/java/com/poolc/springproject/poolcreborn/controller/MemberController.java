@@ -27,7 +27,8 @@ public class MemberController {
     private final UserService userService;
 
     @GetMapping("/members")
-    public ResponseEntity<List<UserRoleDto>> findAllUsers(@RequestParam @Positive int page, @RequestParam @Positive int size) {
+    public ResponseEntity<List<UserRoleDto>> findAllUsers(@RequestParam @Positive int page,
+                                                          @RequestParam @Positive int size) {
         List<UserRoleDto> userDtoList = userService.findAllUsersByClubMember(page, size);
         return new ResponseEntity<>(userDtoList, HttpStatus.OK);
     }
