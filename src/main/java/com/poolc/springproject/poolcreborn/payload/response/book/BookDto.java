@@ -6,16 +6,19 @@ import lombok.Setter;
 import org.json.JSONObject;
 
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Builder (toBuilder = true)
 @Getter
 @Setter
 public class BookDto {
-    @NotEmpty
+    @NotEmpty @Size(max = 50)
     private String title;
     private String image;
     private String isbn;
+    @NotEmpty @Size(max = 30)
     private String author;
     private String publisher;
 

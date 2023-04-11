@@ -4,14 +4,15 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Builder(toBuilder = true)
 @Getter
 public class BookRequest {
-    @NotEmpty
+    @NotEmpty @Size(max = 50)
     private String title;
     private String isbn;
-    @NotEmpty
+    @NotEmpty @Size(max = 30)
     private String author;
     private String publisher;
 }
