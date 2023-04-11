@@ -11,6 +11,6 @@ public class CorrectDeleteMessageValidator implements ConstraintValidator<Correc
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return value.equals("탈퇴를 확인합니다.");
+        return value.equals("I confirm the deletion.");
     }
 }

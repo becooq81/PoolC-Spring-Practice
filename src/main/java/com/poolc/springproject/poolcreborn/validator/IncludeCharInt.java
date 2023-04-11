@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = IncludeCharIntValidator.class)
 public @interface IncludeCharInt {
     //error message
-    public String message() default "사용자 이름은 숫자와 영어 모두 포함해야 합니다.";
+    public String message() default "Your username must include both English characters and numbers";
     //represents group of constraints
     public Class<?>[] groups() default {};
     //represents additional information about annotation

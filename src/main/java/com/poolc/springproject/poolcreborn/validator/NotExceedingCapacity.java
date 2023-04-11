@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 public @interface NotExceedingCapacity {
 
     //error message
-    public String message() default "이미 정원이 찼습니다.";
+    public String message() default "The activity is full.";
     //represents group of constraints
     public Class<?>[] groups() default {};
     //represents additional information about annotation
