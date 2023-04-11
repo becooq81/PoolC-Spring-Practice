@@ -131,7 +131,7 @@ public class BookService {
 
     public void registerNaverBook(BookSearchRequest searchRequest, Long bookId) {
         List<BookDto> bookDtoList = naverBookSearchApi(searchRequest);
-        BookDto bookDto = bookDtoList.get(searchRequest.getIdx());
+        BookDto bookDto = bookDtoList.get(bookId.intValue());
         Book book = bookMapper.buildBookFromBookDto(bookDto);
         bookRepository.save(book);
     }
