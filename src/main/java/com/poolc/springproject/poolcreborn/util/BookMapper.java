@@ -10,7 +10,7 @@ public interface BookMapper {
 
     @BeanMapping(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void buildBookFromRequest(BookRequest bookRequest, @MappingTarget Book book);
-
     BookDto buildBookDtoFromBook(Book book);
+    Book buildBookFromBookDto(BookDto bookDto);
 }
 
