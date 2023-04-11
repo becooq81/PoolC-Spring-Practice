@@ -58,12 +58,6 @@ public class BookControllerTest {
                 .query("Spring")
                 .build();
     }
-    private static BookSearchRequest createSpecificBookSearchRequest() {
-        return BookSearchRequest.builder()
-                .query("Spring")
-                .idx(2)
-                .build();
-    }
     @Test
     @WithAnonymousUser
     @DisplayName("등록 권한 없음")
@@ -154,7 +148,24 @@ public class BookControllerTest {
                         .content(content)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.content().string(Message.SUCCESSFUL_CREATED_BOOK))
+                .andExpect(content().string(Message.SUCCESSFUL_CREATED_BOOK))
+                .andDo(print());
+    }
+
+    @Test
+    @WithMockUser(username = "member1234", roles = {"CLUB_MEMBER"})
+    public void successful_borrow_book() throws Exception {
+        mockMvc.perform(put(String.format("/library/%d", bookId))
+                .param("id", String.valueOf(bookId)))
+                .andExpect(content().string(Message.SUCCESSFUL_BORROW_BOOK))
+                .andDo(print());
+    }
+    @Test
+    @WithAnonymousUser
+    public void fail_borrow_book() throws Exception {
+        mockMvc.perform(put(String.format("/library/%d", bookId))
+                        .param("id", String.valueOf(bookId)))
+                .andExpect(status().is4xxClientError())
                 .andDo(print());
     }
 }
