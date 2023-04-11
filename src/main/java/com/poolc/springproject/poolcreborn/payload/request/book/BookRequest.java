@@ -15,4 +15,12 @@ public class BookRequest {
     @NotEmpty @Size(max = 30)
     private String author;
     private String publisher;
+
+    public BookRequest() {}
+    public BookRequest(String title, String isbn, String author, String publisher) {
+        this.title = title;
+        this.isbn = isbn;
+        this.author = author;
+        this.publisher = publisher;
+    }
 }

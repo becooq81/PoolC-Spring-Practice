@@ -1,5 +1,6 @@
 package com.poolc.springproject.poolcreborn.model.book;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 
 @Entity
 @Getter @Setter
+@Builder(toBuilder = true)
 public class Book {
 
     @Id @GeneratedValue
