@@ -3,6 +3,7 @@ package com.poolc.springproject.poolcreborn.controller;
 import com.poolc.springproject.poolcreborn.exception.InvalidStateException;
 import com.poolc.springproject.poolcreborn.exception.InvalidUserException;
 import com.poolc.springproject.poolcreborn.model.book.Book;
+import com.poolc.springproject.poolcreborn.payload.request.book.BookDeleteRequest;
 import com.poolc.springproject.poolcreborn.payload.request.book.BookSearchRequest;
 import com.poolc.springproject.poolcreborn.payload.request.book.BookRequest;
 import com.poolc.springproject.poolcreborn.payload.response.book.BookDto;
@@ -45,7 +46,8 @@ public class BookController {
         return new ResponseEntity<>(bookMapper.buildBookDtoFromBook(book), HttpStatus.OK);
     }
     @DeleteMapping("/book/{id}")
-    public ResponseEntity<?> deleteBook(@PathVariable("id") @Min(1) Long bookId) {
+    public ResponseEntity<?> deleteBook(@PathVariable("id") @Min(1) Long bookId,
+                                        @Valid @RequestBody BookDeleteRequest bookDeleteRequest) {
         String username = getLoginUsername();
         bookService.deleteBook(bookId, username);
         return ResponseEntity.status(HttpStatus.OK)
