@@ -134,4 +134,11 @@ public class BookService {
             throw new InvalidUserException(Message.RETURN_BOOK_DENIED);
         }
     }
+
+    public void registerNaverBook(BookSearchRequest searchRequest, Long bookId) {
+        List<BookDto> bookDtoList = naverBookSearchApi(searchRequest);
+        BookDto bookDto = bookDtoList.get(searchRequest.getIdx());
+        Book book = bookMapper.buildBookFromBookDto(bookDto);
+        bookRepository.save(book);
+    }
 }
