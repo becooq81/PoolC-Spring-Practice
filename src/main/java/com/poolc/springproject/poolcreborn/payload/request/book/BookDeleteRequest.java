@@ -13,4 +13,10 @@ public class BookDeleteRequest {
     @CorrectDeleteMessage
     @NotEmpty
     private String message;
+
+    public BookDeleteRequest() {}
+
+    public BookDeleteRequest(String message) {
+        this.message = message;
+    }
 }
