@@ -29,4 +29,5 @@ public final class Message {
     public static final String SUCCESSFUL_DELETE_BOOK = "You have successfully deleted your book.";
     public static final String SUCCESSFUL_BORROW_BOOK = "You have successfully borrowed this book.";
     public static final String SUCCESSFUL_RETURN_BOOK = "You have successfully returned this book.";
+    public static final String PARTICIPATION_DOES_NOT_EXIST = "This participation does not exist.";
 }

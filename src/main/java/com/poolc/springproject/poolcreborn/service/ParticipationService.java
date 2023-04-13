@@ -61,8 +61,7 @@ public class ParticipationService {
         User user = userRepository.findByUsername(requestedParticipationDto.getUsername()).orElse(null);
         Activity activity = activityRepository.findByTitle(requestedParticipationDto.getActivityTitle()).orElse(null);
         if (user != null && activity != null && activity.isAvailable()) {
-            Participation participation = participationRepository.findByUserAndActivity(user, activity).get();
-            participation.setApproved(true);
+            participationRepository.findByUserAndActivity(user, activity).ifPresent(p -> p.setApproved(true));
         }
     }
     public void approveParticipationRequestList(List<RequestedParticipationDto> requestedParticipationDtoList) {
@@ -71,18 +70,18 @@ public class ParticipationService {
                 .forEach(this::approveParticipationRequest);
     }
 
-    public void signupParticipation(String username, String activityTitle, ParticipationRequest request) throws InvalidUserException{
+    public void signupParticipation(String username, String activityTitle, ParticipationRequest request) throws InvalidRequestException{
         Activity activity = activityRepository.findByTitle(activityTitle).orElse(null);
         User user = userRepository.findByUsername(username).orElse(null);
         if (participationRepository.existsByUserAndActivity(user, activity)) {
-            throw new InvalidUserException(Message.FAIL_SIGNUP_ACTIVITY);
+            throw new InvalidRequestException(Message.FAIL_SIGNUP_ACTIVITY);
         }
         else if (activity != null && user != null) {
-            saveParticipation(user, activity);
+            saveParticipation(user, activity, request);
         }
     }
     public RequestedParticipationDto buildRequestedParticipationDtoFromRequestedParticipation(Participation participation) {
-        if (participation == null || !participation.isApproved()) {
+        if (participation == null || participation.isApproved()) {
             return null;
         }
         RequestedParticipationDto requestedParticipationDto = new RequestedParticipationDto();
