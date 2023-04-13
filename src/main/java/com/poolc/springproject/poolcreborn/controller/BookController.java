@@ -1,10 +1,9 @@
 package com.poolc.springproject.poolcreborn.controller;
 
-import com.poolc.springproject.poolcreborn.exception.InvalidStateException;
-import com.poolc.springproject.poolcreborn.exception.InvalidUserException;
+import com.poolc.springproject.poolcreborn.exception.InvalidRequestException;
 import com.poolc.springproject.poolcreborn.model.book.Book;
 import com.poolc.springproject.poolcreborn.payload.request.book.BookDeleteRequest;
-import com.poolc.springproject.poolcreborn.payload.request.book.BookSearchRequest;
+import com.poolc.springproject.poolcreborn.api.ApiSearchRequest;
 import com.poolc.springproject.poolcreborn.payload.request.book.BookRequest;
 import com.poolc.springproject.poolcreborn.payload.response.book.BookDto;
 import com.poolc.springproject.poolcreborn.repository.BookRepository;
@@ -59,24 +58,35 @@ public class BookController {
             bookService.deleteBook(bookId, username);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(Message.SUCCESSFUL_DELETE_BOOK);
-        } catch (InvalidUserException e) {
+        } catch (InvalidRequestException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(e.getMessage());
         }
     }
     @GetMapping("/book/api/search")
-    public ResponseEntity<List<BookDto>> searchBooks(@RequestBody @Valid BookSearchRequest searchRequest) {
-        List<BookDto> bookDtoList = bookService.naverBookSearchApi(searchRequest);
-        return new ResponseEntity<>(bookDtoList, HttpStatus.OK);
+    public ResponseEntity<?> searchBooks(@RequestBody @Valid ApiSearchRequest searchRequest) {
+        try {
+            List<BookDto> bookDtoList = bookService.bookSearch(searchRequest);
+            return new ResponseEntity<>(bookDtoList, HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
     }
 
     @PostMapping("/book/api/search/{id}")
-    public ResponseEntity<?> registerBookFromSearch(@RequestBody @Valid BookSearchRequest searchRequest,
+    public ResponseEntity<?> registerBookFromSearch(@RequestBody @Valid ApiSearchRequest searchRequest,
                                                           @PathVariable("id") @Min(1) Long bookId) {
-        bookService.registerNaverBook(searchRequest, bookId);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(Message.SUCCESSFUL_CREATED_BOOK);
+        try {
+            bookService.registerNaverBook(searchRequest, bookId);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(Message.SUCCESSFUL_CREATED_BOOK);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
     }
 
     @GetMapping("/library")

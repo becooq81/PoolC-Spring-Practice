@@ -1,11 +1,12 @@
 package com.poolc.springproject.poolcreborn.service;
 
-import com.poolc.springproject.poolcreborn.exception.InvalidItemException;
+import com.poolc.springproject.poolcreborn.api.NaverApiInvoker;
+import com.poolc.springproject.poolcreborn.api.NaverApiInvokerCommand;
+import com.poolc.springproject.poolcreborn.exception.InvalidRequestException;
 import com.poolc.springproject.poolcreborn.exception.InvalidStateException;
-import com.poolc.springproject.poolcreborn.exception.InvalidUserException;
 import com.poolc.springproject.poolcreborn.model.book.Book;
 import com.poolc.springproject.poolcreborn.model.user.User;
-import com.poolc.springproject.poolcreborn.payload.request.book.BookSearchRequest;
+import com.poolc.springproject.poolcreborn.api.ApiSearchRequest;
 import com.poolc.springproject.poolcreborn.payload.request.book.BookRequest;
 import com.poolc.springproject.poolcreborn.payload.response.book.BookDto;
 import com.poolc.springproject.poolcreborn.repository.BookRepository;
@@ -15,16 +16,11 @@ import com.poolc.springproject.poolcreborn.util.Message;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.json.JSONArray;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -53,52 +49,13 @@ public class BookService {
         }
     }
 
-    public void deleteBook(Long bookId, String username) throws InvalidUserException {
+    public void deleteBook(Long bookId, String username) throws InvalidRequestException {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new InvalidUserException(Message.USER_DOES_NOT_EXIST));
+                .orElseThrow(() -> new InvalidRequestException(Message.USER_DOES_NOT_EXIST));
         if (user != null && user.isAdmin()) {
             Optional<Book> book = bookRepository.findById(bookId);
             book.ifPresent(bookRepository::delete);
         }
-    }
-
-    public List<BookDto> naverBookSearchApi(BookSearchRequest bookSearchRequest) {
-        String url = "https://openapi.naver.com/";
-
-        URI uri = UriComponentsBuilder.fromHttpUrl(url)
-                .path("v1/search/book.json")
-                .queryParam("query", bookSearchRequest.getQuery())
-                .queryParam("display", 10)
-                .queryParam("start", 1)
-                .queryParam("sort", "sim")
-                .encode()
-                .build()
-                .toUri();
-
-        RestTemplate restTemplate = new RestTemplate();
-
-        RequestEntity<Void> req = RequestEntity
-                .get(uri)
-                .header("X-Naver-Client-Id", clientId)
-                .header("X-Naver-Client-Secret", clientSecret)
-                .build();
-
-        ResponseEntity<String> result = restTemplate.exchange(req, String.class);
-        List<BookDto> bookDtoList = fromJSONtoBookDtoList(result.getBody());
-
-        return bookDtoList;
-
-    }
-    public List<BookDto> fromJSONtoBookDtoList(String result) {
-        JSONObject rjson = new JSONObject(result);
-        JSONArray naverBooks = rjson.getJSONArray("items");
-        List<BookDto> naverBookDtoList = new ArrayList<>();
-        for (int i = 0; i < naverBooks.length(); i++) {
-            JSONObject naverBooksJson = (JSONObject) naverBooks.get(i);
-            BookDto itemDto = new BookDto(naverBooksJson);
-            naverBookDtoList.add(itemDto);
-        }
-        return naverBookDtoList;
     }
 
     public List<BookDto> findAllBooks(int page, int size) {
@@ -126,21 +83,40 @@ public class BookService {
     }
     public void returnBook(Long currentBookId, String username) throws Exception {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new InvalidUserException(Message.USER_DOES_NOT_EXIST));
+                .orElseThrow(() -> new InvalidRequestException(Message.USER_DOES_NOT_EXIST));
         Book book = bookRepository.findById(currentBookId)
-                .orElseThrow(() -> new InvalidItemException(Message.BOOK_DOES_NOT_EXIST));
+                .orElseThrow(() -> new InvalidRequestException(Message.BOOK_DOES_NOT_EXIST));
         if (book != null && user != null && book.getBorrowerUsername().equals(user.getUsername())) {
             book.increaseCount();
             book.setBorrowerUsername(null);
         } else {
-            throw new InvalidUserException(Message.RETURN_BOOK_DENIED);
+            throw new InvalidRequestException(Message.RETURN_BOOK_DENIED);
         }
     }
 
-    public void registerNaverBook(BookSearchRequest searchRequest, Long bookId) {
-        List<BookDto> bookDtoList = naverBookSearchApi(searchRequest);
+    public void registerNaverBook(ApiSearchRequest searchRequest, Long bookId) throws Exception{
+        List<BookDto> bookDtoList = bookSearch(searchRequest);
         BookDto bookDto = bookDtoList.get(bookId.intValue());
         Book book = bookMapper.buildBookFromBookDto(bookDto);
         bookRepository.save(book);
+    }
+
+    public List<BookDto> fromJSONtoBookDtoList(String result) {
+        JSONObject rjson = new JSONObject(result);
+        JSONArray naverBooks = rjson.getJSONArray("items");
+        List<BookDto> naverBookDtoList = new ArrayList<>();
+        for (int i = 0; i < naverBooks.length(); i++) {
+            JSONObject naverBooksJson = (JSONObject) naverBooks.get(i);
+            BookDto itemDto = new BookDto(naverBooksJson);
+            naverBookDtoList.add(itemDto);
+        }
+        return naverBookDtoList;
+    }
+
+    public List<BookDto> bookSearch(ApiSearchRequest searchRequest) throws InvalidRequestException {
+        NaverApiInvokerCommand command = new NaverApiInvokerCommand(searchRequest);
+        NaverApiInvoker invoker = new NaverApiInvoker(command);
+        ResponseEntity<String> result = invoker.naverBookSearchApi();
+        return fromJSONtoBookDtoList(result.getBody());
     }
 }

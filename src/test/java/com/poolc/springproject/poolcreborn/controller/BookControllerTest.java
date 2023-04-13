@@ -3,7 +3,7 @@ package com.poolc.springproject.poolcreborn.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poolc.springproject.poolcreborn.payload.request.book.BookDeleteRequest;
 import com.poolc.springproject.poolcreborn.payload.request.book.BookRequest;
-import com.poolc.springproject.poolcreborn.payload.request.book.BookSearchRequest;
+import com.poolc.springproject.poolcreborn.api.ApiSearchRequest;
 import com.poolc.springproject.poolcreborn.util.Message;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -53,8 +53,8 @@ public class BookControllerTest {
                 .build();
     }
 
-    private static BookSearchRequest createBookSearchRequest() {
-        return BookSearchRequest.builder()
+    private static ApiSearchRequest createBookSearchRequest() {
+        return ApiSearchRequest.builder()
                 .query("Spring")
                 .build();
     }

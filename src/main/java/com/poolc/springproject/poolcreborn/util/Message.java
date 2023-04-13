@@ -5,7 +5,9 @@ public final class Message {
     public static final String USED_EMAIL = "This message is already in use.";
     public static final String USED_USERNAME = "This username is already in use.";
     public static final String WRONG_EMAIL = "Please enter your email correctly.";
+    public static final String UNAVAILABLE_API = "The API service is unavailable for this sector.";
     public static final String USER_DOES_NOT_EXIST = "The user does not exist.";
+    public static final String REQUEST_DOES_NOT_EXIST = "The request is not available.";
     public static final String BOOK_DOES_NOT_EXIST = "The book does not exist.";
     public static final String ACTIVITY_DOES_NOT_EXIST = "The activity does not exist.";
     public static final String SELF_SIGNUP_DENIED = "You cannot sign up for your own activity.";
