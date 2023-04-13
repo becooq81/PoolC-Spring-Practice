@@ -59,7 +59,7 @@ public class ActivityController {
             activityService.updateActivity(username, activityUpdateRequest, activityId);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(Message.SUCCESSFUL_UPDATE_ACTIVITY);
-        } catch (InvalidUserException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(e.getMessage());
         }
@@ -116,15 +116,19 @@ public class ActivityController {
     public ResponseEntity<?> removeParticipants(@PathVariable("id") @Min(1) Long activityId,
                                                 @RequestBody @Valid ParticipationDeleteRequest deleteRequest) {
         String username = getLoginUsername();
-        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        String message = Message.PARTICIPATION_DELETE_DENIED;
 
-        if (participationService.findParticipation(username, activityId) != null) {
-            participationService.removeParticipation(username, activityId);
-            httpStatus = HttpStatus.OK;
-            message = Message.SUCCESSFUL_DELETE_PARTICIPATION;
+        try {
+            if (participationService.findParticipation(username, activityId) != null) {
+                participationService.removeParticipation(username, activityId);
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(Message.SUCCESSFUL_DELETE_PARTICIPATION);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Message.PARTICIPATION_DELETE_DENIED);
+            }
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
         }
-        return ResponseEntity.status(httpStatus)
-                .body(message);
     }
 }

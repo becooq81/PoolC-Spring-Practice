@@ -31,20 +31,25 @@ public class AdminController {
 
     @PatchMapping("/roles")
     public ResponseEntity<?> addRoles(@Valid @RequestBody List<UserVo> userVos) {
-        for (UserVo userVo : userVos) {
-            String username = userVo.getUsername();
-            if (!userRepository.existsByUsername(username)) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            for (UserVo userVo : userVos) {
+                String username = userVo.getUsername();
+                if (!userRepository.existsByUsername(username)) {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+                if (userVo.isAdmin()) {
+                    userService.addAdminRole(username);
+                }
+                if (userVo.isClubMember()) {
+                    userService.addClubMemberRole(username);
+                }
             }
-            if (userVo.isAdmin()) {
-                userService.addAdminRole(username);
-            }
-            if (userVo.isClubMember()) {
-                userService.addClubMemberRole(username);
-            }
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(Message.SUCCESSFUL_ROLE_ADD);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
         }
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Message.SUCCESSFUL_ROLE_ADD);
     }
 
     @GetMapping("/hours")

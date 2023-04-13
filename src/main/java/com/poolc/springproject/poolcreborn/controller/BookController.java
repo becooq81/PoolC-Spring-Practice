@@ -34,10 +34,16 @@ public class BookController {
     @PostMapping("/book/new")
     public ResponseEntity<?> registerBook(@RequestBody @Valid BookRequest bookRequest) {
         String username = getLoginUsername();
-        bookService.saveBook(bookRequest, username);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(Message.SUCCESSFUL_CREATED_BOOK);
+        try {
+            bookService.saveBook(bookRequest, username);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(Message.SUCCESSFUL_CREATED_BOOK);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
     }
 
     @GetMapping("/book/{id}")
@@ -49,9 +55,14 @@ public class BookController {
     public ResponseEntity<?> deleteBook(@PathVariable("id") @Min(1) Long bookId,
                                         @Valid @RequestBody BookDeleteRequest bookDeleteRequest) {
         String username = getLoginUsername();
-        bookService.deleteBook(bookId, username);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(Message.SUCCESSFUL_DELETE_BOOK);
+        try {
+            bookService.deleteBook(bookId, username);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(Message.SUCCESSFUL_DELETE_BOOK);
+        } catch (InvalidUserException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
     }
     @GetMapping("/book/api/search")
     public ResponseEntity<List<BookDto>> searchBooks(@RequestBody @Valid BookSearchRequest searchRequest) {
@@ -80,7 +91,7 @@ public class BookController {
             bookService.borrowBook(bookId, username);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(Message.SUCCESSFUL_BORROW_BOOK);
-        } catch (InvalidStateException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(e.getMessage());
         }
@@ -92,7 +103,7 @@ public class BookController {
             bookService.returnBook(bookId, username);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(Message.SUCCESSFUL_RETURN_BOOK);
-        } catch (InvalidUserException e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(e.getMessage());
         }

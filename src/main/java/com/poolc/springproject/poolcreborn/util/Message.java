@@ -6,6 +6,8 @@ public final class Message {
     public static final String USED_USERNAME = "This username is already in use.";
     public static final String WRONG_EMAIL = "Please enter your email correctly.";
     public static final String USER_DOES_NOT_EXIST = "The user does not exist.";
+    public static final String BOOK_DOES_NOT_EXIST = "The book does not exist.";
+    public static final String ACTIVITY_DOES_NOT_EXIST = "The activity does not exist.";
     public static final String SELF_SIGNUP_DENIED = "You cannot sign up for your own activity.";
     public static final String PARTICIPATION_DELETE_DENIED = "You can only cancel your own participation.";
     public static final String UPDATE_ACTIVITY_ACCESS_DENIED = "You can only update your own activity.";

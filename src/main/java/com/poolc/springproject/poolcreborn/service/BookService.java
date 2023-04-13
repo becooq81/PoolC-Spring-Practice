@@ -1,5 +1,6 @@
 package com.poolc.springproject.poolcreborn.service;
 
+import com.poolc.springproject.poolcreborn.exception.InvalidItemException;
 import com.poolc.springproject.poolcreborn.exception.InvalidStateException;
 import com.poolc.springproject.poolcreborn.exception.InvalidUserException;
 import com.poolc.springproject.poolcreborn.model.book.Book;
@@ -41,8 +42,10 @@ public class BookService {
     @Value("${poolcreborn.app.clientSecret}")
     private String clientSecret;
 
-    public void saveBook(BookRequest bookRequest, String username) {
-        User user = userRepository.findByUsername(username).orElse(null);
+    public void saveBook(BookRequest bookRequest, String username) throws InvalidUserException {
+        User user = userRepository.findByUsername(username)
+                    .orElseThrow(() ->  new InvalidUserException(Message.USER_DOES_NOT_EXIST));
+
         if (user != null && user.isAdmin() && !bookRepository.existsByIsbn(bookRequest.getIsbn())) {
             Book book = new Book();
             bookMapper.buildBookFromRequest(bookRequest, book);
@@ -50,8 +53,9 @@ public class BookService {
         }
     }
 
-    public void deleteBook(Long bookId, String username) {
-        User user = userRepository.findByUsername(username).orElse(null);
+    public void deleteBook(Long bookId, String username) throws InvalidUserException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new InvalidUserException(Message.USER_DOES_NOT_EXIST));
         if (user != null && user.isAdmin()) {
             Optional<Book> book = bookRepository.findById(bookId);
             book.ifPresent(bookRepository::delete);
@@ -108,9 +112,11 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
-    public void borrowBook(Long currentBookId, String username) throws InvalidStateException {
-        User user = userRepository.findByUsername(username).orElse(null);
-        Book book = bookRepository.findById(currentBookId).orElse(null);
+    public void borrowBook(Long currentBookId, String username) throws Exception {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new InvalidUserException(Message.USER_DOES_NOT_EXIST));
+        Book book = bookRepository.findById(currentBookId)
+                .orElseThrow(() -> new InvalidItemException(Message.BOOK_DOES_NOT_EXIST));
         if (book != null && user != null && book.getCount() != 0) {
             book.decreaseCount();
             book.setBorrowerUsername(username);
@@ -118,9 +124,11 @@ public class BookService {
             throw new InvalidStateException(Message.BORROW_BOOK_DENIED);
         }
     }
-    public void returnBook(Long currentBookId, String username) throws InvalidUserException {
-        User user = userRepository.findByUsername(username).orElse(null);
-        Book book = bookRepository.findById(currentBookId).orElse(null);
+    public void returnBook(Long currentBookId, String username) throws Exception {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new InvalidUserException(Message.USER_DOES_NOT_EXIST));
+        Book book = bookRepository.findById(currentBookId)
+                .orElseThrow(() -> new InvalidItemException(Message.BOOK_DOES_NOT_EXIST));
         if (book != null && user != null && book.getBorrowerUsername().equals(user.getUsername())) {
             book.increaseCount();
             book.setBorrowerUsername(null);

@@ -1,5 +1,6 @@
 package com.poolc.springproject.poolcreborn.service;
 
+import com.poolc.springproject.poolcreborn.exception.InvalidItemException;
 import com.poolc.springproject.poolcreborn.exception.InvalidUserException;
 import com.poolc.springproject.poolcreborn.model.activity.Activity;
 import com.poolc.springproject.poolcreborn.model.activity.ActivityType;
@@ -42,8 +43,9 @@ public class ActivityService {
         activityRepository.save(activity);
     }
 
-    public void updateActivity(String username, ActivityUpdateRequest activityUpdateRequest, Long currentActivityId) throws InvalidUserException {
-        Activity activity = activityRepository.findById(currentActivityId).get();
+    public void updateActivity(String username, ActivityUpdateRequest activityUpdateRequest, Long currentActivityId) throws Exception {
+        Activity activity = activityRepository.findById(currentActivityId)
+                .orElseThrow(() -> new InvalidItemException(Message.ACTIVITY_DOES_NOT_EXIST));
         if (!username.equals(activity.getUser().getUsername())) {
             throw new InvalidUserException(Message.UPDATE_ACTIVITY_ACCESS_DENIED);
         } else {
@@ -54,7 +56,7 @@ public class ActivityService {
 
     public Set<UserMajorDto> getParticipants(Activity activity) {
         return activity.getParticipants().stream()
-                .map(p -> userMapper.buildUserMajorDtoFromUser(p))
+                .map(userMapper::buildUserMajorDtoFromUser)
                 .collect(Collectors.toSet());
     }
 }

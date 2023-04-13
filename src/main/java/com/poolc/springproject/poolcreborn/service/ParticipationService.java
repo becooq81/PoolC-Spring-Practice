@@ -37,8 +37,9 @@ public class ParticipationService {
              participationRepository.save(participation);
          }
     }
-    public void removeParticipation(String username, Long activityId) {
-        User user = userRepository.findByUsername(username).orElse(null);
+    public void removeParticipation(String username, Long activityId) throws InvalidUserException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new InvalidUserException(Message.USER_DOES_NOT_EXIST));
         Activity activity = activityRepository.findById(activityId).orElse(null);
         if (user != null && activity != null) {
             Participation participation = participationRepository.findByUserAndActivity(user, activity).orElse(null);
@@ -47,8 +48,9 @@ public class ParticipationService {
             participationRepository.deleteById(participation.getId());
         }
     }
-    public Participation findParticipation(String username, Long activityId) {
-        User user = userRepository.findByUsername(username).orElse(null);
+    public Participation findParticipation(String username, Long activityId) throws InvalidUserException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new InvalidUserException(Message.USER_DOES_NOT_EXIST));
         Activity activity = activityRepository.findById(activityId).orElse(null);
         if (user == null || activity == null) { return null; }
         else {
