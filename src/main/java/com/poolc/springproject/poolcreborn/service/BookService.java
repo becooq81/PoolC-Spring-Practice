@@ -33,14 +33,9 @@ public class BookService {
     private final BookMapper bookMapper;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
-    @Value("${poolcreborn.app.clientId}")
-    private String clientId;
-    @Value("${poolcreborn.app.clientSecret}")
-    private String clientSecret;
-
-    public void saveBook(BookRequest bookRequest, String username) throws InvalidUserException {
+    public void saveBook(BookRequest bookRequest, String username) throws InvalidRequestException {
         User user = userRepository.findByUsername(username)
-                    .orElseThrow(() ->  new InvalidUserException(Message.USER_DOES_NOT_EXIST));
+                    .orElseThrow(() ->  new InvalidRequestException(Message.USER_DOES_NOT_EXIST));
 
         if (user != null && user.isAdmin() && !bookRepository.existsByIsbn(bookRequest.getIsbn())) {
             Book book = new Book();
@@ -71,9 +66,9 @@ public class BookService {
 
     public void borrowBook(Long currentBookId, String username) throws Exception {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new InvalidUserException(Message.USER_DOES_NOT_EXIST));
+                .orElseThrow(() -> new InvalidRequestException(Message.USER_DOES_NOT_EXIST));
         Book book = bookRepository.findById(currentBookId)
-                .orElseThrow(() -> new InvalidItemException(Message.BOOK_DOES_NOT_EXIST));
+                .orElseThrow(() -> new InvalidRequestException(Message.BOOK_DOES_NOT_EXIST));
         if (book != null && user != null && book.getCount() != 0) {
             book.decreaseCount();
             book.setBorrowerUsername(username);
