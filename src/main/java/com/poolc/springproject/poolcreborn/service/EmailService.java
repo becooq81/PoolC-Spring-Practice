@@ -8,7 +8,6 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 @Service
@@ -27,10 +26,10 @@ public class EmailService {
 
             switch (index) {
                 case 0 :
-                    key.append((char) ((int)random.nextInt(26) + 97));
+                    key.append((char) (random.nextInt(26) + 97));
                     break;
                 case 1:
-                    key.append((char) ((int)random.nextInt(26) + 65));
+                    key.append((char) (random.nextInt(26) + 65));
                     break;
                 case 2:
                     key.append(random.nextInt(9));
@@ -40,10 +39,9 @@ public class EmailService {
         authNum.set(key.toString());
     }
 
-    public MimeMessage createEmailForm(String email) throws MessagingException, UnsupportedEncodingException {
+    public MimeMessage createEmailForm(String email) throws MessagingException {
         createCode();
         String setFrom = "becooq81@gmail.com";
-        String toEmail = email;
         String title = "PoolC Verification Code";
 
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -55,7 +53,7 @@ public class EmailService {
         return message;
     }
 
-    public String sendEmail(String toEmail) throws MessagingException, UnsupportedEncodingException {
+    public String sendEmail(String toEmail) throws MessagingException {
         MimeMessage emailForm = createEmailForm(toEmail);
         javaMailSender.send(emailForm);
 

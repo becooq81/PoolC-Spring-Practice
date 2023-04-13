@@ -1,6 +1,5 @@
 package com.poolc.springproject.poolcreborn.model.book;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

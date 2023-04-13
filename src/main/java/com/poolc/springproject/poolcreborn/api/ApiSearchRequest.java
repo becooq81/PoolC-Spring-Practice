@@ -3,7 +3,6 @@ package com.poolc.springproject.poolcreborn.api;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.http.HttpMethod;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
