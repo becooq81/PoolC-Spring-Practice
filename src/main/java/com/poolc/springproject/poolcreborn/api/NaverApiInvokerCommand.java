@@ -1,30 +1,18 @@
 package com.poolc.springproject.poolcreborn.api;
 
 import lombok.Getter;
-import lombok.Setter;
+import org.springframework.http.HttpMethod;
 
-@Setter @Getter
-public class NaverApiInvokerCommand {
-    private ApiType type;
-    private String address;
-    private String method;
-    private String query;
+@Getter
+public enum NaverApiInvokerCommand {
+    BOOK_SEARCH("v1/search/book", HttpMethod.GET),
+    SHOP_SEARCH("v1/search/shop", HttpMethod.POST);
 
-    public NaverApiInvokerCommand(ApiType type, String method, String query) {
-        this.type = type;
-        this.address = "https://openapi.naver.com/";
-        this.method = method;
-        this.query = query;
+    private final String url;
+    private final HttpMethod httpMethod;
+
+    NaverApiInvokerCommand(String url, HttpMethod httpMethod) {
+        this.url = url;
+        this.httpMethod = httpMethod;
     }
-
-    public NaverApiInvokerCommand() {}
-
-    public NaverApiInvokerCommand(ApiSearchRequest searchRequest) {
-        this.type = searchRequest.getType();
-        this.address = "https://openapi.naver.com/";
-        this.method = searchRequest.getMethod();
-        this.query = searchRequest.getQuery();
-    }
-
-
 }

@@ -109,8 +109,7 @@ public class BookService {
     }
 
     public List<BookDto> bookSearch(ApiSearchRequest searchRequest) throws InvalidRequestException {
-        NaverApiInvokerCommand command = new NaverApiInvokerCommand(searchRequest);
-        NaverApiInvoker invoker = new NaverApiInvoker(command);
+        NaverApiInvoker invoker = new NaverApiInvoker(searchRequest);
         ResponseEntity<String> result = invoker.naverBookSearchApi();
         return fromJSONtoBookDtoList(result.getBody());
     }

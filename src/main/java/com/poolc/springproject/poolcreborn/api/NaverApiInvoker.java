@@ -3,6 +3,7 @@ package com.poolc.springproject.poolcreborn.api;
 import com.poolc.springproject.poolcreborn.exception.InvalidRequestException;
 import com.poolc.springproject.poolcreborn.util.Message;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -17,34 +18,16 @@ public class NaverApiInvoker {
     private String clientId;
     @Value("${poolcreborn.app.clientSecret}")
     private String clientSecret;
-    private static String url;
+    private static final String url = "https://openapi.naver.com/";
 
     private String path;
-    private String method;
+    private HttpMethod method;
     private String query;
 
-    public NaverApiInvoker(NaverApiInvokerCommand command) throws InvalidRequestException {
-        url = command.getAddress();
-        path = choosePath(command.getType());
-        method = command.getMethod();
-        query = command.getQuery();
-    }
-
-    private String choosePath(ApiType type) throws InvalidRequestException {
-        String path = "v1/search/";
-        // 지금은 두 개뿐이지만 확장 가능성을 고려해 switch 문 사용
-        switch (type) {
-            case BOOK:
-                path += "book";
-                break;
-            case PRODUCT:
-                path += "shop";
-                break;
-            default:
-                throw new InvalidRequestException(Message.UNAVAILABLE_API);
-        }
-        path += ".json";
-        return path;
+    public NaverApiInvoker(ApiSearchRequest request) {
+        path = request.getCommand().getUrl();
+        method = request.getCommand().getHttpMethod();
+        query = request.getQuery();
     }
 
     public ResponseEntity<String> naverBookSearchApi() throws InvalidRequestException {
@@ -68,10 +51,10 @@ public class NaverApiInvoker {
         return restTemplate.exchange(req, String.class);
     }
 
-    private RequestEntity.HeadersBuilder<?> buildRequest(String method, URI uri) throws InvalidRequestException {
-        if (method.equals("get")) {
+    private RequestEntity.HeadersBuilder<?> buildRequest(HttpMethod method, URI uri) throws InvalidRequestException {
+        if (method.equals(HttpMethod.GET)) {
             return RequestEntity.get(uri);
-        } else if (method.equals("post")) {
+        } else if (method.equals(HttpMethod.POST)) {
             return RequestEntity.post(uri);
         } else {
             throw new InvalidRequestException(Message.REQUEST_DOES_NOT_EXIST);
