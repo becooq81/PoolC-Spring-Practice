@@ -1,7 +1,6 @@
 package com.poolc.springproject.poolcreborn.service;
 
 import com.poolc.springproject.poolcreborn.api.NaverApiInvoker;
-import com.poolc.springproject.poolcreborn.api.NaverApiInvokerCommand;
 import com.poolc.springproject.poolcreborn.exception.InvalidRequestException;
 import com.poolc.springproject.poolcreborn.exception.InvalidStateException;
 import com.poolc.springproject.poolcreborn.model.book.Book;
@@ -89,7 +88,7 @@ public class BookService {
         }
     }
 
-    public void registerNaverBook(ApiSearchRequest searchRequest, Long bookId) throws Exception{
+    public void registerNaverBook(ApiSearchRequest searchRequest, Long bookId) throws Exception {
         List<BookDto> bookDtoList = bookSearch(searchRequest);
         BookDto bookDto = bookDtoList.get(bookId.intValue());
         Book book = bookMapper.buildBookFromBookDto(bookDto);
