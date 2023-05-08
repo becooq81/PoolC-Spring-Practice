@@ -35,7 +35,7 @@ public class BookService {
     private final UserRepository userRepository;
     public void saveBook(BookRequest bookRequest, String username) throws InvalidRequestException {
         User user = userRepository.findByUsername(username)
-                    .orElseThrow(() ->  new InvalidRequestException(Message.USER_DOES_NOT_EXIST));
+                .orElseThrow(() ->  new InvalidRequestException(Message.USER_DOES_NOT_EXIST));
 
         if (user != null && user.isAdmin() && !bookRepository.existsByIsbn(bookRequest.getIsbn())) {
             Book book = new Book();
