@@ -13,6 +13,6 @@
 
 ### 사용 기술
 
-- Spring Boot
+- Spring Boot (Spring Security, JPA, JWT)
 - MySQL
 - AWS 배포
