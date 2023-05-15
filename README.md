@@ -11,3 +11,8 @@
 - AWS를 이용한 CI/CD 프로세스 구축
 - Github Action을 이용한 Pre-hook, Post-hook
 
+### 사용 기술
+
+- Spring Boot
+- MySQL
+- AWS 배포
