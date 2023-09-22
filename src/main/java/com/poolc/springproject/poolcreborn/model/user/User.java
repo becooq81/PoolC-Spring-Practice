@@ -31,7 +31,7 @@ public class User {
     @IncludeCharInt
     private String username;
 
-    @NotEmpty(message = "암호는 필수 입력 항목입니다.")
+    @NotBlank(message = "암호는 필수 입력 항목입니다.")
     @Size(min = 8)
     private String password;
 
@@ -39,20 +39,20 @@ public class User {
     private String name;
 
     @Email
-    @NotEmpty(message = "이메일은 필수 입력 항목입니다.")
+    @NotBlank(message = "이메일은 필수 입력 항목입니다.")
     private String email;
 
-    @NotEmpty(message = "전화번호 필수 입력 항목입니다.")
+    @NotBlank(message = "전화번호 필수 입력 항목입니다.")
     @Pattern(regexp = "^01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$")
     private String mobileNumber;
 
-    @NotEmpty(message = "전공은 필수 입력 항목입니다.")
+    @NotBlank(message = "전공은 필수 입력 항목입니다.")
     private String major;
 
     @NotNull(message = "학번은 필수 입력 항목입니다.")
     private int studentId;
 
-    @NotEmpty(message = "자기소개는 필수 입력 항목입니다.")
+    @NotBlank(message = "자기소개는 필수 입력 항목입니다.")
     private String description;
 
     @Enumerated(EnumType.STRING)
